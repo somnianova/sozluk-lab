@@ -1,7 +1,310 @@
-<a href="readme.html">README</a>
-<a href="changelog.html">CHANGELOG</a>
-<a href="project-charter.html">PROJE BELGESİ</a>
-<a href="dev-guide.html">DEV GUIDE</a></li>
-<a href="user-guide.html">KULLANICI REHBERİ</a>
-<a href="contributing.html">KATKI REHBERİ</a>
-<a href="wiki.html">WIKI</a>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>readme</title>
+    <style>
+        body {
+            background: url('https://i.imgur.com/5XzX9qM.gif') repeat;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        h1 {
+            color: #ff00ff;
+            text-shadow: 2px 2px #00ffff, -2px -2px #ffff00;
+            font-size: 48px;
+            animation: blink 0.5s infinite;
+            text-align: center;
+        }
+        h2 {
+            color: #00ff00;
+            font-family: 'Comic Sans MS', cursive;
+            animation: rainbow 2s infinite;
+        }
+        h3 {
+            color: #ffff00;
+            text-decoration: underline wavy #ff0000;
+        }
+        p, li, code {
+            color: #00ff00;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        a {
+            color: #ffff00;
+            text-decoration: underline dotted;
+        }
+        a:hover {
+            color: #ff0000;
+            background: #00ffff;
+            animation: shake 0.2s infinite;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            border: 6px double #ff00ff;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 15px #00ffff;
+        }
+        .marquee {
+            color: #ff0000;
+            font-size: 24px;
+            background: #ffff00;
+            padding: 5px;
+            border: 2px dashed #00ff00;
+        }
+        .section {
+            border: 3px solid #00ff00;
+            padding: 15px;
+            margin: 10px 0;
+            background: #333;
+            position: relative;
+        }
+        .section::before {
+            content: url('https://i.imgur.com/8mZ5X.gif');
+            position: absolute;
+            top: -20px;
+            right: 10px;
+        }
+        .binary {
+            color: #00ffff;
+            font-size: 16px;
+            text-align: center;
+            animation: glitch 1s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        @keyframes rainbow {
+            0% { color: #ff00ff; }
+            50% { color: #00ffff; }
+            100% { color: #ffff00; }
+        }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px); }
+            50% { transform: translate(-1px, -1px); }
+            100% { transform: translate(1px, 1px); }
+        }
+        @keyframes glitch {
+            0% { transform: skew(0deg); }
+            10% { transform: skew(5deg); }
+            20% { transform: skew(-5deg); }
+            30% { transform: skew(0deg); }
+            100% { transform: skew(0deg); }
+        }
+        .star {
+            position: absolute;
+            color: #ffff00;
+            font-size: 24px;
+            animation: float 5s infinite;
+        }
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(20px, -20px); }
+            100% { transform: translate(0, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>turkce-sozluk-lab</h1>
+        <p class="binary">01110100 01110101 01110010 01101011 01100011 01100101 00101101 01110011 01101111 01111010 01101100 01110101 01101011 00101101 01101100 01100001 01100010</p>
+        <marquee class="marquee">TÜRKÇE SÖZLÜK BURADA!</marquee>
+
+        <div class="section">
+            <p>Bu proje, kullanıcıların kelime tanımları, örnek cümleler, eş anlamlılar, zıt anlamlılar, deyimler, alıntılar gibi zengin sözlük öğelerine erişmesine olanak tanıyan bir <b>Node.js</b> ve <b>MySQL</b> tabanlı web uygulamasıdır. Aynı zamanda, bir <b>Admin Paneli</b> üzerinden kelime ve anlam (definition) yönetimi yapılabilmektedir.</p>
+        </div>
+
+        <div class="section">
+            <h2>Kullanıcı Arayüzü (Public)</h2>
+            <p>
+                Arama kutusu (AJAX veya fetch ile “ara”/“search” işlevi).<br>
+                Sözcük başlıkları, tanımlar, örnek cümleler ve köken bilgisi.<br>
+                Synonym, antonym, idiom vb. alanları dinamik olarak doldurabilme.<br>
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Admin Paneli</h2>
+            <p>
+                Kelimeleri listeleyebilme, ekleyebilme, düzenleyebilme.<br>
+                <b>Not:</b> Kod içerisinde <code>DELETE /admin/words/:id</code> endpoint’i henüz eklenmemiştir. Bu yüzden Readme’deki “kelime silme” özelliği taslak aşamasındadır. İleride eklenmesi planlanmaktadır.<br>
+                Definitions (anlam) ekleme, silme, düzenleme.<br>
+                Kelimeler arası ilişki (synonym, antonym, idiom, collocation, quote vb.) tanımlama.<br>
+                Alfabetik tarama, sayfalama ve sıralama seçenekleri.<br>
+                Oturum bazlı yetkilendirme (admin şifre kontrolü).<br>
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Veritabanı (MySQL)</h2>
+            <ul>
+                <li><b>words</b> tablosu: Kelimeye ilişkin temel bilgiler (word, origin, frequency_tags, audio_url).</li>
+                <li><b>definitions</b> tablosu: Bir kelimenin birden fazla anlamını tutar (definition_text, example_sentence, part_of_speech, sense_label vb.).</li>
+                <li><b>relations</b> tablosu: Kelimeler arası ilişki (synonym, antonym vb.) yapmak için kullanılır.</li>
+                <li>Hem <b>full-text</b> arama hem de <b>LIKE</b> bazlı arama desteği.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Gereksinimler</h2>
+            <p>Node.js (en az v14 veya üstü), MySQL 5.7+, Tarayıcı (Chrome, Firefox, vb.)</p>
+        </div>
+
+        <div class="section">
+            <h2>Kurulum</h2>
+            <p><b>3a Projeyi Klonla veya İndir</b></p>
+            <code>git clone https://github.com/kullanici/turkce-sozluk-lab.git</code><br>
+            <code>cd turkce-sozluk-lab</code>
+            <p><b>3b Bağımlılıkları Yükle</b></p>
+            <code>npm install</code>
+            <p><b>3c MySQL Veritabanını Oluştur</b></p>
+            <p>★ Bir veritabanı (örnek: sozluk_db) oluşturun.<br>
+               ★ words, definitions, relations tablolarını yaratmak için örnek şema veya kendi SQL şemanızı çalıştırın.</p>
+            <p><b>3d .env Dosyasını Düzenle</b></p>
+            <p>DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, ADMIN_PASSWORD, SESSION_SECRET, PORT gibi alanları doldurun.</p>
+        </div>
+
+        <div class="section">
+            <h2>Proje Yapısı</h2>
+            <p><b>1a Klasör Yapısı</b></p>
+            <pre>
+turkce-sozluk-lab/
+├─ node_modules/
+├─ public/
+│   ├─ index.html
+│   ├─ admin.html
+│   ├─ admin-edit.html
+│   └─ (CSS/JS dosyaları)
+├─ .env
+├─ index.js
+├─ package.json
+└─ package-lock.json
+            </pre>
+            <p><b>1b .env Dosyası</b></p>
+            <pre>
+DB_HOST=127.0.0.1
+DB_USER=example_user
+DB_PASSWORD=example_password
+DB_NAME=sozluk_db
+ADMIN_PASSWORD=
+SESSION_SECRET=
+PORT=3000
+            </pre>
+            <p><b>1c Veritabanı Düzeni</b></p>
+            <p><b>words</b><br>
+                id (INT PK, AUTO INCREMENT)<br>
+                word (VARCHAR)<br>
+                origin (TEXT)<br>
+                frequency_tags (VARCHAR)<br>
+                audio_url (VARCHAR)</p>
+            <p><b>definitions</b><br>
+                id (INT PK, AUTO INCREMENT)<br>
+                word_id (INT FK -> words.id)<br>
+                definition_text (TEXT)<br>
+                example_sentence (TEXT)<br>
+                part_of_speech (VARCHAR)<br>
+                sense_label (VARCHAR)</p>
+            <p><b>relations</b><br>
+                id (INT PK, AUTO INCREMENT)<br>
+                left_word_id (INT FK -> words.id)<br>
+                right_word_id (INT FK -> words.id)<br>
+                relation_type (VARCHAR)</p>
+        </div>
+
+        <div class="section">
+            <h2>Kullanım</h2>
+            <p><b>1a Çalıştırma</b></p>
+            <code>npm start</code><br>
+            <p>veya</p>
+            <code>node index.js</code><br>
+            <p>Ardından <a href="http://localhost:3000">http://localhost:3000</a> adresinde uygulamayı görebilirsiniz.</p>
+            <p><b>1b API Uç Noktaları</b></p>
+            <ul>
+                <li> GET /search : Full-text arama</li>
+                <li> GET /search-like : LIKE tabanlı arama</li>
+                <li> GET /api/synonyms?word=...</li>
+                <li> GET /api/antonyms?word=...</li>
+                <li> GET /api/idioms?word=...</li>
+                <li> GET /api/quotes?word=...</li>
+                <li> GET /api/collocations?word=...</li>
+                <li> GET /api/word-family?word=...</li>
+                <li> GET /words-by-letter?letter=...</li>
+            </ul>
+            <p><b>1c Admin Uç Noktaları (Tümü checkAdmin korumalı)</b></p>
+            <ul>
+                <li> GET/POST /admin/login : Admin oturumu açma</li>
+                <li> GET /admin/logout : Oturumu kapatma</li>
+                <li> POST /admin/add-word : Kelime ekleme</li>
+                <li> GET /admin/words : Kelime listeleme (sayfalama/sıralama)</li>
+                <li> GET /admin/words/:id : Tek bir kelimenin detaylarını getirir</li>
+                <li> PUT /admin/words/:id : Kelime bilgilerini günceller</li>
+                <li> DELETE /admin/words/:id : Henüz implement edilmedi, gelecekte eklenecek.</li>
+                <li> GET /admin/definitions : Definition listeleme (sayfalama)</li>
+                <li> PUT /admin/definitions/:id : Bir definition güncelleme</li>
+                <li> DELETE /admin/definitions/:id : Definition silme</li>
+                <li> POST /admin/add-definition : Yeni definition ekleme</li>
+                <li> GET/POST /admin/relations : Kelimeler arası ilişki listeleme/ekleme</li>
+                <li> DELETE /admin/relations/:id : İlişki silme</li>
+                <li> GET /admin/last-words : Son eklenen 10 kelime</li>
+            </ul>
+            <p><b>Admin Paneli Kullanımı</b></p>
+            <p><b>2a Giriş:</b> /admin/login adresine gidin.<br>
+                Varsayılan kullanıcı adı: admin, şifre: .env içindeki ADMIN_PASSWORD.</p>
+            <p><b>2b Panel Ana Ekran:</b> admin.html üzerinden:<br>
+                Kelimeler: ekle/listele/güncelle (silme butonu var ama DELETE route henüz eklenmemiştir).<br>
+                Definitions: ek anlam ekle/listele/sil.<br>
+                İlişkiler: synonym, antonym, idiom vb.<br>
+                Alfabetik: harfe göre kelime listeleme.<br>
+                Yardım: kullanım rehberi.</p>
+            <p><b>2c Kelime Düzenleme:</b> admin-edit.html?id=5 gibi bir sayfada ilgili kelimenin adını, kökenini ve tanımlarını görebilir, güncelleyebilirsiniz.</p>
+            <p><b>2d Çıkış:</b> /admin/logout ile oturumu kapatabilirsiniz.</p>
+        </div>
+
+        <div class="section">
+            <h2>Lisans</h2>
+            <p><b>TÜRKÇE SÖZLÜK LAB – ÖZEL LİSANS</b></p>
+            <p>Bu proje, aşağıdaki koşullar çerçevesinde kullanıma sunulmaktadır:</p>
+            <p><b>Kapsam ve İzinler</b><br>
+               • Kodlar ve ilgili dosyalar (bundan sonra “Yazılım” olarak anılacaktır), yalnızca geliştirme ve eğitim amaçlı kullanılabilir.<br>
+               • Herhangi bir türev çalışma, güncelleme, ekleme veya değişiklik yapabilirsiniz.<br>
+               • Yazılımı farklı ortamlarda veya projelerde test edebilir, geliştirebilirsiniz.</p>
+            <p><b>Kısıtlar</b><br>
+               • <b>Ticari Kullanım:</b> Yazılım’ın veya türev çalışmalarının ticari amaçla kullanımı, satışı veya dağıtımı yasaktır. Ticari kullanım için ek bir yazılı izin almanız gerekir.<br>
+               • <b>Gizli Veriler:</b> .env veya benzeri dosyalarda yer alan veritabanı parolası, API anahtarları, özel kimlik bilgileri gibi hassas içerikler bu lisans kapsamında değildir. Örnek .env dosyası yalnızca yapılandırma formatını göstermek amacıyla sunulmuştur.<br>
+               • <b>Sorumluluk Reddi:</b> Yazılım “olduğu gibi” (as-is) sunulmaktadır ve herhangi bir garanti (ticari elverişlilik, belirli bir amaca uygunluk, hatasız çalışma vb.) verilmez. Yazılımın kullanımı sonucu doğabilecek zarar veya kayıplardan yazar(lar) veya hak sahip(ler)i sorumlu tutulamaz.</p>
+            <p><b>Telif Hakkı & Katkıda Bulunma</b><br>
+               • Bu projeye katkıda bulunan herkes (örn. Pull Request göndererek) çalışmalarını bu lisansın geçerli olduğu koşullarda lisanslamayı kabul eder.<br>
+               • Telif hakkı, aksi belirtilmedikçe proje sahibine (veya proje sahiplerine) aittir.</p>
+            <p><b>Lisansın Sonlandırılması</b><br>
+               • Bu lisansı ihlal ederseniz (örneğin, projeyi ticari amaçla kullanırsanız), ilgili projeye ait lisans hakkı sona erer.<br>
+               • Proje sahib(ler)i, gerekli gördüğü durumlarda bu lisansı güncelleyebilir veya farklı bir lisans ile değiştirebilir. Ancak mevcut sürümü kullananlar, mevcut sürümün koşullarına tabi olmaya devam eder.</p>
+            <p>© 2025 [İkra MENTEŞ & Görkem MENTEŞ]. Tüm hakları saklıdır.</p>
+        </div>
+
+        <p class="binary">01110100 01110101 01110010 01101011 01100011 01100101 00101101 01110011 01101111 01111010 01101100 01110101 01101011 00101101 01101100 01100001 01100010</p>
+        <marquee>KEYİFLİ KODLAMALAR VE ZİYARETİNİZ İÇİN TEŞEKKÜRLER! Hatalarla karşılaşırsanız bana ulaşın: <a href="mailto:cevrimiciturkcesozluk@gmail.com">cevrimiciturkcesozluk@gmail.com</a></marquee>
+    </div>
+
+    <span class="star" style="top: 100px; left: 50px;">★</span>
+    <span class="star" style="top: 300px; left: 700px;">★</span>
+    <span class="star" style="top: 500px; left: 200px;">★</span>
+
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const star = document.createElement('span');
+            star.textContent = '✨';
+            star.className = 'star';
+            star.style.left = e.pageX + 'px';
+            star.style.top = e.pageY + 'px';
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 1000);
+        });
+    </script>
+</body>
+</html>
