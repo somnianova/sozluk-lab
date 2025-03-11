@@ -1,0 +1,10 @@
+<ul>
+       <li><a href="readme.html">README</a></li>
+         <li><a href="changelog.html">CHANGELOG</a></li>
+        <li><a href="project-charter.html">PROJE BELGESİ</a></li>
+         <li><a href="architecture.html">MİMARİ</a></li>
+       <li><a href="dev-guide.html">DEV GUIDE</a></li>
+       <li><a href="user-guide.html">KULLANICI REHBERİ</a></li>
+         <li><a href="contributing.html">KATKI REHBERİ</a></li>
+         <li><a href="wiki.html">WIKI</a></li>
+    </ul>
