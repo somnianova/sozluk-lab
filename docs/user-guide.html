@@ -1,0 +1,208 @@
+<html>
+<head>
+  <title>*** ÇEVRİMİÇİ TÜRKÇE SÖZLÜK DEV GUIDE ***</title>
+  <style>
+    body {
+      background-color: navy;
+      color: white;
+      font-family: Verdana, Arial, sans-serif;
+      background-image: url('https://via.placeholder.com/50?text=STAR');
+      background-repeat: repeat;
+    }
+    a { color: yellow; text-decoration: underline; }
+    a:hover { color: cyan; }
+    .blink { animation: blink 0.5s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .rainbow {
+      animation: rainbow 3s infinite;
+    }
+    @keyframes rainbow {
+      0% { color: red; } 20% { color: yellow; } 40% { color: cyan; }
+      60% { color: purple; } 80% { color: magenta; } 100% { color: red; }
+    }
+    table { border: 3px solid cyan; background-color: #222; }
+    th, td { padding: 8px; border: 1px dotted yellow; }
+    pre { background-color: #333; padding: 10px; color: cyan; }
+  </style>
+</head>
+<body text="white" link="yellow" vlink="cyan">
+  <center>
+    <!-- Ana Başlık -->
+    <h1><font face="Impact" size="7" class="rainbow">ÇEVRİMİÇİ TÜRKÇE SÖZLÜK GELİŞTİRİCİ KILAVUZU</font></h1>
+    <h2><font face="Comic Sans MS" color="red">NODE.JS + EXPRESS = SÖZLÜK! KELİME EKLE, ARA, YÖNET!</font></h2>
+    <img src="https://via.placeholder.com/120?text=SPINNING+BOOK" alt="Spinning Book">
+    <marquee bgcolor="purple" width="60%"><b>EN KAPSAMLI SÖZLÜK PROJESİ!!</b></marquee>
+
+    <!-- Proje Özeti -->
+    <h3><font color="cyan">Proje Özeti</font></h3>
+    <p><font size="4">Çevrimiçi Türkçe Sözlük, Node.js ve Express ile geliştirilen web tabanlı bir sözlük uygulamasıdır. Yönetici kullanıcıların Türkçe kelimeler ve tanımlar ekleyip yönetmesine olanak sağlarken, son kullanıcılara kelime anlamları, eş ve zıt anlamlı kelimeleri hızlıca bulabilme imkânı sunar. Projede, kelimeler, tanımlar ve kelime ilişkileri için çok tablolu ilişkisel veritabanı ve RESTful API yapısı kullanılmıştır.</font></p>
+
+    <!-- Anahtar Özellikler -->
+    <h3><font color="orange">Anahtar Özellikler:</font></h3>
+    <table>
+      <tr>
+        <th><font color="cyan">Özellik</font></th>
+        <th><font color="cyan">Açıklama</font></th>
+      </tr>
+      <tr>
+        <td>Kelime ve Tanım Yönetimi</td>
+        <td>Yöneticiler yeni kelimeler, çoklu tanımlar ve örnek cümleler ekleyebilir.</td>
+      </tr>
+      <tr>
+        <td>Eş/Zıt Anlamlılar</td>
+        <td>İlişkili kelimeler saklanarak zengin ve modüler bir veri modeli oluşturulmuştur.</td>
+      </tr>
+      <tr>
+        <td>Arama Fonksiyonu</td>
+        <td>Kullanıcılar kelime arayarak tanımlar, örnekler ve ilgili kelimelere erişebilir.</td>
+      </tr>
+      <tr>
+        <td>Yönetici Paneli</td>
+        <td>İçerik yönetimi için güvenli ve kullanıcı dostu arayüz.</td>
+      </tr>
+    </table>
+
+    <!-- Klasör Yapısı -->
+    <h3><font color="purple">Klasör Yapısı</font></h3>
+    <p><font size="4">Proje, Node.js Express uygulamaları için tipik MVC benzeri bir yapıdadır:</font></p>
+    <pre><font size="4">
+project-root/
+├── index.js             # Ana uygulama giriş dosyası
+├── routes/              # Route tanımları
+│   ├── api.js           # Genel API uçları
+│   ├── admin.js         # Yönetici paneli route’ları
+│   └── index.js         # Ön yüz sayfalarının route’ları
+├── controllers/         # İş mantığını içeren handler’lar
+│   ├── wordController.js
+│   ├── definitionController.js
+│   └── relationController.js
+├── models/              # Veritabanı modelleri ve yardımcı modüller
+│   ├── db.js            # MySQL bağlantısı (mysql2)
+│   └── wordModel.js     # Kelime sorgulama fonksiyonları
+├── views/               # Sunucu tarafı render şablonları (şu an boş)
+├── public/              # Statik dosyalar
+│   ├── index.html
+│   ├── admin.html
+│   ├── css/
+│   ├── js/
+│   └── images/
+└── ...diğer dosyalar
+    </font></pre>
+    <marquee direction="left" bgcolor="red"><font color="yellow">MVC BENZERİ SÜPER YAPI!!</font></marquee>
+
+    <!-- Kurulum ve Yükleme -->
+    <h3><font color="cyan">Kurulum ve Yükleme</font></h3>
+    <p><font size="4">Node.js (LTS sürümü önerilir) ve NPM kurulu olmalıdır.</font></p>
+    <p><font size="4">MySQL veritabanı sunucusu çalışır durumda olmalıdır.</font></p>
+    <p><font size="4">.env dosyası veritabanı bilgilerini içerir:</font></p>
+    <pre><font size="4">
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=mysql_sifreniz
+DB_NAME=sozluk_db
+ADMIN_PASSWORD=gucluSifre
+SESSION_SECRET=oturumAnahtari
+    </font></pre>
+    <h4><font color="cyan">Kurulum Adımları:</font></h4>
+    <table>
+      <tr>
+        <th><font color="cyan">Adım</font></th>
+        <th><font color="cyan">Komut/Açıklama</font></th>
+      </tr>
+      <tr>
+        <td>1.</td>
+        <td>Depoyu klonlayın: git clone <repo_url></td>
+      </tr>
+      <tr>
+        <td>2.</td>
+        <td>Bağımlılıkları yükleyin: npm install</td>
+      </tr>
+      <tr>
+        <td>3.</td>
+        <td>Veritabanını oluşturun ve tabloları ekleyin.</td>
+      </tr>
+      <tr>
+        <td>4.</td>
+        <td>.env dosyasını yapılandırın.</td>
+      </tr>
+      <tr>
+        <td>5.</td>
+        <td>Sunucuyu başlatın: npm start veya node index.js</td>
+      </tr>
+    </table>
+    <p><img src="https://via.placeholder.com/100?text=INSTALL" alt="Install Button"></p>
+
+    <!-- Veritabanı Yapısı -->
+    <h3><font color="orange">Veritabanı Yapısı</font></h3>
+    <table>
+      <tr>
+        <th><font color="cyan">Tablo</font></th>
+        <th><font color="cyan">Alanlar</font></th>
+      </tr>
+      <tr>
+        <td>words</td>
+        <td>Kelimeler (id, word)</td>
+      </tr>
+      <tr>
+        <td>definitions</td>
+        <td>Tanımlar (id, word_id, definition_text, example_sentence)</td>
+      </tr>
+      <tr>
+        <td>relations</td>
+        <td>Kelime ilişkileri (id, left_word_id, right_word_id, relation_type)</td>
+      </tr>
+    </table>
+
+    <!-- Kimlik Doğrulama ve Güvenlik -->
+    <h3><font color="purple">Kimlik Doğrulama ve Güvenlik</font></h3>
+    <p><font size="4">Yönetici girişi için express-session kullanılır.</font></p>
+    <p><font size="4">Yönetici rotaları checkAdmin middleware ile korunur.</font></p>
+    <p><font size="4">.env dosyasında hassas bilgiler saklanır.</font></p>
+    <p><font size="4">HTTPS kullanımı ve şifreleme önemlidir.</font></p>
+
+    <!-- API Uç Noktaları -->
+    <h3><font color="cyan">API Uç Noktaları</font></h3>
+    <h4><font color="cyan">Herkese Açık:</font></h4>
+    <pre><font size="4">
+Kelime Arama: GET /search?kelime={kelime}
+Eş Anlamlılar: GET /api/synonyms?word={kelime}
+Zıt Anlamlılar (varsa): GET /api/antonyms?word={kelime}
+    </font></pre>
+    <h4><font color="cyan">Yönetici:</font></h4>
+    <pre><font size="4">
+Yönetici Girişi: POST /admin/login
+Kelime Ekleme: POST /admin/words
+Tanım Ekleme: POST /admin/definitions
+İlişki Ekleme: POST /admin/relations
+Kelime Silme: DELETE /admin/words/:id
+    </font></pre>
+
+    <!-- Gelecekteki Geliştirmeler -->
+    <h3><font color="orange">Gelecekteki Geliştirmeler</font></h3>
+    <p><font size="4">Elasticsearch entegrasyonu ile gelişmiş arama özellikleri.</font></p>
+    <p><font size="4">React, Vue.js gibi modern frontend framework entegrasyonu.</font></p>
+    <p><font size="4">Çok dilli destek ve kullanıcı katkıları.</font></p>
+    <p><font size="4">Etymoloji, telaffuz rehberleri ve performans iyileştirmeleri.</font></p>
+    <p><font size="4">Docker kullanımı ve CI/CD süreçleri ile otomatik dağıtım.</font></p>
+    <p><span class="blink">KOD YAZ GÜZELCE! ★★★</span></p>
+
+    <!-- Ekstralar -->
+    <p><img src="https://via.placeholder.com/100?text=WORD+ICON" alt="Word Icon"></p>
+    <p><font size="4" color="cyan">EMAIL ME: <a href="/cdn-cgi/l/email-protection#365253407645594c5a435d1855595b"><span class="__cf_email__" data-cfemail="9ffbfae9dfecf0e5f3eaf4b1fcf0f2">[email&#160;protected]</span></a></font></p>
+    <marquee bgcolor="black" behavior="alternate" width="70%">
+      <font color="white">THX 4 READING - SITE VISITS: 1337 - CODE HARD!!</font>
+    </marquee>
+
+    <!-- MIDI ve Bonus -->
+    <embed src="http://www.example.com/coolmidi.mid" autostart="true" loop="true" hidden="true">
+    <p><font size="2" color="gray">*Best viewed in Internet Explorer 6*</font></p>
+
+    <!-- Sahte Pop-up -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+      setTimeout(() => {
+        alert("WOW!! U FOUND THE BEST SÖZLÜK GUIDE - CLICK OK TO CODE (not really lol)");
+      }, 5000);
+    </script>
+  </center>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91e830620b9ee4b6',t:'MTc0MTY2NjA4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>!!! PROJE BELGESİ - EN İYİ SÖZLÜK BURADA !!!</title>
+    <style>
+        body {
+            background: #000 url('https://www.transparenttextures.com/patterns/stardust.png');
+            color: #fff;
+            font-family: "Impact", "Arial Black", sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-transform: uppercase;
+            overflow-x: hidden;
+        }
+        h1, h2, h3 {
+            color: #ff0000;
+            text-shadow: 4px 4px #ffff00, -4px -4px #00ff00;
+            font-size: 60px;
+            animation: shake 0.1s infinite;
+            text-align: center;
+            margin: 10px 0;
+        }
+        h2 {
+            font-size: 40px;
+            color: #ffff00;
+            text-shadow: 3px 3px #ff0000;
+        }
+        h3 {
+            font-size: 30px;
+        }
+        p, li, td, th {
+            font-size: 22px;
+            line-height: 1.3;
+            color: #fff;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: underline double;
+            animation: blink 0.3s infinite;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            background: rgba(255, 0, 0, 0.5);
+            border: 4px solid #ffff00;
+            box-shadow: 0 0 15px #ff0000;
+        }
+        th, td {
+            padding: 15px;
+            border: 3px dashed #00ff00;
+        }
+        th {
+            background: #ff0000;
+            color: #ffff00;
+            font-size: 26px;
+            animation: pulse 0.5s infinite;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        ul li:before {
+            content: "► ";
+            color: #ffff00;
+            font-size: 24px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 25px;
+            border: 6px double #ff0000;
+            box-shadow: 0 0 25px #ffff00;
+        }
+        .banner {
+            background: #ffff00;
+            color: #ff0000;
+            padding: 15px;
+            text-align: center;
+            font-size: 28px;
+            animation: blink 0.5s infinite;
+            margin: 15px 0;
+            border: 3px solid #00ff00;
+            text-shadow: 2px 2px #000;
+        }
+        .highlight {
+            color: #00ff00;
+            background: #ff0000;
+            padding: 2px 5px;
+            animation: pulse 0.5s infinite;
+        }
+        .ad-box {
+            background: url('https://www.transparenttextures.com/patterns/cheap-diagonal-fabric.png');
+            border: 4px solid #ff00ff;
+            padding: 20px;
+            margin: 20px 0;
+            color: #fff;
+            text-align: center;
+            font-size: 24px;
+            animation: shake 0.2s infinite;
+        }
+        @keyframes shake {
+            0% { transform: translate(2px, 1px) rotate(0deg); }
+            25% { transform: translate(-1px, -2px) rotate(1deg); }
+            50% { transform: translate(-2px, 1px) rotate(-1deg); }
+            75% { transform: translate(1px, -1px) rotate(0deg); }
+            100% { transform: translate(0px, 0px) rotate(0deg); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>!!! PROJE BELGESİ !!!</h1>
+        <div class="banner">★ ÇEVRİMİÇİ TÜRKÇE SÖZLÜK - HERKESE LAZIM! ★</div>
+        <p><strong>Dosya Yolu:</strong> <span class="highlight">docs/project-charter.html</span></p>
+        <p><strong>Proje Adı:</strong> <span class="highlight">Çevrimiçi Türkçe Sözlük (turkce-sozluk-lab)</span></p>
+        <div class="ad-box">EN HIZLI SÖZLÜK - ŞİMDİ KEŞFET!</div>
+
+        <h2>1. Proje Özeti</h2>
+        <p>Bu proje, kullanıcıların zengin Türkçe dil içeriklerine (kelime tanımları, örnek cümleler, eş anlamlılar, zıt anlamlılar, deyimler, alıntılar vb.) web üzerinden erişebilmelerini sağlamak amacıyla geliştirilmiştir. Arka planda <span class="highlight">Node.js</span> ve <span class="highlight">MySQL</span> kullanarak hızlı, ölçeklenebilir ve yönetilebilir bir sözlük platformu sunar. Proje, aynı zamanda bir <span class="highlight">Admin Paneli</span> aracılığıyla veritabanı yönetimi (kelime ekleme, düzenleme, anlam yönetimi, ilişkiler vb.) fonksiyonlarını destekler.</p>
+        <div class="banner">★ TÜRKÇE’NİN EN GÜÇLÜ SÖZLÜĞÜ! ★</div>
+
+        <h2>2. Proje Rasyoneli ve Yol Haritası</h2>
+        <h3>2.1 Neden Bu Proje?</h3>
+        <p>Mevcut çevrimiçi sözlüklerin ve dil derlemlerinin sunduğu özellikler incelendiğinde, Türkçe için güncel, kapsamlı ve kullanıcı dostu bir kaynak eksikliği dikkat çekmektedir. Belli başlı resmî ya da kurumsal sözlükler (örn. TDK) genellikle ham veriyi kapalı tutmakta; kullanıcı katkılarını veya açık veri ekosistemini yeterince teşvik etmemektedir. Bu durum, yeni bir <span class="highlight">açık veri</span> tabanlı ve kullanıcı etkileşimli sözlük platformu geliştirmek için büyük bir fırsat alanı yaratır.</p>
+        <div class="retro-box">
+            <p><strong>Vurgulanan Temel İhtiyaçlar:</strong></p>
+            <ol>
+                <li><strong>Daha Zengin İçerik ve Anlam Örnekleri:</strong>
+                    <ul>
+                        <li>Her kelimenin farklı anlamlarına ait çoklu örnek cümle sunulması.</li>
+                        <li>Özellikle çağdaş kullanım (güncel metinler, popüler kültür, akademik bağlam vb.) örneklerinin sağlanması.</li>
+                    </ul>
+                </li>
+                <li><strong>Eş Anlam, Zıt Anlam ve İlgili Kelimeler:</strong>
+                    <ul>
+                        <li>Kullanıcıların farklı ifade biçimlerini kolayca bulabilmesi (tezârus yaklaşımı).</li>
+                        <li>TDK veya diğer sözlüklerde eksik olan collocation/eşdizim ve deyim kullanımını daha geniş verilerle sunmak.</li>
+                    </ul>
+                </li>
+                <li><strong>Açık Veri ve Şeffaflık:</strong>
+                    <ul>
+                        <li>Proje verisinin (tanımlar, örnekler, vb.) açık lisanslı kaynaklardan toplanıp yeniden paylaşılarak sürdürülebilir hâle gelmesi.</li>
+                        <li>Akademisyenler, dilbilimciler ve yazılım geliştiricilere ham veri, API veya toplu içe/dışa aktarma imkânları sunmak.</li>
+                    </ul>
+                </li>
+                <li><strong>Topluluk Katılımı:</strong>
+                    <ul>
+                        <li>Kullanıcıların hata bildirimi, yeni anlam önerme, ek örnek cümle gönderme gibi işlevlerle sözlüğe katkı sağlaması; bu katkıların moderasyonla yönetilmesi.</li>
+                        <li>Geniş tabanlı ve sürekli güncel bir sözlük.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        <div class="ad-box">KELİME AVCILARI İÇİN MÜKEMMEL ARAÇ!</div>
+
+        <h3>2.2 Kime Faydalı Olacak?</h3>
+        <ul>
+            <li><strong>Yazarlar / Editörler:</strong> Anlam, eşanlam, zıt anlam, kullanım notlarıyla doğru kelime seçimi.</li>
+            <li><strong>Genel Kamu:</strong> Merak edilen herhangi bir kelime veya deyim hakkında (resmî anlam, argo kullanımı, kökeni vb.) kapsamlı bilgi.</li>
+            <li><strong>Akademisyenler / Araştırmacılar:</strong> Açık verilerin sağladığı olanaklarla derlem analizi, dil işleme, yeni kelimelerin takibi.</li>
+            <li><strong>Yazılım Geliştiriciler:</strong> Proje verisini farklı uygulamalarda kullanabilecekleri bir açık veri API’si veya depoyla entegrasyon.</li>
+        </ul>
+
+        <h3>2.3 Kilit Hususlar</h3>
+        <ol>
+            <li><strong>Makine Öğrenmesi ve NLP Entegrasyonu:</strong> Açık verilerle zenginleştirilen corpus desteği, otomatik örnek cümle oluşturma, anlam tahmini vb. ileri NLP özellikleri.</li>
+            <li><strong>Çapraz Referanslar:</strong> Tanım içinde geçen diğer kelimelerin linklenmesi, kullanıcıyı derinlemesine bir “sözlük yolculuğuna” davet etmek.</li>
+            <li><strong>Kullanım Sıklığı ve Dilbilimsel İçgörü:</strong> Corpus tabanlı istatistikler (sıklık, CEFR seviyesi, tarihsel trend vb.).</li>
+            <li><strong>Uzmanlık Sözlükleri:</strong> Tıp, hukuk, mühendislik gibi özel alan sözlüklerini de zamanla ekleyerek “tek durak” kaynak yaratmak.</li>
+            <li><strong>Kullanıcı Etkileşimi:</strong> Hızlı geri bildirim, öneri veya raporlama mekanizmaları. Topluluk moderasyonuyla içerik kalitesinin korunması.</li>
+        </ol>
+        <div class="banner">★ TÜM KELİMELER PARMAKLARINIZIN UCUNDA! ★</div>
+
+        <h2>3. Amaç ve Hedefler</h2>
+        <h3>3.1 Amaç</h3>
+        <p>- Kelime veritabanını dijital ortamda yönetmek, sürekli güncelleyerek çevrimiçi erişime açmak.<br>
+        - Kullanıcı dostu bir arayüzle sözlük içeriklerine <span class="highlight">hızlı arama</span> ve <span class="highlight">zengin filtreleme</span> özellikleri sunmak.<br>
+        - Açık veri yaklaşımıyla projenin büyümesini ve çok yönlü kullanımını teşvik etmek.</p>
+
+        <h3>3.2 Hedefler</h3>
+        <ol>
+            <li><strong>Arama İşlevselliği:</strong> Hem <span class="highlight">full-text</span> hem de <span class="highlight">LIKE</span> tabanlı arama; ortalama <1 saniye yanıt süresi.</li>
+            <li><strong>Çoklu Anlam Yönetimi:</strong> Her kelimeye birden fazla definition (anlam), alt anlam etiketleri (1a, 1b vb.), örnek cümle.</li>
+            <li><strong>İlişkiler (Relations):</strong> Synonym, antonym, idiom, quote, word-family vb. türlerle zengin bir ilişki ağı.</li>
+            <li><strong>Admin Paneli (Yönetim):</strong> Kelime ve anlam ekleme/düzenleme, ilişkiler yönetimi, sayfalama/sıralama.</li>
+            <li><strong>Alfabetik Tarama & Listeleme:</strong> Harfe göre hızlı kelime gezintisi.</li>
+            <li><strong>Açık Veri Ekosistemi:</strong> Verileri açık lisans altında paylaşarak geliştiricilerin ve akademisyenlerin katkısına açık hâle getirmek.</li>
+        </ol>
+
+        <h2>4. Kapsam</h2>
+        <p><strong>Backend (Node.js & MySQL):</strong></p>
+        <ul>
+            <li>Express.js ile RESTful API uç noktaları</li>
+            <li>MySQL’de words, definitions, relations tabloları</li>
+            <li>Oturum yönetimi (express-session), admin doğrulaması (checkAdmin)</li>
+            <li>Full-text arama, LIKE arama, veritabanı indeksleme</li>
+        </ul>
+        <p><strong>Frontend (Kullanıcı & Admin Panelleri):</strong></p>
+        <ul>
+            <li>Public (index.html): Arama kutusu, sonuç listeleme, kelime detayı</li>
+            <li>Admin (admin.html, admin-edit.html): Kelime ekleme, düzenleme, definition yönetimi, ilişkiler sekmesi, alfabe sekmesi</li>
+            <li>Responsive tasarım ve temel AJAX/Fetch fonksiyonları</li>
+        </ul>
+        <p><strong>Planlanan Genişletmeler:</strong></p>
+        <ul>
+            <li>Docker dağıtımı ve bulut sunucularda ölçeklendirme</li>
+            <li>Role-based auth (admin, editor vb.)</li>
+            <li>Genişletilmiş veritabanı (blog, sözcük listeleri, kullanıcı favorileri)</li>
+            <li>Gelişmiş arama/analitik (Elasticsearch, Redis cache, vs.)</li>
+            <li>Kullanıcı katkı modülü (öneri, geri bildirim, otomatik moderasyon)</li>
+        </ul>
+        <div class="ad-box">HIZLI ARAMA, ZENGİN İÇERİK - HEP BURADA!</div>
+
+        <h2>5. Başarı Kriterleri (Success Criteria)</h2>
+        <ol>
+            <li><strong>Temel Sözlük İşlevi:</strong> En az 100 kelime ve en az 50 ilişkili definition ile kullanılabilir bir prototip.</li>
+            <li><strong>Admin Yönetimi:</strong> Admin paneli üzerinden kelime, definition ve ilişki işlemlerinin eksiksiz yapılabilmesi.</li>
+            <li><strong>Arama Performansı:</strong> Full-text sorgularında ortalama <1 saniye tepki süresi.</li>
+            <li><strong>Veri Bütünlüğü:</strong> MySQL’de foreign key ilişkileriyle olası veri tutarsızlıklarının en aza indirilmesi.</li>
+            <li><strong>Kapsamlı İlişki Ağı:</strong> Sinonim, antonym, deyim vb. ilişkilerin projenin %80’inde aktif kullanımı.</li>
+            <li><strong>Güvenli Oturum:</strong> checkAdmin middleware ile yetkisiz erişimi engelleme, güçlü şifre politikası (ADMIN_PASSWORD).</li>
+        </ol>
+
+        <h2>6. Paydaşlar ve Rolleri</h2>
+        <table>
+            <tr>
+                <th>Paydaş</th>
+                <th>Rol / Sorumluluk</th>
+            </tr>
+            <tr>
+                <td><strong>Proje Sahipleri</strong></td>
+                <td>Stratejik kararlar, projeye finansal ve yönetsel destek sağlama</td>
+            </tr>
+            <tr>
+                <td><strong>Proje Yöneticisi</strong></td>
+                <td>İş planlaması, sprint yönetimi, risk değerlendirmesi, QA takibi</td>
+            </tr>
+            <tr>
+                <td><strong>Geliştiriciler</strong></td>
+                <td>Backend (Node.js), veritabanı (MySQL), frontend (HTML/CSS/JS)</td>
+            </tr>
+            <tr>
+                <td><strong>Test Ekibi (QA)</strong></td>
+                <td>Fonksiyonel, entegrasyon, performans testleri</td>
+            </tr>
+            <tr>
+                <td><strong>Son Kullanıcılar</strong></td>
+                <td>Arayüzü gerçek kullanım senaryolarında deneyimleme, geri bildirim</td>
+            </tr>
+            <tr>
+                <td><strong>Topluluk Katılımcıları</strong></td>
+                <td>Açık veri katkısı, içerik moderasyonu, eklenmesi gereken yeni kelimeler</td>
+            </tr>
+        </table>
+
+        <h2>7. Zaman Çizelgesi (Yüksek Seviyede)</h2>
+        <table>
+            <tr>
+                <th>Aşama</th>
+                <th>Tarih Aralığı</th>
+                <th>Açıklama</th>
+            </tr>
+            <tr>
+                <td><strong>Başlangıç & Kurulum</strong></td>
+                <td>21 Şub – 22 Şub</td>
+                <td>Node.js, MySQL, proje yapılandırması, temel arama prototip</td>
+            </tr>
+            <tr>
+                <td><strong>Admin Panel Temelleri</strong></td>
+                <td>23 Şub – 24 Şub</td>
+                <td>Kelime ekleme, oturum, statik HTML/CSS arayüz</td>
+            </tr>
+            <tr>
+                <td><strong>İleri Özellikler & İlişkiler</strong></td>
+                <td>25 Şub – 26 Şub</td>
+                <td>relations tablosu (synonym, antonym vb.), definition yönetimi</td>
+            </tr>
+            <tr>
+                <td><strong>Refactor & Genişletme</strong></td>
+                <td>27 Şub – 28 Şub</td>
+                <td>API uç noktalarının düzenlenmesi, testler, performans iyileştirme</td>
+            </tr>
+            <tr>
+                <td><strong>Planlanan Gelecek Sürümler</strong></td>
+                <td>(Belirlenecek)</td>
+                <td>Docker & bulut dağıtımı, role-based auth, blog modülü, analitik</td>
+            </tr>
+        </table>
+        <div class="banner">★ TÜRKÇE SÖZLÜK DEVRİMİ BAŞLIYOR! ★</div>
+
+        <h2>8. Temel Varsayımlar ve Kısıtlar</h2>
+        <h3>8.1 Varsayımlar</h3>
+        <ul>
+            <li>Node.js (v14+) ve MySQL (5.7+) ortamının mevcut ve stabil olduğu.</li>
+            <li><code>.env</code> dosyasıyla veritabanı ve admin şifre bilgilerinin sağlandığı.</li>
+            <li>Proje sürümlerinin <strong>Git</strong> üzerinden ortak bir repository’de yönetildiği.</li>
+            <li>Açık verilerin (ör. Vikisözlük, belirli CC lisanslı corpuslar) entegrasyonuna erişim ve yasal uygunluk.</li>
+        </ul>
+        <h3>8.2 Kısıtlar</h3>
+        <ul>
+            <li>Henüz tam bir “kelime silme” endpoint’i bulunmuyor; gelecekte eklenmesi planlanıyor.</li>
+            <li>Ticari kullanım için ek güvenlik, telif ve veri yönetimi ihtiyaçları doğabilir.</li>
+            <li>Kullanıcı katkı (topluluk modülü) ilk etapta minimal düzeyde ya da kapalı beta şeklinde olabilir.</li>
+        </ul>
+
+        <h2>9. Riskler ve Azaltıcı Önlemler</h2>
+        <table>
+            <tr>
+                <th>Olası Risk</th>
+                <th>Derece (Y/M/D)</th>
+                <th>Azaltıcı Önlem</th>
+            </tr>
+            <tr>
+                <td><strong>Veri kaybı / bozuk veritabanı</strong></td>
+                <td>Orta</td>
+                <td>Düzenli yedekleme, FK kısıtlamaları ve transaction desteği</td>
+            </tr>
+            <tr>
+                <td><strong>Performans düşüşü (yüksek veri)</strong></td>
+                <td>Yüksek</td>
+                <td>Indexleme (full-text), caching (ör. Redis), gerektiğinde ölçeklendirme</td>
+            </tr>
+            <tr>
+                <td><strong>Admin paneline yetkisiz erişim</strong></td>
+                <td>Yüksek</td>
+                <td>Session yönetimi, HTTPS, güçlü şifreler</td>
+            </tr>
+            <tr>
+                <td><strong>Telif ve lisans sorunları</strong></td>
+                <td>Orta</td>
+                <td>Yalnızca açık lisanslı kaynakları kullanmak, proje verisini açık lisansla sunmak</td>
+            </tr>
+            <tr>
+                <td><strong>Yetersiz geri bildirim / kullanıcı katılımı</strong></td>
+                <td>Düşük</td>
+                <td>Kullanıcı etkileşimini teşvik eden tasarım, hızlı moderasyon mekanizması</td>
+            </tr>
+        </table>
+        <p><em>(Risk derecesi: Yüksek / Orta / Düşük. İsteğe göre “olasılık” ve “etki” bazında detaylandırılabilir.)</em></p>
+        <div class="ad-box">AÇIK VERİYLE SINIRSIZ BİLGİ!</div>
+
+        <h2>10. Bütçe ve Kaynak Planı</h2>
+        <ul>
+            <li><strong>Sunucu / Hosting Maliyeti:</strong> Başlangıçta yerel veya VPS seviyesinde. İhtiyaca göre AWS, DigitalOcean vb.</li>
+            <li><strong>Veritabanı Maliyeti:</strong> MySQL barındırma (paylaşımlı veya bulut tabanlı).</li>
+            <li><strong>Ek Araçlar:</strong> Opsiyonel izleme/analitik araçları (Sentry, New Relic).</li>
+            <li><strong>İnsan Kaynağı:</strong> 1-2 backend geliştirici, 1 frontend geliştirici, 1 QA mühendisi (projeye göre değişebilir).</li>
+            <li><strong>Açık Veri Kolaylığı:</strong> Açık kaynak ve topluluk katkıları sayesinde veri zenginleştirmede ek lisans maliyeti yok.</li>
+        </ul>
+
+        <h2>11. Onay ve İmza</h2>
+        <p>Bu belge, <strong>Çevrimiçi Türkçe Sözlük (turkce-sozluk-lab)</strong> Projesi’nin kapsamını, hedeflerini ve geliştirme stratejisini özetlemektedir. Buradaki bilgilerin proje paydaşları tarafından onaylanmasıyla, projenin resmi olarak hayata geçirilmesi kararlaştırılır.</p>
+        <table>
+            <tr>
+                <th>İsim / Rol</th>
+                <th>İmza</th>
+                <th>Tarih</th>
+            </tr>
+            <tr>
+                <td><strong>Proje Sahibi</strong></td>
+                <td><em>(imza)</em></td>
+                <td>2025-02-26</td>
+            </tr>
+            <tr>
+                <td><strong>Proje Yöneticisi</strong></td>
+                <td><em>(imza)</em></td>
+                <td>2025-02-26</td>
+            </tr>
+            <tr>
+                <td><strong>Teknik Ekip</strong></td>
+                <td><em>(imza)</em></td>
+                <td>2025-02-26</td>
+            </tr>
+        </table>
+        <div class="banner">★ ÇEVRİMİÇİ SÖZLÜĞÜ ONAYLA - DİLE HAYAT VER! ★</div>
+    </div>
+</body>
+</html>

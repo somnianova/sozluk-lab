@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MİMARİ - Karanlık Sözlük Diyarım</title>
+    <style>
+        body {
+            background-color: #1A001A;
+            color: #FF3333;
+            font-family: "Times New Roman", Times, serif;
+            margin: 10px;
+            padding: 10px;
+            background-image: url('https://www.transparenttextures.com/patterns/batthern.png');
+        }
+        h1 {
+            color: #800080;
+            font-size: 60px;
+            text-align: center;
+            text-decoration: underline overline;
+            text-shadow: 4px 4px 8px #FF0000, -4px -4px 8px #FF6666;
+            transform: rotate(-2deg);
+        }
+        h2 {
+            color: #FF3333;
+            font-size: 36px;
+            background-color: #330033;
+            padding: 10px;
+            display: inline-block;
+            border: 4px double #FF6666;
+            text-shadow: 2px 2px 4px #800080;
+            transform: skew(5deg);
+        }
+        p, li {
+            font-size: 20px;
+            line-height: 1.6;
+        }
+        .intro {
+            border: 5px dashed #800080;
+            padding: 20px;
+            background-color: rgba(51, 0, 51, 0.8);
+            width: 85%;
+            margin: 30px auto;
+            box-shadow: 0 0 15px #FF3333;
+        }
+        .section {
+            border: 3px solid #FF3333;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 0 20px #800080;
+        }
+        .gif {
+            margin: 10px;
+            border: 2px dotted #FF6666;
+        }
+        .visitor-counter {
+            font-size: 28px;
+            color: #FF6666;
+            text-align: center;
+            margin-top: 30px;
+            text-shadow: 2px 2px 5px #800080;
+        }
+        .footer {
+            text-align: center;
+            font-size: 18px;
+            color: #800080;
+            margin-top: 40px;
+            border-top: 3px dashed #FF3333;
+            padding-top: 10px;
+        }
+        marquee {
+            font-size: 24px;
+            color: #FF3333;
+            background-color: #330033;
+            padding: 8px;
+            border: 2px solid #FF6666;
+        }
+    </style>
+</head>
+<body>
+    <h1> MİMARİ </h1>
+    <marquee>SÖZLÜK DİYARIMA HOŞ GELDİNİZ!!!</marquee>
+    
+    <div class="intro">
+        <p>Bu doküman, <b>Türkçe Sözlük</b> uygulamasının mimari tasarımını ve temel bileşenlerini açıklar. Uygulamanın amacı, kullanıcıların kelimeleri ve bu kelimelere ait tanımları arayabildiği, anlam ilişkilerini yönetebildiği bir sözlük platformu sunmaktır. Hem kullanıcıya dönük web arayüzü (kelime arama, listeleme vb.) hem de yöneticilere dönük yönetim paneli (kelime ve tanım ekleme, düzenleme, ilişkiler) aynı arka uç (backend) üzerinden hizmet verir.</p>
+        <img src="https://media.giphy.com/media/3o6Zt6KHxJTbXCnSso/giphy.gif" class="gif" alt="Korkunç Kafatası">
+        <img src="https://media.giphy.com/media/xT9IgHCTfp8YyRlVoI/giphy.gif" class="gif" alt="Yanan Mum">
+    </div>
+
+    <div class="section">
+        <h2>1. Genel Bakış ve Amaç</h2>
+        <p>
+            <b>Monolitik RESTful API</b>: Sunucu tarafında Node.js & Express kullanarak tek bir monolitik uygulama yazılmıştır. API, JSON formatında veri döner; ön yüz ise bu API’yi tüketen statik HTML/JS sayfalarından oluşur.<br>
+            <b>MySQL Veritabanı</b>: Kelime, tanım ve kelime ilişkileri (ör. eş anlamlı, zıt anlamlı, deyim) ilişkisel bir modelle MySQL üzerinde tutulur.<br>
+            <b>Redis</b>: Oturum yönetimi (session) ve isteğe bağlı olarak önbellekleme (cache) katmanı için yapılandırılır. Böylece uygulama, özellikle yatay ölçeklenmeye geçişte veya sık tekrarlanan sorgularda hızlı veri sunmak için Redis’i kullanabilir.<br>
+            <b>Docker</b>: Geliştirme ve dağıtım ortamlarında tutarlılık sağlamak amacıyla tüm bileşenler (Node.js uygulaması, MySQL, Redis) Docker konteyner’ları olarak paketlenebilir. docker-compose aracılığıyla tek adımda ayağa kaldırılabilir.<br>
+            <b>Hedef Kullanım</b>: Kişisel ve küçük/orta ölçekli projelerde bir sözlük platformu oluşturmak; kelime arama, ekleme, düzenleme, ilişkiler vb. özelleştirmeler yapmak isteyenlere kolayca özelleştirebilecekleri bir altyapı sağlamak.<br>
+        </p>
+        <img src="https://media.giphy.com/media/l0HlOBEJj6RITZen6/giphy.gif" class="gif" alt="Uçan Yarasa">
+    </div>
+
+    <div class="section">
+        <h2>2. Teknoloji Yığını</h2>
+        <ol>
+            <li><b>Node.js & Express</b><br>Tek iş parçacıklı, olay güdümlü yapı sayesinde yüksek eşzamanlı bağlantıları verimli biçimde yönetir.<br>Express çerçevesi ile RESTful endpoint’ler (kelime, tanım ve ilişki CRUD işlemleri) oluşturulur.</li>
+            <li><b>MySQL</b><br>İlişkisel veritabanı olarak kullanılır.<br><i>words</i>, <i>definitions</i> ve <i>relations</i> tabloları arasında yabancı anahtar ilişkileri mevcuttur.<br>Full-text arama desteği, kelime aramalarını hızlandırmak için kullanılır.</li>
+            <li><b>Redis</b><br>Oturum bilgisini saklamak ve potansiyel önbellekleme (cache) senaryoları için bellek içi veri deposu görevi görür.<br>Oturumların paylaşımlı bir depoda tutulması, çoklu Node.js örneği (container) ile yatay ölçeklemeye imkân tanır.</li>
+            <li><b>REST API</b><br>İstemci (web ön yüzü) ile sunucu (Express uygulaması) arasında JSON formatında veri transferini sağlar.<br>Tüm CRUD işlemleri HTTP yöntemleriyle (GET, POST, PUT, DELETE) temsil edilir. Kaynak odaklı endpoint tanımları (<i>words</i>, <i>definitions</i>, <i>relations</i> vb.) mevcuttur.</li>
+            <li><b>Frontend (Statik HTML/JS)</b><br>Uygulamanın görsel arayüzü ve kullanıcı etkileşimini yönetir.<br>Tarayıcıda çalışır; API’ye <code>fetch</code>/AJAX istekleri atarak veri talep eder veya günceller.<br>Ayrık bir origin’den çalışıyorsa CORS ayarları Express tarafında düzenlenir.</li>
+            <li><b>Docker</b><br>Her bileşen (Node.js, MySQL, Redis) için ayrı bir konteyner.<br><i>docker-compose</i> dosyasıyla ortam ve ağ yapılandırmaları tanımlanır.<br>Geliştirme ve canlı ortam dağıtımlarında tutarlılık sağlar.</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>3. Monolitik Mimari ve Katmanlar</h2>
+        <p>Projenin boyutu ve karmaşıklığı göz önünde bulundurularak <b>monolitik mimari</b> tercih edilmiştir. Tüm işlevler (kelime CRUD, tanım yönetimi, ilişkiler vb.) aynı kod tabanı içinde yer alır ve tek bir birim olarak dağıtılır.</p>
+        <p>
+            <b>Avantaj</b>: Basit kurulum, hızlı geliştirme, tek parça olarak versiyonlama.<br>
+            <b>Olası Genişleme</b>: Uygulama ileride büyürse, mantıksal bileşenler mikroservislere bölünebilir. Örneğin “Arama Servisi” bağımsızlaşabilir veya “Blog Servisi” eklenebilir.<br>
+        </p>
+        <p><b> Controller – Service – Repository</b> şeklinde organize olur:</p>
+        </p>
+            <b>★Controller (Denetleyici)</b>: HTTP isteğini karşılar, parametreleri alır, yetkilendirmeyi kontrol eder. İş mantığını Service katmanına yönlendirir ve sonucu HTTP cevabı olarak döner.<br>
+            <b>★Service (Hizmet/İş Mantığı)</b>: İş kurallarını içerir. Controller’dan gelen talepleri işleyerek repository ile etkileşime geçer, validation kurallarını uygular, ek mantık yürütür (ör. aynı kelime tekrar ekleniyor mu?).<br>
+            <b>★Repository (Veri Erişim)</b>: MySQL sorgularını içerir. Tek bir tabloya veya mantıksal gruba odaklıdır (WordRepository, DefinitionRepository vb.). Sadece veri kaydetme, güncelleme, silme, bulma gibi işlemleri yapar. Service katmanı, repository üzerinden veritabanına erişir.<br>
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>4. Veritabanı Modeli</h2>
+        <p> Veritabanı <b>MySQL</b> üzerinde aşağıdaki tabloları içerir:</p>
+        <ul>
+            <li><b>words</b><br><code>id</code> (PK, auto increment)<br><code>word</code> (kelime metni)<br><code>origin</code> (köken bilgisi, opsiyonel)<br><code>frequency_tags</code> (S1, W1 gibi rozetler)<br><code>audio_url</code> (Ses dosyası bağlantısı, opsiyonel)</li>
+            <li><b>definitions</b><br><code>id</code> (PK, auto increment)<br><code>word_id</code> (FK -> <code>words.id</code>)<br><code>definition_text</code> (tanım metni)<br><code>example_sentence</code> (örnek cümleler, opsiyonel)<br><code>part_of_speech</code> (isim, fiil vb.)<br><code>sense_label</code> (1a, 1b gibi alt anlam etiketleri)</li>
+            <li><b>relations</b><br><code>id</code> (PK, auto increment)<br><code>left_word_id</code> (FK -> <code>words.id</code>)<br><code>right_word_id</code> (FK -> <code>words.id</code>)<br><code>relation_type</code> (synonym, antonym, idiom vb.)</li>
+        </ul>
+        <p><b>İlişkiler</b>: <i>words</i> & <i>definitions</i> arası 1-N (bir kelimenin birden fazla tanımı).<br><i>words</i> & <i>relations</i> (kelimeler arası N-N, <code>relations</code> tablosu aracılığıyla).</p>
+        <img src="https://media.giphy.com/media/26FPvN8CaDSONSIAw/giphy.gif" class="gif" alt="Karanlık Şimşek">
+    </div>
+
+    <div class="section">
+        <h2>5. API ve İstemci Etkileşimi</h2>
+        <p><b>RESTful Endpoint’ler</b>:</p>
+        <ul>
+            <li><code>GET /words</code>: Kelime listesini sayfalama ve sıralama ile döner.</li>
+            <li><code>POST /words</code>: Yeni kelime ekler.</li>
+            <li><code>GET /words/:id</code>: Belirli id’li kelimenin detaylarını döner.</li>
+            <li><code>PUT /words/:id</code>: Kelime bilgilerini günceller.</li>
+            <li><code>DELETE /words/:id</code> <i>(İleride eklenecek)</i></li>
+        </ul>
+        <p><b>Session Tabanlı Auth</b>: Kullanıcı (veya admin), <code>/admin/login</code> üzerinden giriş yapar. Başarılı girişte sunucu Redis tabanlı bir oturum oluşturur ve istemciye bir session cookie gönderilir.</p>
+    </div>
+
+    <div class="section">
+        <h2>6. Dağıtım ve Docker</h2>
+        <p><b>Docker</b> imajı oluşturmak için bir <code>Dockerfile</code> tanımlanır:<br>Temel olarak resmi Node.js imajı kullanılır.<br>Proje kodları kopyalanır ve <code>npm install</code> veya <code>yarn install</code> çalıştırılır.</p>
+        <p><b>docker-compose.yml</b> ile: <code>web</code>, <code>db</code>, <code>cache</code> tanımlanır.</p>
+    </div>
+
+    <div class="section">
+        <h2>7. Ölçeklenebilirlik ve Gelecek Geliştirmeler</h2>
+        <p>
+            <b>Yatay Ölçekleme</b>: Oturum verileri Redis’te tutulduğu için uygulama birden fazla Node.js konteyner’ında paralel çalışabilir.<br>
+            <b>Ek Özellikler</b>: Gelişmiş Arama (Elasticsearch entegrasyonu), Role-Based Access Control (RBAC), Blog & Kullanıcı Favorileri.<br>
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>8. Güvenlik, Validation ve Middleware</h2>
+        <p>
+            <b>Rate Limiting</b>: Brute force veya aşırı istekleri engellemek adına <code>express-rate-limit</code> gibi paketlerle hız sınırlaması.<br>
+            <b>Girdi Doğrulama</b>: <i>express-validator</i> veya benzeri kütüphaneler kullanılarak, gelen parametrelerin tip ve içerik doğrulaması yapılır.<br>
+            <b>SSL/TLS</b>: Üretim ortamında tüm trafik HTTPS üzerinden yönlendirilerek hassas verilerin şifreli iletimi sağlanır.<br>
+        </p>
+    </div>
+
+    <p class="visitor-counter">Bu gizemli diyarı <b>666</b> kişi ziyaret etti! </p>
+    <img src="https://media.giphy.com/media/3oEduQAsYcJDVSaJJC/giphy.gif" alt="Yapım Aşamasında" style="display: block; margin: 20px auto; border: 3px solid #800080;">
+    <div class="footer">
+        <p>Son Güncelleme: 2025-03-06 | Gölgelerde İkra Menteş tarafından güncellendi</p>
+        <p><a href="mailto:example@email.com" style="color: #FF6666;">Bana fısılda!</a></p>
+        <img src="https://media.giphy.com/media/l0HlPuurz4nMWqbjW/giphy.gif" class="gif" alt="Kırmızı Şeytan">
+    </div>
+</body>
+</html>

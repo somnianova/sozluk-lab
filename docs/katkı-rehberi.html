@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TÜRKÇE SÖZLÜK LAB - KATKI REHBERİ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a0d1a; /* Koyu morumsu retro ton */
+            background-image: radial-gradient(circle, rgba(147, 0, 255, 0.1) 1px, transparent 2px); /* Neon mor noktalar */
+            background-size: 12px 12px; /* Daha belirgin desen */
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            font-family: 'Press Start 2P', cursive;
+            overflow-x: hidden;
+        }
+
+        .content {
+            width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            box-sizing: border-box;
+            min-height: 90vh;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            color: #8B0000;
+            text-shadow: 2px 2px 0 #FFD700, -2px -2px 0 #FFD700;
+            margin-bottom: 20px;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 0 #FFD700, -2px -2px 0 #FFD700; }
+            to { text-shadow: 4px 4px 0 #FFD700, -4px -4px 0 #FFD700; }
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #8B0000;
+            text-shadow: 1px 1px 0 #FFD700;
+            margin: 20px 0 10px;
+        }
+
+        h3 {
+            font-size: 14px;
+            color: #8B0000;
+            text-shadow: 1px 1px 0 #FFD700;
+            margin: 15px 0 5px;
+        }
+
+        p, li {
+            font-size: 12px;
+            line-height: 1.5;
+            margin: 10px 0;
+            color: #FFD700;
+            text-shadow: 0.5px 0.5px 0 #333;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        pre, code {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            font-size: 10px;
+            display: inline-block;
+            color: #FFD700;
+            text-shadow: 0.5px 0.5px 0 #333;
+        }
+
+        .image-placeholder {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            width: 150px;
+            height: 150px;
+            background: url('https://opengameart.org/sites/default/files/book_pixel.png') no-repeat center; /* Pixel art kitap */
+            background-size: contain; /* Görsel kutuya sığacak şekilde */
+            border: 2px solid #FFD700;
+        }
+
+        a {
+            color: #FFD700;
+            text-decoration: underline;
+            text-shadow: 0.5px 0.5px 0 #333;
+        }
+
+        a:hover {
+            color: #FF4500; /* Retro turuncu ton */
+            text-shadow: 0.5px 0.5px 0 #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>TÜRKÇE SÖZLÜK LAB - KATKI REHBERİ</h1>
+
+        <div class="image-placeholder"></div>
+
+        <p>Bu proje, Node.js, Express ve MySQL altyapısını kullanarak oluşturulmuş bir Türkçe sözlük web uygulamasıdır. <strong>TÜRKÇE SÖZLÜK LAB – ÖZEL LİSANS</strong> kapsamında yayımlanmaktadır. Ticari kullanım ve yeniden dağıtım, proje sahibi(ler)inin yazılı iznini gerektirir. Yine de projeye çeşitli biçimlerde katkı yapabilir, hata bildirebilir veya yeni özellikler önerebilirsiniz. Bu doküman, katkı sürecinde izlemeniz gereken adımları ve uyulması beklenen kod standartlarını açıklar.</p>
+
+        <h2>İÇİNDEKİLER</h2>
+        <ol>
+            <li><a href="#genel-bilgiler-ve-amac">Genel Bilgiler ve Amaç</a></li>
+            <li><a href="#kurulum-ve-geliştirme-ortamı">Kurulum ve Geliştirme Ortamı</a></li>
+            <li><a href="#katkı-süreci">Katkı Süreci</a>
+                <ul>
+                    <li><a href="#issue-açma">Issue Açma</a></li>
+                    <li><a href="#pull-request-süreci">Pull Request Süreci</a></li>
+                    <li><a href="#kod-incelemesi-ve-onay">Kod İncelemesi ve Onay</a></li>
+                    <li><a href="#katkı-türleri">Katkı Türleri</a></li>
+                </ul>
+            </li>
+            <li><a href="#kod-standartları">Kod Standartları</a>
+                <ul>
+                    <li><a href="#nodejs-ve-express-kodlama-kuralları">Node.js ve Express Kodlama Kuralları</a></li>
+                    <li><a href="#api-endpoint-isimlendirme">API Endpoint İsimlendirme</a></li>
+                    <li><a href="#dosya-ve-klasör-yapısı">Dosya ve Klasör Yapısı</a></li>
+                    <li><a href="#linter-ve-formatlama-varsa">Linter ve Formatlama (Varsa)</a></li>
+                </ul>
+            </li>
+            <li><a href="#test-ve-cicd">Test ve CI/CD</a>
+                <ul>
+                    <li><a href="#testler">Testler</a></li>
+                    <li><a href="#cicd-pipeline">CI/CD Pipeline</a></li>
+                </ul>
+            </li>
+            <li><a href="#commit-mesajları-ve-branch-yapısı">Commit Mesajları ve Branch Yapısı</a>
+                <ul>
+                    <li><a href="#commit-mesajı-standardı">Commit Mesajı Standardı</a></li>
+                    <li><a href="#branch-modeli">Branch Modeli</a></li>
+                </ul>
+            </li>
+            <li><a href="#lisans-ve-yasal-konular">Lisans ve Yasal Konular</a></li>
+        </ol>
+
+        <h2 id="genel-bilgiler-ve-amac">GENEL BİLGİLER VE AMAÇ</h2>
+        <h3>Projenin Amacı:</h3>
+        <ul>
+            <li>Bu proje, kullanıcıların Türkçe kelime tanımları, eş anlamlılar, zıt anlamlılar, deyimler, alıntılar gibi sözlük öğelerine erişebildiği, Node.js & Express tabanlı bir web uygulamasıdır.</li>
+            <li>Aynı zamanda Admin Paneli üzerinden kelime ve anlam (definition) yönetimi sağlar.</li>
+            <li>Proje şu anda öğretici/demonstrasyon amaçlı kullanım önceliklidir; <strong>ticari kullanım proje sahibinden yazılı izin almadan yasaktır</strong>.</li>
+        </ul>
+
+        <h3>Katkı Profili:</h3>
+        <ul>
+            <li>Projeye ister yeni özellik ekleyebilir (örn. "kelime silme" endpoint'ini hayata geçirmek), ister hata tespiti/hata düzeltme, isterse dokümantasyon geliştirme olsun, katkıda bulunabilirsiniz.</li>
+            <li>Kod eklerken veya değiştirirken lütfen bu rehberdeki kurallara uyun.</li>
+        </ul>
+
+        <h2 id="kurulum-ve-geliştirme-ortamı">KURULUM VE GELİŞTİRME ORTAMI</h2>
+        <ol>
+            <li><strong>Depoyu Klonlama ve Bağımlılıklar:</strong>
+                <pre><code>git clone https://github.com/<kullanici>/<proje_adi>.git
+cd proje_adi
+npm install</code></pre>
+            </li>
+            <li><strong>.env Dosyası Düzenleme:</strong>
+                <p>Proje .env üzerinden veritabanı bilgilerini (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) ve SESSION_SECRET, ADMIN_PASSWORD, PORT gibi değerleri kullanır. Örnek .env dosyasını düzenleyip kaydedin.</p>
+            </li>
+            <li><strong>Veritabanı Oluşturma:</strong>
+                <p>sozluk_db adlı veritabanını oluşturun ve words, definitions, relations tablolarını çalıştırın (SQL şema veya migration varsa uygulayın).</p>
+            </li>
+            <li><strong>Geliştirme Sunucusu:</strong>
+                <pre><code>npm start</code></pre>
+                <p>Ardından <a href="http://localhost:3000">http://localhost:3000</a> adresine giderek uygulamayı test edebilirsiniz.</p>
+                <p>Daha fazla detay için projenin README.md dosyasına bakın.</p>
+            </li>
+        </ol>
+
+        <h2 id="katkı-süreci">KATKI SÜRECİ</h2>
+        <h3 id="issue-açma">Issue Açma</h3>
+        <ul>
+            <li><strong>Hata veya Öneri:</strong> Bir hata bulduysanız veya yeni bir özellik fikriniz varsa, önce Issue’lar kısmına bakın. Benzer bir konu açıksa oradan devam edin, yoksa yeni bir issue açın.</li>
+            <li><strong>Netlik ve Detay:</strong> Issue açıklamasında durumu net anlatın: nasıl tekrarlanır, hangi sürümde meydana gelir, hangi tarayıcı/ortamda. Yeni özellik talebinde bulunuyorsanız amacınızı/önerinizi detaylandırın.</li>
+            <li><strong>Etiket ve Atama:</strong> Uygun label (ör. bug, enhancement) seçin veya proje sahibi ekleyecektir.</li>
+        </ul>
+
+        <h3 id="pull-request-süreci">Pull Request Süreci</h3>
+        <ol>
+            <li><strong>Fork ve Branch Oluşturma:</strong> Depoyu fork edip kendi hesabınıza çekin, sonrasında feature/..., fix/... benzeri bir branch açın.</li>
+            <li><strong>Değişiklik Yapma:</strong> Kodunuzu yazarken Kod Standartları bölümüne dikkat edin. Hata düzeltme veya yeni özellik eklerken test etmeyi unutmayın.</li>
+            <li><strong>Test ve Kontroller (Varsa):</strong> Testleri (npm test gibi) çalıştırın, lint/format araçlarını (Prettier, ESLint) kullanıyorsanız hatasız olduğundan emin olun.</li>
+            <li><strong>PR Açma:</strong> Kendi branch’inizden projenin main veya develop dalına (projede hangisi esas alınıyorsa) karşı bir Pull Request açın. Açıklamada hangi sorunu çözdüğünüzü veya hangi özelliği eklediğinizi belirtin.<br>
+                <em>Not:</em> “Kelime silme” özelliği şu an için taslak olarak tanımlı; siz bu özelliği geliştirip PR açmak isterseniz memnuniyetle değerlendirilecektir.
+            </li>
+            <li><strong>İnceleme ve Geri Bildirim:</strong> Proje sahibi veya diğer katkıcılar yorum yapabilir, düzeltme isteyebilir. Tartışmayı yapıcı biçimde sürdürerek gerekiyorsa ek commit’lerle PR’ı güncelleyin.</li>
+            <li><strong>Onay ve Birleştirme:</strong> PR onaylandığında proje sahibi dalınızı develop veya main dalıyla birleştirir. Tebrikler, katkınız proje geçmişine eklenir! 🤗</li>
+        </ol>
+
+        <h3 id="kod-incelemesi-ve-onay">Kod İncelemesi ve Onay</h3>
+        <ul>
+            <li>Değişikliklerin proje ile uyumlu olması, testleri geçmesi, dokümantasyonda çelişki yaratmaması önemlidir.</li>
+            <li>Geri bildirimleri sabırla değerlendirip gerekiyorsa değişiklik yapın. Tüm testler ve incelemeler tamamlanınca PR birleştirilir.</li>
+        </ul>
+
+        <h3 id="katkı-türleri">Katkı Türleri</h3>
+        <ul>
+            <li><strong>Yeni Özellik (feat):</strong> Henüz uygulamada olmayan ek fonksiyonlar (ör. “Kelime Silme Endpoint’i eklemek”).</li>
+            <li><strong>Hata Düzeltme (fix):</strong> Mevcut koddaki bug’ları gidermek.</li>
+            <li><strong>Dokümantasyon (docs):</strong> README, CONTRIBUTING veya inline yorumlarda düzeltme/geliştirme.</li>
+            <li><strong>Refaktör (refactor):</strong> Kod kalitesini artırma, performans iyileştirme, vs.</li>
+            <li><strong>Test (test):</strong> Yeni test ekleme veya mevcut testleri iyileştirme.</li>
+        </ul>
+
+        <h2 id="kod-standartları">KOD STANDARTLARI</h2>
+        <p>Proje Node.js (>=14) ve Express kullanıyor. Temel prensipler:</p>
+
+        <h3 id="nodejs-ve-express-kodlama-kuralları">Node.js ve Express Kodlama Kuralları</h3>
+        <ol>
+            <li><strong>Dil ve İsimlendirme:</strong> Değişken, fonksiyon, dosya isimleri İngilizce ve camelCase (dosyalar kebab-case) olsun. Kod içinde Türkçe metin gerektiren yerlerde (ör. hata mesajı) elbette Türkçe kullanılabilir.</li>
+            <li><strong>Asenkron Yapı:</strong> Callback yerine mümkün olduğunca async/await tercih edin.</li>
+            <li><strong>Hata Yönetimi:</strong> Hataları try/catch veya Promise.prototype.catch ile yakalayın, kullanıcıya/isteğe anlamlı HTTP kodları (400, 403, 404, 500, vb.) döndürün.</li>
+            <li><strong>Middleware Kullanımı:</strong> Tekrarlayan doğrulama, kimlik denetimi gibi işlemler için Express middleware yaklaşımını benimseyin.</li>
+            <li><strong>Veritabanı Bağlantısı:</strong> SQL enjeksiyondan kaçınmak için parametreli sorgular (ör. db.query('... WHERE id=?', [value])) kullanın. Hassas bilgileri log’lamayın.</li>
+        </ol>
+
+        <h3 id="api-endpoint-isimlendirme">API Endpoint İsimlendirme</h3>
+        <ul>
+            <li>RESTful mantığa uyun (GET, POST, PUT, DELETE vb.).</li>
+            <li>Kaynak isimleri çoğul: /words, /definitions, /relations.</li>
+            <li>Projede tam uygulanmadıysa da plan, genelde bu yönde. Örn: “DELETE /admin/words/:id” gelecekte eklenecekse, bu formatla ilerlenebilir.</li>
+        </ul>
+
+        <h3 id="dosya-ve-klasör-yapısı">Dosya ve Klasör Yapısı</h3>
+        <p>Proje şu an:</p>
+        <pre><code>turkce-sozluk-lab/
+├─ public/              # Statik dosyalar (HTML, CSS, JS)
+├─ index.js             # Express app, ana sunucu
+├─ package.json
+├─ .env
+└─ ...</code></pre>
+        <ul>
+            <li>Henüz routes, controllers gibi alt klasörler detaylı tanımlı değil. İleride genişlerse, Katkı Rehberi’nde belirtilen yapıya yakın bir ayrıştırma yapabilirsiniz.</li>
+            <li>Yeni eklediğiniz dosyaları mevcut yapı ve isme uygun olacak şekilde konumlandırmaya özen gösterin.</li>
+        </ul>
+
+        <h3 id="linter-ve-formatlama-varsa">Linter ve Formatlama (Varsa)</h3>
+        <p>Proje henüz ESLint/Prettier entegre etmemiş olabilir. Entegrasyon sağlamak isterseniz bir PR’da konfigürasyon dosyaları ekleyip tanıtabilirsiniz. Kod stili olarak şu basit kuralları gözetin:</p>
+        <ul>
+            <li>2 boşluk girinti,</li>
+            <li>Noktalı virgül (;) kullanımı tutarlı,</li>
+            <li>Fonksiyon parantezleri ve bloklar arası mantıklı boşluklar,</li>
+            <li>Gereksiz trailing whitespace’ten kaçın.</li>
+        </ul>
+
+        <h2 id="test-ve-cicd">TEST VE CI/CD</h2>
+        <h3 id="testler">Testler</h3>
+        <ul>
+            <li>Projede tam test altyapısı olmayabilir (ör. Jest, Mocha). Hali hazırda test dosyaları görmüyorsanız, test eklemek isterseniz proje sahibiyle veya issue açarak tartışın.</li>
+            <li>Geliştirme sırasında manuel testler (ör. Postman’le endpoint’leri denemek) yapılması önerilir.</li>
+            <li>İleride testler eklenirse, “npm test” komutuyla çalıştırıp hata alıp almadığınızı kontrol edin.</li>
+        </ul>
+
+        <h3 id="cicd-pipeline">CI/CD Pipeline</h3>
+        <ul>
+            <li>Şu an proje tam oturmuş bir CI/CD pipeline’ına sahip olmayabilir.</li>
+            <li>Yerel testlerinizi yaptıktan ve çatallaşmış (fork) depo üzerinden push ettikten sonra bir PR açarak değişikliklerin geçerliliğini gösterebilirsiniz.</li>
+            <li>Geniş bir CI/CD planı (otomatik test, otomatik deploy vb.) gelecekte eklenebilir.</li>
+        </ul>
+
+        <h2 id="commit-mesajları-ve-branch-yapısı">COMMIT MESAJLARI VE BRANCH YAPISI</h2>
+        <h3 id="commit-mesajı-standardı">Commit Mesajı Standardı</h3>
+        <ul>
+            <li>Çok katı bir kural yok, ancak düzenli commit mesajları süreç takibini kolaylaştırır. İsteğe bağlı olarak Conventional Commits tarzı (feat, fix, docs, vb.) kullanılabilir. Örn:</li>
+            <pre><code>feat: add new admin endpoint for synonyms
+fix: handle null pointer in word definitions
+docs: update README with usage instructions</code></pre>
+            <li>Kısa ve öz anlatmaya çalışın; gerekliyse açıklayıcı metni ek bir paragrafta yazın.</li>
+        </ul>
+
+        <h3 id="branch-modeli">Branch Modeli</h3>
+        <ul>
+            <li>Temel yaklaşım: main dalı (veya develop varsa) + feature/..., fix/... branşları.</li>
+            <li>“Hotfix” gibi acil durumlar mainden çıkarılabilir.</li>
+            <li>Büyük projelerde develop > main merge akışı kullanılıyor olsa da bu projede ölçek gereği basit bir model yeterli.</li>
+        </ul>
+
+        <h2 id="lisans-ve-yasal-konular">LİSANS VE YASAL KONULAR</h2>
+        <p>Bu proje, <strong>TÜRKÇE SÖZLÜK LAB – ÖZEL LİSANS</strong> ile yayımlanmaktadır.</p>
+        <ul>
+            <li>Kodlar ve ilgili dosyalar eğitim ve geliştirme amaçlı kullanılabilir.</li>
+            <li>Ticari kullanım, satışı veya dağıtımı, lisans sahibinden yazılı onay gerektirir.</li>
+            <li>.env gibi gizli veri içeren dosyalar paylaşılmamalıdır, örnek dosyalar sadece gösterim amaçlıdır.</li>
+            <li>Yazılım “olduğu gibi” sunulmakta olup, proje sahibi(ler)i herhangi bir garanti vermemektedir.</li>
+        </ul>
+
+        <h3>Katkıların Lisans Durumu:</h3>
+        <p>Proje depo(larına) yapacağınız her katkı (örn. kod, doküman) bu özel lisans altında kullanılacaktır. Siz, bu katkıyı yaparak proje sahibinin lisans koşullarına uyacağınızı ve katkınızın proje tarafından aynı lisansla dağıtılmasına izin verdiğinizi kabul etmiş sayılırsınız.</p>
+
+        <h3>Sorumluluk Reddi:</h3>
+        <p>Proje sahibi(ler)i, bu yazılımın kullanımından doğacak zararlar veya kayıplar konusunda sorumlu tutulamaz.</p>
+        <p>Gelecekte projeye ek lisans düzenlemeleri veya CLA (Contributor License Agreement) gibi prosedürler eklenebilir. Böyle bir durumda, proje dokümantasyonu güncellenecek ve katkıcılara bilgi verilecektir.</p>
+
+        <p><strong>Teşekkürler!</strong> Sorularınız veya önerileriniz için Issue açmaktan çekinmeyin veya proje ekibi ile iletişime geçin.</p>
+    </div>
+</body>
+</html>

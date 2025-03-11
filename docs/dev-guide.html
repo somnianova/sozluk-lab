@@ -1,0 +1,204 @@
+<html>
+<head>
+<title>Proje Adı - Kullanıcı Rehberi - SUPER PONY PARTY!!!</title>
+<script>
+function checkQuiz() {
+    let answer = document.getElementById("quizAnswer").value.toLowerCase();
+    if (answer === "node.js") {
+        alert("WOOOHOO! You’re a DEV STAR!!!");
+    } else {
+        alert("OH NO! Wrong answer! TRY AGAIN, CODE NINJA!");
+    }
+}
+function rainbowText() {
+    let colors = ["#FFD700", "#40E0D0", "#FF69B4", "#00FF00", "#FF4500"];
+    let title = document.getElementById("mainTitle");
+    let i = 0;
+    setInterval(() => {
+        title.style.color = colors[i % colors.length];
+        i++;
+    }, 500);
+}
+</script>
+</head>
+<body background="stars.gif" text="#003366" bgcolor="#E6E6FA" onload="rainbowText()">
+<center>
+<!-- Çıldırmış Başlık -->
+<h1 id="mainTitle"><font face="Comic Sans MS" size="7"><blink>Proje Adı - Kullanıcı Rehberi</blink></font></h1>
+<marquee bgcolor="#FFD700" width="80%" behavior="alternate"><font size="5" color="#40E0D0">* CODE! * DEV! * FUN! * YAY! * </font></marquee>
+<img src="pony.gif" alt="Somnia’s CRAZY Pony" width="300" height="300">
+<p><font size="6" color="#FF69B4"><b>Bu rehber, projeyi geliştirmek veya projeye katkıda bulunmak isteyen geliştiriciler için hazırlanmıştır. Kurulumdan veritabanı yapılandırmasına, API uç noktalarından admin panel kullanımına kadar temel bilgileri kapsar. Rehberdeki adımları izleyerek projeyi sorunsuz bir şekilde kendi ortamınızda çalıştırabilir, yeni özellikler ekleyebilir veya mevcut kodu düzenleyebilirsiniz.</b></font></p>
+
+<!-- İçindekiler -->
+<h2><font color="#FF69B4" size="6"><marquee>İçindekiler</marquee></font></h2>
+<table border="5" bgcolor="#FFD700" cellpadding="10" cellspacing="10">
+<tr><td><font color="#FF4500" size="4">1. <a href="#genel-bakis">Genel Bakış</a></font></td></tr>
+<tr><td><font color="#00FF00" size="4">2. <a href="#kurulum">Kurulum</a></font></td></tr>
+<tr><td><font color="#40E0D0" size="4">3. <a href="#proje-yapisi">Proje Yapısı</a></font></td></tr>
+<tr><td><font color="#FF69B4" size="4">4. <a href="#veritabani">Veritabanı & Bağlantılar</a></font></td></tr>
+<tr><td><font color="#FF4500" size="4">5. <a href="#api">API Kullanımı</a></font></td></tr>
+<tr><td><font color="#00FF00" size="4">6. <a href="#admin-paneli">Admin Paneli Kullanımı</a></font></td></tr>
+<tr><td><font color="#40E0D0" size="4">7. <a href="#gelistirme">Geliştirme Rehberi</a></font></td></tr>
+<tr><td><font color="#FF69B4" size="4">8. <a href="#guvenlik">Güvenlik Önlemleri</a></font></td></tr>
+<tr><td><font color="#FF4500" size="4">9. <a href="#surum">Sürüm Kontrolü & Dağıtım</a></font></td></tr>
+</table>
+
+<!-- Genel Bakış -->
+<h2 id="genel-bakis"><font color="#FF4500" size="6"><blink>Genel Bakış</blink></font></h2>
+<p><font size="4" color="#003366"><b>Proje Adı</b>, Node.js ve MySQL kullanan bir <b>Türkçe Sözlük</b> uygulamasıdır. Kullanıcılar kelime arayabilir, detaylı tanımları ve örnek cümleleri görebilirler. Ayrıca, admin paneli üzerinden veritabanına yeni kelime ekleme, var olan kelimeleri düzenleme, anlam (definition) ekleme/silme/düzenleme gibi yönetimsel işlemler yapılabilir.</font></p>
+<p><font size="3" color="#40E0D0">Öne çıkan özellikler:</font></p>
+<table border="3" bgcolor="#40E0D0" cellpadding="8">
+<tr><td><font color="#FF4500">- Kelimeler ve anlamlar üzerinde tam metin (full-text) veya LIKE tabanlı arama</font></td></tr>
+<tr><td><font color="#FF4500">- Admin paneli ile kelime, anlam (definition), ilişkiler (synonym, antonym vb.) yönetimi</font></td></tr>
+<tr><td><font color="#FF4500">- Oturum bazlı yetkilendirme ve basit güvenlik mekanizmaları (express-session)</font></td></tr>
+<tr><td><font color="#FF4500">- MySQL veritabanı ile ilişkisel tablolar (words, definitions, relations)</font></td></tr>
+<tr><td><font color="#FF4500">- Modüler ve geliştirici dostu yapı</font></td></tr>
+</table>
+
+<!-- Kurulum -->
+<h2 id="kurulum"><font color="#FFD700" size="6"><marquee>Kurulum</marquee></font></h2>
+<p><font size="4" color="#00FF00">Aşağıdaki adımları izleyerek projeyi kendi bilgisayarınızda veya bir sunucuda çalışır hale getirebilirsiniz:</font></p>
+<table border="5" bgcolor="#FFD700" cellpadding="10" cellspacing="10">
+<tr><td><font color="#FF4500">1. <b>Gereksinimler:</b><br>- <a href="https://nodejs.org/">Node.js</a> (en az v14 veya üstü)<br>- <a href="https://www.mysql.com/">MySQL</a> 5.7+<br>- Git (opsiyonel, projeyi GitHub üzerinden klonlamak için)</font></td></tr>
+<tr><td><font color="#FF4500">2. <b>Kaynak Kodun Edinilmesi:</b><br>- <code>git clone &lt;repo-url&gt;</code> komutu ile projeyi klonlayın (veya .zip olarak indirin).<br>- Proje klasörüne geçiş yapın: <code>cd proje-adi</code></font></td></tr>
+<tr><td><font color="#FF4500">3. <b>Bağımlılıkların Kurulması:</b><br>- <code>npm install</code> komutu ile gerekli paketleri (express, mysql2, express-session vb.) yükleyin.</font></td></tr>
+<tr><td><font color="#FF4500">4. <b>MySQL Veritabanı Oluşturma:</b><br>- MySQL’de <code>sozluk_db</code> (veya <code>.env</code> dosyasında belirlediğiniz isimde) bir veritabanı oluşturun.<br>- <code>words</code>, <code>definitions</code>, <code>relations</code> tablolarını oluşturmak için SQL şemasını çalıştırın veya kendi taslağınızı kullanın.</font></td></tr>
+<tr><td><font color="#FF4500">5. <b>Çevre Değişkenleri (.env) Düzenleme:</b><br>- Proje klasöründe <code>.env</code> dosyası (veya benzeri) bulunur. Burada <code>DB_HOST</code>, <code>DB_USER</code>, <code>DB_PASSWORD</code>, <code>DB_NAME</code>, <code>ADMIN_PASSWORD</code>, <code>SESSION_SECRET</code>, <code>PORT</code> gibi değerleri doldurun.<br>- Örnek <code>.env</code> içeriği:<br><code>DB_HOST=localhost<br>DB_USER=root<br>DB_PASSWORD=mysql_sifreniz<br>DB_NAME=sozluk_db<br><br>ADMIN_PASSWORD=gucluSifre<br>SESSION_SECRET=oturumAnahtari<br>PORT=3000</code></font></td></tr>
+<tr><td><font color="#FF4500">6. <b>Sunucuyu Başlatma:</b><br>- <code>npm start</code> veya <code>node index.js</code> komutu ile uygulamayı çalıştırın.<br>- Konsolda <code>"Sunucu 3000 portunda çalışıyor..."</code> benzeri bir mesaj görmelisiniz.<br>- Ardından, tarayıcınızda <code>http://localhost:3000</code> adresine giderek uygulamayı test edebilirsiniz.</font></td></tr>
+</table>
+
+<!-- Proje Yapısı -->
+<h2 id="proje-yapisi"><font color="#FF69B4" size="6"><blink>Proje Yapısı</blink></font></h2>
+<p><font size="4" color="#003366">Aşağıda proje içindeki temel dosya ve klasörlerin açıklaması yer alır:</font></p>
+<p><font size="3" color="#40E0D0"><code>proje-adi/<br>├─ node_modules/<br>├─ public/<br>│   ├─ index.html<br>│   ├─ admin.html<br>│   ├─ admin-edit.html<br>│   ├─ (CSS/JS dosyaları)<br>├─ .env<br>├─ index.js<br>├─ package.json<br>├─ package-lock.json<br>└─ (Diğer dokümanlar ve klasörler)</code></font></p>
+<table border="3" bgcolor="#40E0D0" cellpadding="8">
+<tr><td><font color="#FF4500">• <b>index.js</b><br>Sunucunun temel giriş noktasıdır. Express yapılandırması, veritabanı bağlantısı ve rota tanımları bu dosyada veya import edilen modüller yoluyla yer alır.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>public/</b><br>Statik dosyaların bulunduğu klasördür. admin.html (admin paneli arayüzü), index.html (kullanıcıya gösterilecek arayüz, örnek), CSS/JS gibi dosyalar burada tutulur.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>.env</b><br>Çevre değişkenlerini (veritabanı bilgileri, admin şifre, session secret vb.) tanımladığınız dosyadır.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>package.json</b><br>Projenin bağımlılıkları, script’leri (örn: start) ve metadatalarını içeren yapılandırma dosyasıdır.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>docs/</b> (opsiyonel)<br>Proje dokümantasyonlarının (örneğin bu user-guide.md) tutulabileceği klasör.<br>(Daha büyük projelerde controllers/, routes/, models/ klasörleri oluşturulabilir ve kodlar modülerleştirilebilir.)</font></td></tr>
+</table>
+
+<!-- Veritabanı & Bağlantılar -->
+<h2 id="veritabani"><font color="#00FF00" size="6"><marquee>Veritabanı & Bağlantılar</marquee></font></h2>
+<p><font size="4" color="#FF4500">Bu proje MySQL veritabanı kullanır. İlgili tablolar:</font></p>
+<table border="5" bgcolor="#FFD700" cellpadding="10" cellspacing="10">
+<tr><td><font color="#FF4500">1. <b>words</b><br>- id (INT, AUTO_INCREMENT, PK)<br>- word (VARCHAR) – Kelimenin kendisi<br>- origin (TEXT) – Köken bilgisi<br>- frequency_tags (VARCHAR) – Frekans rozetleri (S1, W1 vb.)<br>- audio_url (VARCHAR) – Ses dosyası bağlantısı</font></td></tr>
+<tr><td><font color="#FF4500">2. <b>definitions</b><br>- id (INT, AUTO_INCREMENT, PK)<br>- word_id (INT, FK -> words.id) – Hangi kelimeye ait<br>- definition_text (TEXT) – Tanım<br>- example_sentence (TEXT) – Örnek cümle<br>- part_of_speech (VARCHAR) – Kelime türü (noun, verb vb.)<br>- sense_label (VARCHAR) – Anlam numaraları (örn: 1a, 2b)</font></td></tr>
+<tr><td><font color="#FF4500">3. <b>relations</b><br>- id (INT, AUTO_INCREMENT, PK)<br>- left_word_id (INT, FK -> words.id)<br>- right_word_id (INT, FK -> words.id)<br>- relation_type (VARCHAR) – synonym, antonym, idiom vb.</font></td></tr>
+</table>
+<p><font size="4" color="#40E0D0">Bağlantı kurulumu</font></p>
+<p><font size="3" color="#003366">index.js içerisinde şu şekilde bağlanır:</font></p>
+<p><font size="3" color="#FF69B4"><code>const db = mysql.createConnection({<br>  host: process.env.DB_HOST,<br>  user: process.env.DB_USER,<br>  password: process.env.DB_PASSWORD,<br>  database: process.env.DB_NAME<br>});</code></font></p>
+<p><font size="3" color="#003366">Sunucu başlarken MySQL’e bağlanır. Bağlantı kurulamazsa konsolda hata görürsünüz. Bağlantı bilgilerinin .env dosyasında doğru tanımlandığından emin olun.</font></p>
+
+<!-- API Kullanımı -->
+<h2 id="api"><font color="#40E0D0" size="6"><blink>API Kullanımı</blink></font></h2>
+<p><font size="4" color="#FF4500">Bu projede hem herkese açık (public) hem de admin (korumalı) uç noktalar (endpoint) mevcuttur. Aşağıda en yaygın kullanılanları listelenmiştir:</font></p>
+<p><font size="4" color="#00FF00">1. Public (Herkese Açık) API</font></p>
+<table border="3" bgcolor="#40E0D0" cellpadding="8">
+<tr><td><font color="#FF4500">• <b>GET /search?kelime=...</b><br>Kelimeye göre arama yapar. Hem words.word hem de definitions.definition_text alanında arama yaparak eşleşen sonuçları döner.<br>Örnek İstek: GET /search?kelime=ruh<br>Örnek Yanıt (JSON veya HTML olarak dönebilir):<br><code>[<br>  {<br>    "word_id": 5,<br>    "word": "ruh",<br>    "definition_text": "Akıl, zihin, karakter anlamı..."<br>  }<br>]</code></font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /search-like?kelime=...</b><br>LIKE tabanlı arama yapar (daha basit ancak esneklik sağlar).<br>Örnek İstek: GET /search-like?kelime=ru<br>Dönen sonuçlar, "ru" içeren kelime veya tanımlara sahip girdiler olabilir.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /api/synonyms?word=...</b><br>Belirli bir kelimenin eş anlamlılarını döner. relations tablosunda relation_type='synonym' olan ilişkiler üzerinden çalışır.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /api/antonyms?word=...</b><br>Zıt anlamlı kelimeleri (antonym) döner.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /api/idioms?word=...</b><br>Kelimenin ilişkili deyimlerini (idiom) döner.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /api/quotes?word=...</b><br>Kelimenin ilişkili alıntılarını (quote) döner.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /api/collocations?word=...</b><br>Kelimenin eşdizim (collocation) verilerini döner.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /api/word-family?word=...</b><br>Kelimenin ait olduğu kelime ailesi (word_family) ilişkilerini döner.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /words-by-letter?letter=...</b><br>Belirli bir harfle başlayan kelimeleri listeler.<br>(Döndürdüğü veriler JSON formatında olabilir. Frontend bunu işleyip kullanıcıya gösterir.)</font></td></tr>
+</table>
+<p><font size="4" color="#00FF00">2. Admin (Koruma Altında) API</font></p>
+<p><font size="3" color="#003366">Bu uç noktalar, /admin/login üzerinden giriş yapmış admin oturumunu gerektirir. checkAdmin adlı middleware ile korunurlar. Eğer oturum açılmamışsa 403 hata döner.</font></p>
+<table border="3" bgcolor="#40E0D0" cellpadding="8">
+<tr><td><font color="#FF4500">• <b>GET /admin/login</b><br>Basit bir login formu sunar (HTML). Kullanıcı adı admin, şifre .env içindeki ADMIN_PASSWORD değeri olmalıdır.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>POST /admin/login</b><br>Formdan gelen kullanıcı adı ve şifreyi kontrol eder. Doğruysa req.session.isAdmin = true ayarlayarak admin oturumu açar.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /admin/logout</b><br>Admin oturumunu sonlandırır (session’ı yok eder).</font></td></tr>
+<tr><td><font color="#FF4500">• <b>POST /admin/add-word</b><br>Yeni kelime ekler (body’de word, origin, frequency_tags, audio_url vb. bekler).<br>Örnek Body (JSON):<br><code>{<br>  "word": "ruhsal",<br>  "origin": "Arapça 'rūḥ'",<br>  "frequency_tags": "S1,W1",<br>  "audio_url": "/audio/ruhsal.mp3"<br>}</code></font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /admin/words</b><br>Kelime listeleme + sayfalama. ?page=1&limit=5&sort=word_asc parametrelerini destekler. JSON döner.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /admin/words/:id</b><br>Belirli bir kelimenin verilerini ve ilk definition’ını döner.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>PUT /admin/words/:id</b><br>Kelimeyi günceller (word, origin, frequency_tags, audio_url gibi alanlar).</font></td></tr>
+<tr><td><font color="#FF4500">• <b>DELETE /admin/words/:id</b> (Şu an taslak durumda, uygulamada henüz tam entegre değil olabilir.)</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /admin/definitions</b><br>Definitions listeleme + sayfalama + sıralama (definition_id_desc, word_asc vb.). JSON olarak döner.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>POST /admin/add-definition</b><br>Var olan bir kelimeye yeni anlam ekler. Body’de word_name, definition_text, example_sentence, part_of_speech, sense_label gibi alanlar beklenir. word_name üzerinden words tablosu ile eşleştirme yapılır.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>PUT /admin/definitions/:id</b><br>Bir definition kaydını günceller (örnek cümle, tanım metni vb.).</font></td></tr>
+<tr><td><font color="#FF4500">• <b>DELETE /admin/definitions/:id</b><br>Bir definition kaydını siler.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /admin/relations</b><br>relations tablosundaki tüm ilişkileri listeler.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>POST /admin/relations</b><br>İki kelime arası ilişki ekler. Body’de left_word_name, right_word_name, relation_type (synonym, antonym vb.) bekler.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>DELETE /admin/relations/:id</b><br>İlgili ilişki kaydını siler.</font></td></tr>
+<tr><td><font color="#FF4500">• <b>GET /admin/last-words</b><br>Son eklenen 10 kelimeyi (veya istenen sayıda) döner; admin paneli "Son Eklenenler" bölümünde kullanılır.</font></td></tr>
+</table>
+<p><font size="3" color="#003366">Bu uç noktalar, admin panelindeki formlarla entegre çalışacak şekilde tasarlanmıştır.</font></p>
+
+<!-- Admin Paneli Kullanımı -->
+<h2 id="admin-paneli"><font color="#FF69B4" size="6"><marquee>Admin Paneli Kullanımı</marquee></font></h2>
+<table border="5" bgcolor="#FFD700" cellpadding="10" cellspacing="10">
+<tr><td><font color="#FF4500">1. <b>Admin Giriş:</b><br>- Uygulama çalışırken <a href="http://localhost:3000/admin/login">http://localhost:3000/admin/login</a> adresine gidin.<br>- Varsayılan kullanıcı: admin, şifre: .env içindeki ADMIN_PASSWORD.<br>- Giriş başarılı olursa tarayıcınıza bir session cookie eklenir.</font></td></tr>
+<tr><td><font color="#FF4500">2. <b>Ana Panel (Dashboard):</b><br>- admin.html üzerinden erişilir. Oturum açtıktan sonra admin arayüzü görünür.<br>- Son eklenen kelimeler, kelime ekleme formu, defitions listesi, ilişkiler gibi sekmeler veya menü öğeleri bulunur.</font></td></tr>
+<tr><td><font color="#FF4500">3. <b>Kelime Ekleme (Words Section):</b><br>- Admin panelinde "Kelime Ekle" sekmesine gidin.<br>- word, origin, frequency_tags, audio_url gibi alanları doldurun.<br>- Gönderdiğinizde, backend /admin/add-word endpoint’ini çağırır ve kaydı veritabanına ekler.</font></td></tr>
+<tr><td><font color="#FF4500">4. <b>Definition Ekleme (Definitions Section):</b><br>- Admin panelinde "Definitions" sekmesine gidin.<br>- Burada yeni bir definition eklemek için form mevcuttur. Kelime Adı (word_name), definition_text, example_sentence gibi alanları doldurarak gönderin.<br>- /admin/add-definition ile veritabanına eklenir. Kelime adı, words tablosundaki bir kayda karşılık gelmelidir.</font></td></tr>
+<tr><td><font color="#FF4500">5. <b>Kayıt Düzenleme / Silme:</b><br>- Her liste öğesinin yanında "Düzenle" (edit) veya "Sil" (delete) butonları olabilir.<br>- Düzenle butonuna tıkladığınızda, modal pencere açılarak form verilerini güncelleyebilirsiniz. POST/PUT istekleri ile backend’e iletilir.<br>- Silme butonuna tıkladığınızda, ilgili ID’ye göre DELETE isteği atanır (örn. /admin/definitions/:id).</font></td></tr>
+<tr><td><font color="#FF4500">6. <b>İlişkiler Yönetimi (Relations Section):</b><br>- synonym, antonym, idiom, quote, collocation gibi ilişki türleri eklenebilir.<br>- Kelimenin adını yazarak soldaki ve sağdaki kelimeleri belirleyin, ilişki türünü seçin, ardından ekleyin.<br>- Listeyi görebilir, sil butonu ile istemediğiniz ilişkileri kaldırabilirsiniz.</font></td></tr>
+<tr><td><font color="#FF4500">7. <b>Çıkış (Logout):</b><br>- <a href="http://localhost:3000/admin/logout">http://localhost:3000/admin/logout</a> adresine giderek session’ı sonlandırabilirsiniz.<br>- Bu işlemin ardından admin yetkisi kalkar ve korumalı endpoint’lere yeniden girmek için tekrar giriş yapmanız gerekir.</font></td></tr>
+</table>
+
+<!-- Geliştirme Rehberi -->
+<h2 id="gelistirme"><font color="#FFD700" size="6"><blink>Geliştirme Rehberi</blink></font></h2>
+<p><font size="4" color="#00FF00">Projeye katkıda bulunmak veya yeni özellikler eklemek isteyenler için:</font></p>
+<table border="5" bgcolor="#FFD700" cellpadding="10" cellspacing="10">
+<tr><td><font color="#FF4500">1. <b>Geliştirme Ortamı Kurun:</b><br>- Kendi MySQL veritabanınızı oluşturun, .env dosyanızda o veritabanına göre ayarlar yapın.<br>- Üretim (production) veritabanına doğrudan yazma riskini önlemek için daima yerel/kendi test veritabanınızı kullanın.</font></td></tr>
+<tr><td><font color="#FF4500">2. <b>Kod Düzeni & Standartlar:</b><br>- Mevcut örnek kodu (örn. index.js) inceleyin. Gelişigüzel değişikliklerden kaçının; proje yapısına uyumlu geliştirin.<br>- Gerekirse controllers/ veya routes/ gibi klasörler oluşturabilir, mantığınızı buraya bölebilirsiniz. Ancak basit projelerde her şey tek dosyada da olabilir.</font></td></tr>
+<tr><td><font color="#FF4500">3. <b>Yeni Özellik Geliştirme:</b><br>- Yeni bir dal (branch) oluşturun: git checkout -b feature/...<br>- Kodlamanızı tamamlayıp test ettikten sonra, Pull Request (PR) açıp takım arkadaşlarınızdan veya proje sahibinden inceleme isteyin.</font></td></tr>
+<tr><td><font color="#FF4500">4. <b>Hata Ayıklama (Debugging):</b><br>- console.log() veya Node.js debugger (node --inspect) kullanarak kodu adım adım inceleyin.<br>- MySQL sorgularında hata alırsanız, parametrelerin doğru olup olmadığını ve veritabanı tablolarının mevcut durumda olduğunu kontrol edin.</font></td></tr>
+<tr><td><font color="#FF4500">5. <b>Test & Onay:</b><br>- Değişiklikleri yerel ortamda test edin. Kelime ekleme, arama yapma, admin panel üzerinden denemeler gibi senaryoları test ederek hataları azaltın.<br>- Eğer proje test framework’leri (ör. Mocha, Jest) içeriyorsa, testleri çalıştırın ve yeni eklediğiniz kod için ek testler yazın.</font></td></tr>
+<tr><td><font color="#FF4500">6. <b>Dokümantasyon Güncellemesi:</b><br>- Yeni endpoint veya alan eklediğinizde, bu rehberi (veya README.md vb.) güncelleyerek belgelendirin.<br>- Böylece sonraki katkıda bulunanlar da projeyi daha rahat anlayabilir.</font></td></tr>
+</table>
+
+<!-- Güvenlik Önlemleri -->
+<h2 id="guvenlik"><font color="#FF4500" size="6"><marquee>Güvenlik Önlemleri</marquee></font></h2>
+<table border="5" bgcolor="#FFD700" cellpadding="10" cellspacing="10">
+<tr><td><font color="#FF4500">1. <b>Admin Girişi & Session Yönetimi:</b><br>- express-session kullanılır. Oturum açıldığında req.session.isAdmin = true şeklinde bir bayrak set edilir.<br>- Tüm /admin/ rotaları checkAdmin middleware’i ile korunur. Bu da req.session.isAdmin yoksa 403 döndürür.<br>- Üretim ortamında HTTPS (SSL) kullanarak session cookie’lerin güvenliğini artırmak önerilir.</font></td></tr>
+<tr><td><font color="#FF4500">2. <b>Parola Koruması:</b><br>- Admin şifresi .env içerisinde tanımlıdır. Varsayılan şifreleri veya örnek şifreleri asla canlı sistemde kullanmayın. Güçlü bir parola seçin.<br>- İleride çok kullanıcı veya rollü bir yapı istenirse, parolaları veritabanında şifreli (bcrypt vb.) şekilde saklayacak gelişmiş kullanıcı/role sistemi eklenebilir.</font></td></tr>
+<tr><td><font color="#FF4500">3. <b>Veri Doğrulama (Validation):</b><br>- Kullanıcı girişlerinin (kelime, tanım metni vb.) doğrulanması, olası SQL Injection vb. risklerini azaltır. Projede parametreli sorgular (?) kullanılmaktadır, bu iyi bir uygulamadır.<br>- Gerekiyorsa ek validasyon kütüphaneleri (ör. express-validator) ekleyerek form girişlerini daha katı şekilde denetleyebilirsiniz.</font></td></tr>
+<tr><td><font color="#FF4500">4. <b>XSS & CSRF Önlemleri:</b><br>- Admin panelinde girilen veriler geri yansıtılırken HTML içeriği escape edilmeli veya gerekli sanitizasyon yapılmalıdır. Aksi halde potansiyel XSS zafiyeti oluşabilir.<br>- CSRF için, örneğin csurf gibi bir middleware kullanmak düşünülebilir. Şu an proje basit bir admin yapısına sahip olduğundan minimal seviye güvenlik var.</font></td></tr>
+<tr><td><font color="#FF4500">5. <b>HTTPS (Üretimde Önerilir):</b><br>- Session çerezleri (cookie) HTTP üzerinden aktarılırsa riskli olabilir. SSL sertifikası ile (ör. Let’s Encrypt) HTTPS kurulumu yapmak, güvenliği artırır.</font></td></tr>
+</table>
+
+<!-- Sürüm Kontrolü & Dağıtım -->
+<h2 id="surum"><font color="#00FF00" size="6"><blink>Sürüm Kontrolü & Dağıtım</blink></font></h2>
+<table border="5" bgcolor="#FFD700" cellpadding="10" cellspacing="10">
+<tr><td><font color="#FF4500">1. <b>Git Workflow:</b><br>- Yeni özellik veya hata düzeltmeleri için ayrı dallar (branch) kullanın (feature/..., bugfix/... gibi).<br>- Tamamlayınca Pull Request açarak gözden geçirme (review) ve birleştirme (merge) yapın.<br>- Her commit mesajında özlü ama açıklayıcı ifadeler kullanın.</font></td></tr>
+<tr><td><font color="#FF4500">2. <b>Dağıtım Seçenekleri:</b><br>- <b>Manuel Sunucu:</b> Bir Linux sunucu (VPS, dedi) üzerinde Node.js kurarak bu projeyi git pull ile çekebilir, .env ayarlarını yapabilir, npm install ve npm start komutlarıyla çalıştırabilirsiniz. Sürekli çalışması için pm2 veya screen kullanılabilir.<br>- <b>Platform as a Service (PaaS):</b> Heroku, Railway, Render gibi platformlarda otomatik dağıtım yapılabilir. .env değişkenlerini bu platformların “Config Vars” veya “Environment” ayarlarından eklemeniz gerekir.<br>- <b>Docker:</b> Bir Dockerfile mevcutsa docker build ve docker run ile container oluşturabilirsiniz. docker-compose.yml varsa veritabanı ve uygulamayı birlikte çalıştırmak kolay olur.<br>- <b>Bulut Sağlayıcılar:</b> AWS, Azure veya GCP üzerinde “Node.js App” olarak dağıtım yapılabilir. Veritabanı olarak RDS (AWS) veya Cloud SQL (GCP) gibi yönetilen MySQL hizmetleri kullanılabilir.</font></td></tr>
+<tr><td><font color="#FF4500">3. <b>Güncellemeler ve Yedekler:</b><br>- Yeni bir sürüm çıkmadan önce veritabanınızı mutlaka yedekleyin. Tablolarda değişiklik yapmak gerekiyorsa (ör. yeni sütun ekleme) migration script’leri hazırlayabilirsiniz.<br>- Her sürümde, CHANGELOG dosyasını gözden geçirerek eklenen/çıkarılan özellikleri takip edin.</font></td></tr>
+<tr><td><font color="#FF4500">4. <b>Üretim Ortamında Dikkat Edilmesi Gerekenler:</b><br>- NODE_ENV değişkenini production olarak ayarlamak.<br>- Yanıtları cache’leme, sıkıştırma (compression) vb. performans optimizasyonları eklenebilir.<br>- Uygulamayı mutlaka bir reverse proxy (Nginx, Caddy vb.) üzerinden HTTPS ile yayınlamak.<br>- Session store olarak redis gibi bir dış servis kullanmak (server yeniden başlatıldığında session kaybını önlemek için).</font></td></tr>
+</table>
+
+<!-- Son Söz -->
+<p><font size="4" color="#FF69B4">Bu rehber, projeye dahil olmak isteyen geliştiricilerin hızlıca ortamı kurup katkıda bulunmasını veya projeyi kendi ihtiyaçlarına göre uyarlamasını kolaylaştırmayı amaçlamaktadır. Proje ile ilgili ek sorularınız varsa, GitHub Issues üzerinden veya ekip arkadaşlarınızla iletişime geçebilirsiniz.</font></p>
+<p><font size="5" color="#00FF00"><b>İyi Kodlamalar!</b></font></p>
+
+<!-- Pony Quiz (Şablonun Orjinali) -->
+<h2><font color="#FFD700" size="6"><blink>PONY QUIZ PARTY!</blink></font></h2>
+<p><font size="4" color="#FF69B4">Bu sözlük hangi teknolojiyle yapıldı?</font></p>
+<input type="text" id="quizAnswer" size="25" placeholder="GUESS THE TECH!" style="background-color:#40E0D0;">
+<input type="button" value="PARTY GUESS!" onclick="checkQuiz()" style="background-color:#FF4500; color:#FFFFFF; font-size:14px;">
+<p><font size="3" color="#00FF00">Hint: JavaScript’in kralı!</font></p>
+
+<!-- Göz Şenliği Marquee -->
+<marquee behavior="scroll" direction="right" width="90%" bgcolor="#FFD700">
+<img src="rainbow.gif" alt="Rainbow" width="80" height="80">
+<img src="heart.gif" alt="Heart" width="80" height="80">
+<img src="star.gif" alt="Star" width="80" height="80">
+<img src="ponyface.gif" alt="Pony Face" width="80" height="80">
+<img src="glitter.gif" alt="Glitter" width="80" height="80">
+<font size="5" color="#FF4500">PARTY NEVER STOPS!!!</font>
+</marquee>
+
+<!-- Son Çıldırmalar -->
+<p><font size="5" color="#40E0D0"><blink>COME BACK FOR MORE PONY MADNESS!!!</blink></font></p>
+<p><font color="#003366" size="4">Pony Pals since forever:</font> <img src="counter.gif" alt="987654"></p>
+<embed src="pony.mid" loop="true" hidden="true">
+<hr width="70%" color="#FF69B4" size="5">
+<p><font size="4" color="#FF4500">MADE BY SOMNIA, QUEEN OF PONIES!!! <3 <3 <3</font></p>
+</center>
+</body>
+</html>

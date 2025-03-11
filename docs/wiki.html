@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turkce Sozluk Lab</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #ffbb00;
+            width: 120px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            border-right: 4px dashed #000;
+        }
+
+        .sidebar button {
+            background-color: #ff4500;
+            color: #fff;
+            border: 2px solid #000;
+            padding: 5px;
+            font-family: 'Comic Sans MS', cursive;
+            font-weight: bold;
+            cursor: pointer;
+            width: 90px;
+            text-align: center;
+        }
+
+        .sidebar button:hover {
+            background-color: #ff6347;
+        }
+
+        .sidebar .icon {
+            width: 32px;
+            height: 32px;
+            border: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: spin 2s infinite linear;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .content {
+            flex: 1;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            background-color: #0a0a23;
+            background-size: cover;
+            background-repeat: repeat;
+            padding: 20px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .content h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 70px;
+            color: #ff4500;
+            text-shadow: 0 0 10px #ffbb00, 0 0 20px #ff4500, 0 0 30px #ff4500;
+            margin: 20px 0;
+            animation: fire 0.8s infinite alternate;
+            text-align: center;
+        }
+
+        @keyframes fire {
+            0% { text-shadow: 0 0 10px #ffbb00, 0 0 20px #ff4500, 0 0 30px #ff4500; }
+            100% { text-shadow: 0 0 15px #ffbb00, 0 0 25px #ff4500, 0 0 40px #ff4500; }
+        }
+
+        .content h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 24px;
+            color: #ffff00;
+            margin: 20px 0;
+        }
+
+        .content h3 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 18px;
+            color: #ffbb00;
+            margin: 15px 0;
+        }
+
+        .content p, .content ul, .content pre {
+            font-family: 'Courier New', monospace; /* Daha retro ve okunabilir bir font */
+            font-size: 18px;
+            color: #66ffff; /* Parlak bir cyan tonu, yeşilden daha hoş */
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+
+        .content pre {
+            background-color: #333;
+            padding: 10px;
+            border: 2px solid #ff4500;
+            color: #fff;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .bottom-bar {
+            background-color: #ffbb00;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 4px dashed #000;
+        }
+
+        .bottom-bar span {
+            color: #000;
+            font-family: 'Comic Sans MS', cursive;
+            font-weight: bold;
+        }
+
+        .counter {
+            font-family: 'Courier New', monospace;
+            color: #ff4500;
+            font-size: 20px;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <button>SÖZLÜK</button>
+            <img class="icon" src="https://via.placeholder.com/32?text=📖" alt="kitap">
+            <button>ARA</button>
+            <img class="icon" src="https://via.placeholder.com/32?text=🔍" alt="arama">
+            <button>YÖNETİM</button>
+            <img class="icon" src="https://via.placeholder.com/32?text=💾" alt="disket">
+            <button>LİSTELER</button>
+            <img class="icon" src="https://via.placeholder.com/32?text=📧" alt="posta">
+            <button>ÇIKIŞ</button>
+            <img src="https://media.giphy.com/media/3o7TKTDn976rzVgky4/giphy.gif" alt="dönen haç" style="width: 40px;">
+        </div>
+
+        <div class="content">
+            <h1>sözlük lab - wiki</h1>
+            <h2>1. Genel Bakış</h2>
+            <p>turkce-sozluk-lab, kullanıcıların kelime tanımları, örnek cümleler, eş anlamlılar, zıt anlamlılar, deyimler, alıntılar ve benzeri sözlük öğelerine ulaşmasını sağlayan Node.js + MySQL tabanlı bir web uygulamasıdır. Projede:</p>
+            <ul>
+                <li>Kullanıcı Arayüzü (Public): Bir metin kutusundan (AJAX veya fetch kullanarak) kelime araması yapılabilir. Arama sonucu, kelimenin anlam(lar)ı, örnek cümle(ler)i, köken bilgisi, eş/zıt anlam vb. ilişkili içerikler görüntülenir.</li>
+                <li>Admin Paneli: Kelime ekleme, güncelleme, definition (anlam) yönetimi, kelimeler arası ilişkiler (synonym, antonym, idiom, collocation, quote) tanımlama gibi işlemleri yapabileceğiniz, sadece yetkili kullanıcıların erişimine açık bir panel mevcuttur.</li>
+                <li>Veritabanı (MySQL): words, definitions, relations gibi tablolar üzerinden kelimelerle ilgili tüm verileri saklar ve yönetir.</li>
+                <li>Full-text Search: Belirli sütunlarda tam metin araması yaparak kullanıcıların kelime veya tanım aramalarını kolaylaştırır. Ayrıca LIKE tabanlı bir arama rotası da mevcuttur.</li>
+            </ul>
+            <p>Proje, “Türkçe Sözlük Uygulamaları” alanında eğitim, araştırma veya hobi amaçlı geliştirilebilir, genişletilebilir bir temel sunar.</p>
+
+            <h2>2. Kurulum ve Konfigürasyon</h2>
+            <h3>2.1 Gerekli Bağımlılıklar</h3>
+            <ul>
+                <li>Node.js (v14 veya üstü)</li>
+                <li>MySQL (5.7 veya üstü)</li>
+                <li>İsteğe bağlı: Git, Docker vb. (Dağıtım opsiyonlarına bağlı)</li>
+            </ul>
+            <h3>2.2 Projenin Çalıştırılması</h3>
+            <p>1. Kaynak Kodun Temini</p>
+            <pre>git clone https://github.com/kullanici/turkce-sozluk-lab.git
+cd turkce-sozluk-lab</pre>
+            <p>2. Bağımlılıkların Yüklenmesi</p>
+            <pre>npm install</pre>
+            <p>3. MySQL Veritabanı Kurulumu</p>
+            <p>- sozluk_db adında bir veritabanı oluşturun.</p>
+            <pre>CREATE TABLE words (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  word VARCHAR(255),
+  origin TEXT,
+  frequency_tags VARCHAR(255),
+  audio_url VARCHAR(255)
+);
+
+CREATE TABLE definitions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  word_id INT,
+  definition_text TEXT,
+  example_sentence TEXT,
+  part_of_speech VARCHAR(50),
+  sense_label VARCHAR(50),
+  FOREIGN KEY (word_id) REFERENCES words(id)
+);
+
+CREATE TABLE relations (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  left_word_id INT,
+  right_word_id INT,
+  relation_type VARCHAR(50),
+  FOREIGN KEY (left_word_id) REFERENCES words(id),
+  FOREIGN KEY (right_word_id) REFERENCES words(id)
+);</pre>
+            <p>- Tam metin araması için ek indeksler de ekleyebilirsiniz (örn. ALTER TABLE words ADD FULLTEXT(word);).</p>
+            <p>4. .env Dosyasının Düzenlenmesi</p>
+            <pre>DB_HOST=127.0.0.1
+DB_USER=root
+DB_PASSWORD=mysql_sifreniz
+DB_NAME=sozluk_db
+ADMIN_PASSWORD=gucluSifre
+SESSION_SECRET=oturumAnahtari
+PORT=3000</pre>
+            <p>İhtiyaç halinde DB_HOST, DB_USER, DB_PASSWORD, DB_NAME gibi değerleri değiştirin.</p>
+            <p>5. Sunucuyu Başlatma</p>
+            <pre>npm start
+# veya
+node index.js</pre>
+            <p>Varsayılan olarak PORT=3000 ayarlıysa, tarayıcıda http://localhost:3000 üzerinden uygulamaya erişebilirsiniz.</p>
+
+            <h2>3. Kullanım Rehberi</h2>
+            <h3>3.1 Genel Kullanıcı Arayüzü</h3>
+            <p>• Anasayfa (Public): public/index.html dosyası, kelime araması yapılan temel arayüzdür. Kullanıcı, arama kutusuna kelime girerek GET /search-like veya GET /search endpoint’i üzerinden sorgulama yapabilir. Sonuçta gelen kelime bilgileri, tanımlar, örnek cümleler vb. ekranda listelenir.</p>
+            <p>• Dinamik İçerik: Sinonimler, antonimler, deyimsel kalıplar vb. /api/synonyms, /api/antonyms, /api/idioms gibi uç noktalardan çekilip sayfada gösterilir.</p>
+            <h3>3.2 Admin Paneli</h3>
+            <p>Admin paneli, public/admin.html (veya benzer) bir HTML dosyası üzerinden kullanılabilir. Giriş yapmak için:</p>
+            <ol>
+                <li>Tarayıcıda http://localhost:3000/admin/login sayfasına gidin.</li>
+                <li>Kullanıcı adı: admin, Şifre: .env dosyasında ADMIN_PASSWORD değeri.</li>
+            </ol>
+            <p>Başarılı giriş sonrası /admin rotasına yönlendirilebilir ya da admin.html gibi bir sayfa üzerinden panele erişebilirsiniz.</p>
+            <p>Paneldeki Başlıca Özellikler:</p>
+            <ul>
+                <li>Kelime Yönetimi: “Kelimeler” sekmesinde yeni kelime ekleme, mevcut kelimeleri listeleme, sayfalama/sıralama, kelime düzenleme (origin, frequency_tags, audio_url) ve kelime silme işlemleri (silme route’u ileride eklenecek notu var ise şimdilik devre dışı olabilir).</li>
+                <li>Definition Yönetimi: “Definitions” sekmesinden bir kelimeye anlam (definition) ekleme, örnek cümle girme, var olan definition kayıtlarını listeleme, silme, düzenleme (PUT /admin/definitions/:id).</li>
+                <li>İlişkiler Yönetimi: “Relations” sekmesi; sinonim, antonim, deyim, alıntı vb. tüm relation_type çeşitleri eklenebilir, listelenebilir veya silinebilir. Bu sayede bir kelimenin diğeriyle olan bağı tanımlanır.</li>
+                <li>Alfabetik Liste: Harf seçerek o harfle başlayan kelimeleri listeleyen bir sekme. GET /words-by-letter?letter=a gibi uç noktayı çağırır.</li>
+                <li>Dashboard: Son eklenen kelimeler vb. özet istatistikler (kelime sayısı, definition sayısı vb.) gösterir.</li>
+            </ul>
+            <p>Güvenlik: Admin paneline giriş yapmadan /admin/ ve türevi rotalara istek atılamaz. checkAdmin middleware’i session’daki isAdmin bayrağını kontrol eder, yoksa 403 hatası döner.</p>
+
+            <h2>4. API Endpointleri</h2>
+            <h3>4.1 Kullanıcı Görebileceği Uç Noktalar</h3>
+            <ol>
+                <li>GET /search - Full-text arama. Sorgu parametresi ?kelime=.... words ve definitions tablolarında MATCH...AGAINST ile arama yapar, sonuçları HTML olarak döndürür.</li>
+                <li>GET /search-like - LIKE tabanlı arama. ?kelime=... şeklinde parametre alır. JSON formatında { results: [...] } döndürür.</li>
+                <li>GET /api/synonyms?word=... - Belirtilen kelime için relation_type='synonym' kayıtlarını JSON olarak döndürür. Dönen veride synonyms array’i vardır.</li>
+                <li>GET /api/antonyms?word=... - Aynı mantıkla zıt anlamlı ilişkileri listeler (relation_type='antonym').</li>
+                <li>GET /api/idioms?word=... - Deyimsel kalıplar (relation_type='idiom').</li>
+                <li>GET /api/quotes?word=... - Alıntılar (relation_type='quote').</li>
+                <li>GET /api/collocations?word=... - Eşdizimler (relation_type='collocation').</li>
+                <li>GET /api/word-family?word=... - Kelime ailesi (relation_type='word_family').</li>
+                <li>GET /words-by-letter?letter=a - Belirli harfle başlayan kelimeleri listeler. Örneğin letter=a => apple, aradaki, vb. JSON formatı { words: [...] }.</li>
+            </ol>
+            <h3>4.2 Admin Panel Uç Noktaları</h3>
+            <p>Not: Bu uç noktalar checkAdmin middleware’ine takılır. Yani, sadece admin oturumu (session) olan kullanıcılar erişebilir.</p>
+            <ul>
+                <li>Giriş/Çıkış</li>
+                <ul>
+                    <li>GET /admin/login (form sayfası), POST /admin/login (giriş işlemi), GET /admin/logout (oturum sonlandırma).</li>
+                </ul>
+                <li>Kelime Yönetimi</li>
+                <ul>
+                    <li>POST /admin/add-word: Kelime ekleme (word, origin, frequency_tags, audio_url).</li>
+                    <li>GET /admin/words: Tüm kelimeleri sayfalama & sıralama ile listeler (?page=1&sort=id_desc).</li>
+                    <li>GET /admin/words/:id: Tek bir kelimenin ayrıntısını döndürür (+ ilk definition).</li>
+                    <li>PUT /admin/words/:id: Kelime günceller.</li>
+                    <li>DELETE /admin/words/:id: (Henüz implement edilmediyse ileride eklenecek.)</li>
+                </ul>
+                <li>Definitions</li>
+                <ul>
+                    <li>GET /admin/definitions: Tanımları (definitions) sayfalar halinde listeler. Kelime bilgilerini de JOIN ile getirir.</li>
+                    <li>POST /admin/add-definition: Var olan bir kelimeye yeni definition ekler.</li>
+                    <li>PUT /admin/definitions/:id: Definition günceller.</li>
+                    <li>DELETE /admin/definitions/:id: Definition siler.</li>
+                </ul>
+                <li>Relations</li>
+                <ul>
+                    <li>GET /admin/relations: Tüm relation kayıtlarını listeler (synonym, antonym, vb.).</li>
+                    <li>POST /admin/relations: İki kelime adı ve relation_type alıp tabloya kayıt ekler.</li>
+                    <li>DELETE /admin/relations/:id: Belirli bir ilişkiyi siler.</li>
+                </ul>
+                <li>Dashboard</li>
+                <ul>
+                    <li>GET /admin/last-words: Son eklenen 10 kelime (JOIN definitions ile). Admin panelin “Son Eklenenler” kısmında kullanılır.</li>
+                </ul>
+            </ul>
+
+            <h2>5. Dağıtım Rehberi</h2>
+            <p>Proje, Node.js ve MySQL gerektirdiği için herhangi bir sunucu/hosting ortamında veya bulut platformda çalıştırılabilir. Ana mantık:</p>
+            <ol>
+                <li>MySQL Sunucusu: Mevcutsa DB_HOST, DB_USER, DB_PASSWORD, DB_NAME bilgilerini .env içine girin.</li>
+                <li>Node.js Ortamı: Kodun çalışacağı makinede Node.js kurulu olmalıdır.</li>
+                <li>.env Dosyası: Sunucuda .env ayarlarını doğru yapın (admin şifre, session_secret, port, vb.).</li>
+                <li>Uygulamayı Başlatma: Gerekirse npm install ve npm run start komutlarıyla sunucuyu başlatın.</li>
+            </ol>
+            <p>Docker ile Dağıtım (Öneri):</p>
+            <ul>
+                <li>Bir Dockerfile yazarak (veya mevcudu düzenleyerek) Node.js ortamını container içine alabilir, .env ayarlarını da docker-compose.yml üzerinden yönetebilirsiniz.</li>
+                <li>docker-compose ile MySQL + Node.js servisini birlikte çalıştırabilir, böylece tek komutla projenizi ayağa kaldırabilirsiniz.</li>
+                <li>AWS ECS, Azure Container Instances gibi platformlara Docker imajınızı push edip kolayca ölçekleyebilirsiniz.</li>
+            </ul>
+            <p>Heroku (Klasik) Dağıtım:</p>
+            <ul>
+                <li>Heroku üzerinde MySQL yerine ClearDB eklentisi veya benzer bir MySQL hizmeti kullanabilirsiniz.</li>
+                <li>.env içeriğini, Heroku’nun “Config Vars” kısmına ekleyerek ayarlamanız gerekir.</li>
+                <li>Sonra git push heroku main veya “Deploy via GitHub” yöntemiyle uygulamayı Heroku’ya gönderirsiniz.</li>
+            </ul>
+            <p>AWS:</p>
+            <ul>
+                <li>Elastic Beanstalk: Node.js platformu seçip eb deploy komutlarıyla gönderebilirsiniz. MySQL için AWS RDS kullanarak DB_HOST, DB_USER, DB_PASSWORD gibi environment variable’ları tanımlamalısınız.</li>
+                <li>ECS / Fargate: Docker tabanlı dağıtım yaparak container orkestrasyonunu AWS yönetebilir.</li>
+                <li>EC2 Üzerinde Manuel: Bir EC2 instance’ına SSH ile girip Node.js & MySQL kurulumları yapıp projeyi manuel çalıştırabilirsiniz. Ancak otomasyon için Docker veya EB daha uygundur.</li>
+            </ul>
+            <p>Ek Güvenlik: Canlı ortamda HTTPS zorunlu tutulmalı, admin paneli harici IP’lere açılmamalı veya en azından temel IP kısıtlaması veya ek kimlik doğrulaması uygulanmalıdır.</p>
+
+            <h2>6. Test Süreci</h2>
+            <p>turkce-sozluk-lab projesinde çeşitli test senaryoları uygulanabilir:</p>
+            <ul>
+                <li>Birim Testleri: Sunucudaki fonksiyonları veya helper metotları ayrı ayrı test etmek.</li>
+                <li>Entegrasyon Testleri: /search, /search-like, /admin/add-word gibi endpoint’lerin gerçek bir MySQL test veritabanıyla birlikte düzgün çalışıp çalışmadığını kontrol etmek.</li>
+                <li>Yük/Performans Testleri: Yüksek sayıda eşzamanlı kelime araması veya admin işlemlerine sistemin tepkisini ölçmek (ör. JMeter veya Locust gibi araçlar).</li>
+                <li>Güvenlik Testleri: Kimlik doğrulama ve admin koruması (403 / 401 yanıtları), SQL enjeksiyona karşı hazırlıklı ifadeler, potansiyel XSS vb. kontrol edilir.</li>
+            </ul>
+            <p>Nasıl çalıştırılır?</p>
+            <ul>
+                <li>Eğer Mocha/Jest gibi bir test çerçevesi varsa, npm test benzeri komutla testler yürütülür.</li>
+                <li>Ayrı bir test veritabanı kullanarak, asıl verilerin bozulmasını engelleyebilirsiniz (DB_NAME=sozluk_test_db gibi).</li>
+            </ul>
+            <p>Henüz proje içerisinde tüm testler dahil edilmemişse, test ekleyip eklemediğinize göre süreç şekillenir. Geliştirme tamamlandıkça CI/CD (GitHub Actions, GitLab CI, vb.) pipeline’ına ek test adımları koyarak otomasyon sağlanabilir.</p>
+
+            <h2>7. Veritabanı Yapısı</h2>
+            <p>Projenin temel tabloları:</p>
+            <ol>
+                <li>words</li>
+                <ul>
+                    <li>id (PK, int, auto increment)</li>
+                    <li>word (VARCHAR)</li>
+                    <li>origin (TEXT) – Kelimenin köken bilgisi</li>
+                    <li>frequency_tags (VARCHAR) – S1, W1 gibi rozet bilgileri</li>
+                    <li>audio_url (VARCHAR) – Ses dosyası bağlantısı (opsiyonel)</li>
+                </ul>
+                <li>definitions</li>
+                <ul>
+                    <li>id (PK, int, auto increment)</li>
+                    <li>word_id (FK -> words.id)</li>
+                    <li>definition_text (TEXT)</li>
+                    <li>example_sentence (TEXT)</li>
+                    <li>part_of_speech (VARCHAR) – Örn: noun, verb</li>
+                    <li>sense_label (VARCHAR) – Örn: 1a, 1b gibi alt anlamları ayırt etme</li>
+                </ul>
+                <li>relations</li>
+                <ul>
+                    <li>id (PK, int, auto increment)</li>
+                    <li>left_word_id (FK -> words.id)</li>
+                    <li>right_word_id (FK -> words.id)</li>
+                    <li>relation_type (VARCHAR) – Örn: synonym, antonym, idiom, quote, word_family, collocation</li>
+                </ul>
+            </ol>
+            <p>Ayrıca “full-text” arama için words.word ve/veya definitions.definition_text sütununa FULLTEXT indeksi eklenebilir. Bu sayede /search uç noktası MATCH...AGAINST sorgularını kullanarak daha isabetli sonuçlar verebilir.</p>
+
+            <h2>8. Gelecek Planları (Roadmap)</h2>
+            <p>ChangeLog’da bahsedildiği üzere, gelecek sürümlerde veya yeni versiyonlarda aşağıdaki geliştirmeler planlanmaktadır:</p>
+            <ol>
+                <li>Kelime Silme Endpoint’i</li>
+                <p>DELETE /admin/words/:id henüz taslak halinde. Implement edilip panelde “Sil” butonu aktif hale getirilecek.</p>
+                <li>Daha Gelişmiş Arama ve Relevancy</li>
+                <p>Kısa kelimeler için ayar (ör. innodb_ft_min_token_size=2), Elasticsearch/Solr entegrasyonu veya “highlight” mekanizması.</p>
+                <li>Docker & DevOps</li>
+                <p>Dockerfile, docker-compose entegrasyonu tamamlanarak kolay kurulum. Bulutta (AWS, DigitalOcean vb.) otomatik ölçekleme.</p>
+                <li>Güvenlik & Rol Tabanlı Erişim</li>
+                <p>Sadece admin değil, “editör” gibi kısıtlı yetkiye sahip farklı rollerin eklenmesi. Rate-limit, HTTPS zorunluluğu vb.</p>
+                <li>Blog / Sözcük Listeleri</li>
+                <p>Yeni tablolar (ör. posts, lists), kullanıcı favori listeleri, tematik kelime listeleri oluşturma.</p>
+                <li>Front-End Genişletme</li>
+                <p>React/Vue ile tek sayfa uygulama (SPA) veya Next.js gibi SSR seçenekleri. Admin panelini de dâhil edecek tam UI yenilemesi.</p>
+                <li>Analytics ve Monitoring</li>
+                <p>En çok aranan kelimeler, API istek logları ve hataları inceleyebileceğimiz bir izleme paneli.</p>
+            </ol>
+            <p>Tüm bu geliştirmelerin, topluluk geri bildirimi ve öncelikler doğrultusunda şekilleneceği belirtilmiştir.</p>
+
+            <h2>9. Sıkça Sorulan Sorular (FAQ)</h2>
+            <p><strong>Soru:</strong> “Kelime Silme” butonu var fakat çalışmıyor. Neden?</p>
+            <p><strong>Cevap:</strong> Kodda DELETE /admin/words/:id endpoint’inin henüz eklenmediği belirtilmiştir. Bu butonun backend tarafında bir karşılığı yok. İleriki sürümlerde implement edilecektir.</p>
+            <p><strong>Soru:</strong> Full-text arama neden hiçbir sonuç döndürmüyor?</p>
+            <p><strong>Cevap:</strong> MATCH ... AGAINST sorguları için MySQL’de bir FULLTEXT indeksi olması gerekir. Ayrıca varsayılan ayarlarda 4 karakterden kısa sözcükler göz ardı edilebilir. Bunu değiştirmek için innodb_ft_min_token_size ve ft_min_word_len gibi ayarları düzenleyip MySQL’i yeniden başlatabilirsiniz. Çok kısa kelimeler için proje, LIKE bazlı /search-like endpoint’ini kullanmayı önerir.</p>
+            <p><strong>Soru:</strong> Admin girişinde kullanıcı adı mı şifre mi yanlış hatası alıyorum. .env dosyasında ADMIN_PASSWORD tanımlı ama giriş yapamıyorum.</p>
+            <p><strong>Cevap:</strong> Kullanıcı adı sabit admin olarak kodlanmıştır. .env’deki ADMIN_PASSWORD değerini doğru yazdığınızdan emin olun. Örn: ADMIN_PASSWORD=Adm1nP@ssw0rd!. Ayrıca unutmamalısınız ki admin kullanıcı adı haricinde giriş kabul etmez (kodda öyle tasarlanmışsa). Dikkat: ADMIN_PASSWORD’de özel karakterler varsa, shell yorumlamasından dolayı .env formatına uygunluk kontrolü yapınız.</p>
+            <p><strong>Soru:</strong> Aynı kelimeye birden çok definition ekleyebilir miyim?</p>
+            <p><strong>Cevap:</strong> Evet. POST /admin/add-definition endpoint’inde word_name parametresi aynı olsa da her ekleme farklı “anlam” (satır) olarak kaydedilecektir. Örneğin “ruh” için “1a Akıl, akli denge” ve “1b birinin eylemlerini yöneten tutum” gibi birden çok definition olabilir.</p>
+            <p><strong>Soru:</strong> Synonym eklemek istiyorum ama kelime yok hatası alıyorum.</p>
+            <p><strong>Cevap:</strong> POST /admin/relations ile synonym (relation_type='synonym') eklenirken left_word_name ve right_word_name için words tablosunda kayıtlı kelimeler bulunamadığında hata döner. Önce kelimeleri ekleyip sonra aralarındaki ilişkiyi tanımlamalısınız.</p>
+            <p>İleride eklenmesi planlanan özellikler, ChangeLog’da belirtilen sürümlerle eşleştirilerek geliştirilebilir. Daha fazla detay veya katkı için proje deposundaki tartışmaları (issues) ya da pull request’leri inceleyebilirsiniz.</p>
+            <p><strong>Teşekkürler!</strong></p>
+
+            <p class="counter">YOU ARE VISITOR #5281</p>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <span>Turkce Sozluk Lab - 1999 Internet Special!</span>
+    </div>
+
+    <audio autoplay loop>
+        <source src="https://www.mididb.com/midi_files/church.mid" type="audio/midi">
+    </audio>
+</body>
+</html>

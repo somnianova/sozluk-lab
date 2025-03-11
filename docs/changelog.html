@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>!!! FAKECORP CHANGELOG XTREME !!!</title>
+    <style>
+        body {
+            background-color: #FFA500;
+            color: #000080;
+            font-family: "Arial", "Helvetica", sans-serif;
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+            background-image: url('https://www.transparenttextures.com/patterns/stucco.png');
+        }
+        h1 {
+            background-color: #00FF00;
+            color: #FF00FF;
+            padding: 25px;
+            font-size: 60px;
+            text-shadow: 4px 4px #FFFF00, -4px -4px #0000FF;
+            border-bottom: 8px groove #FF0000;
+            font-family: "Impact", sans-serif;
+            transform: rotate(-2deg);
+        }
+        h2 {
+            color: #800080;
+            font-size: 32px;
+            font-style: italic;
+            text-decoration: underline double #00FFFF;
+            animation: blink 0.6s infinite;
+        }
+        table {
+            width: 98%;
+            margin: 30px auto;
+            border: 5px ridge #FFD700;
+            background-color: #F0FFF0;
+            box-shadow: 8px 8px 15px #FF69B4;
+        }
+        th, td {
+            border: 3px dashed #FF4500;
+            padding: 15px;
+            text-align: left;
+            font-size: 18px;
+        }
+        th {
+            background-color: #FF1493;
+            color: #FFFFFF;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: "Courier New", monospace;
+        }
+        tr:nth-child(even) {
+            background-color: #98FB98;
+        }
+        tr:hover {
+            background-color: #FFFF00;
+            color: #FF00FF;
+            font-weight: bold;
+        }
+        .future {
+            background-color: #FFB6C1;
+            border: 4px solid #00CED1;
+            padding: 25px;
+            margin: 40px auto;
+            width: 90%;
+            font-family: "Comic Sans MS", sans-serif;
+            transform: rotate(1deg);
+        }
+        .clipart {
+            margin: 20px;
+        }
+        .new {
+            color: #FF0000;
+            font-size: 24px;
+            font-weight: bold;
+            animation: blink 0.4s infinite;
+            transform: rotate(5deg);
+            display: inline-block;
+        }
+        .ceo {
+            font-size: 16px;
+            color: #006400;
+            background-color: #FFFFE0;
+            padding: 10px;
+            border: 2px solid #8A2BE2;
+            margin: 20px auto;
+            width: 70%;
+        }
+        .footer {
+            font-size: 14px;
+            color: #FFFFFF;
+            background-color: #000080;
+            padding: 15px;
+            border-top: 5px solid #FF00FF;
+        }
+        a {
+            color: #00FFFF;
+            text-decoration: underline wavy #FF0000;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #FFFFFF;
+            background-color: #FF4500;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>!!! FAKECORP CHANGELOG XTREME !!!</h1>
+    <p style="font-size: 22px; color: #800080;"><strong>PROJEMİZİN ÇILGIN GÜNCELLEMELERİ!</strong></p>
+    <img src="https://clipart-library.com/images/pT5rAeenc.gif" alt="Dancing Baby" class="clipart" width="150">
+    <p><span class="new">HOT!</span> FakeCorp Onaylı!</p>
+
+    <table>
+        <tr>
+            <th>Sürüm (Tarih)</th>
+            <th>Added</th>
+            <th>Changed</th>
+            <th>Fixed</th>
+            <th>Removed</th>
+        </tr>
+        <tr>
+            <td>[0.1.0] - 2025-02-21</td>
+            <td>Node.js & Express Kurulumu (Gün 1)<br>Yerel ortamda Node.js, npm init -y, paketler (express, mysql2).<br>index.js ile basit "Hello Express" endpoint'i.<br><br>MySQL Veritabanı (Gün 2)<br>sozluk_db adlı veritabanı, words ve definitions tabloları.</td>
+            <td>(Değişiklik yok)</td>
+            <td>(Hata düzeltmesi yok)</td>
+            <td>(Kaldırma yok)</td>
+        </tr>
+        <tr>
+            <td>[0.2.0] - 2025-02-23 <span class="new">HOT!</span></td>
+            <td>Admin Panel Temelleri (Gün 3)<br>/admin/add-word (POST) ile kelime ekleme.<br>/search (GET) ile temel arama (LIKE vb.)<br><br>Statik Admin Panel (Gün 4)<br>public/admin.html, "Kelime Ekle" formu, minimal HTML/CSS tasarımı.</td>
+            <td>.env & Yapılandırma<br>Veritabanı ve admin şifre gibi gizli bilgiler .env üzerinden okunmaya başlandı.</td>
+            <td>(Hata düzeltmesi yok)</td>
+            <td>(Kaldırma yok)</td>
+        </tr>
+        <tr>
+            <td>[0.3.0] - 2025-02-25</td>
+            <td>"Son Eklenen Kelimeler" (Gün 5)<br>/admin/last-words ile son 10 kelime JSON.<br><br>Oturum / Admin Login (Gün 6)<br>express-session, /admin/login, /admin/logout.<br>checkAdmin middleware (403 koruması).<br><br>Kelime Silme/Düzenleme (CRUD)</td>
+            <td>Admin Panel Yapısı<br>admin.html içinde sekmeler / menü yaklaşımı. "Kelime Ekle", "Tüm Kelimeler" vb.</td>
+            <td>(Hata düzeltmesi yok)</td>
+            <td>(Kaldırma yok)</td>
+        </tr>
+        <tr>
+            <td>[0.4.0] - 2025-02-27 <span class="new">HOT!</span></td>
+            <td>relations Tablosu (Gün 7 - 8)<br>relations (id, left_word_id, right_word_id, relation_type) ile synonym, antonym vb.<br><br>Definitions Sekmesi (Gün 9)<br>/admin/add-definition ile çoklu anlam (definition).<br><br>Alfabetik Dizin (Gün 10)</td>
+            <td>Kelime Ekle & Definition Ekle Ayrımı<br>"Kelime Ekle" formundan definition alanları kaldırıldı, ayrı sekmeye taşındı. UI butonu var ama backend henüz yok<br><br>Çok Satırlı (multiline) Örnek Cümle<br>example_sentence alanı TEXT olarak çok satır desteği.</td>
+            <td>(Hata düzeltmesi yok)</td>
+            <td>(Kaldırma yok)</td>
+        </tr>
+        <tr>
+            <td>[0.5.0] - 2025-03-03</td>
+            <td>Full-Text Arama (Gün 11)<br>FULLTEXT indeks, /search rotası MATCH ... AGAINST.<br><br>Paging & Sorting (Gün 12)<br>/admin/words?page=2&sort=word_asc, admin panelde "Prev/Next" & sıralama.<br><br>Relations Türleri Genişletme (synonym, antonym, collocation...)</td>
+            <td>Veritabanı & Kod Düzeni<br>Bazı rotalar sadeleştirildi, .env parametreleri güncellendi.<br><br>Tasarım Düzenlemeleri<br>Admin panelde yeni renk paleti, hover efektleri.</td>
+            <td>Dinamik Liste JSON Parse Hatası<br>null string dönüşüm sorunu düzeltildi.</td>
+            <td>(Kaldırma yok)</td>
+        </tr>
+        <tr>
+            <td>[0.6.0] - 2025-03-05 <span class="new">HOT!</span></td>
+            <td>Synonyms & Antonyms API<br>/api/synonyms?word=..., /api/antonyms?word=...<br><br>Multi-Definition Düzenleme<br>admin-edit.html sayfasında bir kelimenin tüm definitions kayıtları listeleniyor, PUT /admin/definitions/:id ile güncelleme.<br><br>Dashboard</td>
+            <td>Admin Panelde 'Kelime Ekle' Basitleştirme<br>Definition alanları tamamen Definitions sekmesine taşındı.<br><br>Klasör Yapısı<br>routes/controllers konsepti üzerinde kısmen çalışma.</td>
+            <td>Definitions Silme Butonu<br>/admin/definitions/:id (DELETE) parametre sorunu giderildi.</td>
+            <td>(Kaldırma yok)</td>
+        </tr>
+        <tr>
+            <td>[0.6.1] - 2025-03-06</td>
+            <td>Idioms / Quotes / Collocations / Word-Family API<br>/api/idioms?word=..., /api/quotes?word=..., /api/collocations?word=..., /api/word-family?word=... (relation_type bazlı).<br><br>edit-word.html → admin-edit.html<br>Tüm doc ve README güncellendi.</td>
+            <td>README ile CHANGELOG Senkronizasyonu<br>Küçük ifade farkları düzeltildi, tüm uç noktalar resmi olarak kayda geçti.</td>
+            <td>(Hata düzeltmesi yok)</td>
+            <td>(Kaldırma yok)</td>
+        </tr>
+    </table>
+
+    <div class="ceo">
+        <p><strong>CEO’dan Mesaj:</strong> "Merhaba ekip! FakeCorp olarak bu güncellemelerle gurur duyuyoruz. Stajyerlerimiz harika iş çıkardı, kahve bile içmediler!" - Bob Fakeington</p>
+    </div>
+
+    <div class="future">
+        <h2>*** PLANLANAN / GELECEK SÜRÜMLER ***</h2>
+        <p><strong>Dağıtım & Docker:</strong> Dockerfile & docker-compose ayarları, bulut (AWS, DigitalOcean vb.) yayın.</p>
+        <p><strong>Ek Güvenlik:</strong> Role-based auth (admin, editor), HTTPS/SSL, rate-limit, session store (Redis).</p>
+        <p><strong>Blog / Sözcük Listeleri:</strong> Yeni tablolar (posts, lists), kullanıcı favorileri, tematik listeler, blog yönetimi.</p>
+        <p><strong>Gelişmiş Arama:</strong> Kısa kelimeler için innodb_ft_min_token_size=2, relevancy ranking, Elasticsearch/Solr entegrasyonu.</p>
+        <p><strong>Front-End Framework / SSR:</strong> React/Vue/Angular veya Next.js, Nuxt gibi SSR. Daha modüler ve interaktif ön yüz.</p>
+        <p><strong>Analytics & Monitoring:</strong> En çok aranan kelimeler, hata izleme, performans ölçümleri.</p>
+    </div>
+
+    <img src="https://clipart-library.com/images/rcnBxy6Ki.gif" alt="Construction Worker" class="clipart" width="130">
+    <p><a href="mailto:destek@fakecorp.com">BİZE YAZIN!</a> | <a href="https://github.com">GitHub’ımız</a></p>
+    <p><img src="https://clipart-library.com/images/8T65j5zEc.gif" alt="Award Ribbon" width="120"></p>
+    <p style="color: #FF0000; font-size: 20px;">FakeCorp Enerji İçeceği ile Sponsorlu!</p>
+    <div class="footer">
+        <p>© 2025 FakeCorp A.Ş. Tüm Hakları Saklıdır. 800x600’da En İyi Görünüm!</p>
+    </div>
+</body>
+</html>
