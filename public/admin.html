@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Çevrimiçi Türkçe Sözlük – Admin Panel</title>
+
+  <!-- Web fontları (Adobe Typekit) -->
+  <style>
+    @import url("https://use.typekit.net/jui6adt.css");
+  </style>
+
+  <style>
+    /*********************************************************
+     * GENEL RESET & TEMEL AYARLAR
+     *********************************************************/
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif; 
+      background-color: #f9f9f9;
+      color: #333;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /*********************************************************
+     * ÜST KISIM: (top-bar)
+     *********************************************************/
+    .top-bar {
+      background-color: #1e1e1e;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .top-bar .logo {
+      font-family: "playwrite-cc-sk", sans-serif;
+      font-weight: 100;
+      font-size: 1.7rem;
+      white-space: nowrap;
+    }
+    .top-bar .search-container {
+      position: relative;
+    }
+    .top-bar .search-container input[type="text"] {
+      width: 180px;
+      height: 26px;
+      border: none;
+      border-radius: 4px;
+      padding-left: 6px;
+      font-size: 13px;
+      background-color: #d2d2d2;
+      outline: none;
+      transition: box-shadow 0.2s;
+    }
+    .top-bar .search-container input[type="text"]::placeholder {
+      color: #555;
+    }
+    .top-bar .search-container input[type="text"]:focus {
+      box-shadow: 0 0 4px rgba(0,0,0,0.2);
+    }
+    .top-bar .search-container button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 32px;
+      height: 28px;
+      border: none;
+      background-color: #2c2c2c;
+      color: #fff;
+      border-radius: 0 4px 4px 0;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .top-bar .search-container button:hover {
+      background-color: #444;
+    }
+    .top-bar a.logout-link {
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .top-bar a.logout-link:hover {
+      color: #ccc;
+    }
+
+    /*********************************************************
+     * DİL MENÜSÜ (lang-bar)
+     *********************************************************/
+    .lang-bar {
+      background-color: #272727;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+    }
+    .lang-bar a {
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.9;
+      transition: opacity 0.2s, text-decoration 0.2s;
+    }
+    .lang-bar a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    /*********************************************************
+     * SUBHEADER (Admin Panel Title)
+     *********************************************************/
+    .subheader {
+      background-color: #f2f2f2;
+      border-bottom: 1px solid #ccc;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .subheader .panel-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+    }
+    .subheader .admin-badge {
+      background-color: #d00;
+      color: #fff;
+      padding: 3px 8px;
+      font-size: 12px;
+      border-radius: 3px;
+    }
+
+    /*********************************************************
+     * ANA YAPI: (admin-container) => Sol Menü + İçerik
+     *********************************************************/
+    .admin-container {
+      display: flex;
+      min-height: calc(100vh - 80px); /* top-bar + subheader + lang-bar yaklaşık */
+    }
+    .side-menu {
+      width: 220px;
+      background-color: #fff;
+      border-right: 1px solid #ccc;
+      padding: 16px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    }
+    .side-menu h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    .side-menu ul {
+      list-style: none;
+      margin-left: 0;
+    }
+    .side-menu li {
+      margin-bottom: 6px;
+    }
+    .side-menu a {
+      display: block;
+      padding: 8px 10px;
+      font-size: 13px;
+      color: #333;
+      background-color: #fafafa;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+    .side-menu a:hover {
+      background-color: #ebebeb;
+    }
+
+    .main-content {
+      flex: 1;
+      background-color: #fcfcfc;
+      padding: 20px;
+    }
+    .section-heading {
+      font-size: 16px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 6px;
+    }
+
+    /*********************************************************
+     * FORMLAR (admin-form)
+     *********************************************************/
+    .admin-form {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 16px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.04);
+    }
+    .admin-form h2 {
+      font-size: 15px;
+      margin-bottom: 12px;
+      color: #444;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 6px;
+    }
+    .form-group {
+      margin-bottom: 12px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: #444;
+    }
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      font-size: 13px;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .form-group input[type="text"]:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #66b2ff;
+    }
+    .form-group textarea {
+      min-height: 50px;
+      resize: vertical;
+    }
+    .btn-submit {
+      background-color: #2c2c2c;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      font-size: 13px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .btn-submit:hover {
+      background-color: #444;
+    }
+
+    /*********************************************************
+     * LİSTE KAPSAYICILAR (list-container)
+     *********************************************************/
+    .list-container {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.04);
+    }
+    .list-container h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 6px;
+    }
+    .list-container ul {
+      list-style: none;
+      margin-left: 0;
+    }
+    .list-container li {
+      margin-bottom: 6px;
+      padding: 4px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .list-container li button {
+      margin-left: 10px;
+      background-color: #2c2c2c;
+      color: #fff;
+      border: none;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .list-container li button:hover {
+      background-color: #444;
+    }
+    .pager-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    .pager-row button {
+      background-color: #2c2c2c;
+      color: #fff;
+      border: none;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .pager-row button:hover {
+      background-color: #444;
+    }
+    .pager-info {
+      font-size: 12px;
+      color: #555;
+    }
+
+    /*********************************************************
+     * ADMIN HELP
+     *********************************************************/
+    .admin-help {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 16px;
+      border-radius: 6px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.04);
+    }
+    .admin-help h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 4px;
+    }
+    .help-list li {
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: #444;
+    }
+
+    /*********************************************************
+     * FOOTER
+     *********************************************************/
+    .footer {
+      background-color: #f2f2f2;
+      border-top: 1px solid #ccc;
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    /*********************************************************
+     * Responsive => side menu alt vs.
+     *********************************************************/
+    @media (max-width: 840px) {
+      .admin-container {
+        flex-direction: column;
+      }
+      .side-menu {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === ÜST KISIM === -->
+  <div class="top-bar">
+    <div class="logo">sözlük lab</div>
+    <div class="search-container">
+      <input type="text" placeholder="search" />
+      <button>🔍</button>
+    </div>
+    <a href="/admin/logout" class="logout-link">Çıkış Yap</a>
+  </div>
+
+  <!-- === DİL MENÜSÜ === -->
+  <div class="lang-bar">
+    <a href="#Anasayfa</a>
+    <a href="#"Sözcük Listeleri</a>
+    <a href="#"Blog</a>
+    <a href="#">İletişim</a>
+  </div>
+
+  <!-- === SUBHEADER (Admin Panel) === -->
+  <div class="subheader">
+    <span class="panel-title">Admin Panel</span>
+    <span class="admin-badge">Yönetici</span>
+  </div>
+
+  <!-- === CONTAINER: Sol Menü + İçerik === -->
+  <div class="admin-container">
+
+    <!-- SOL MENÜ -->
+    <div class="side-menu">
+      <h3>Ana Menüler</h3>
+      <ul>
+        <li><a href="#" onclick="showSection('dashboard'); return false;">Dashboard</a></li>
+        <li><a href="#" onclick="showSection('words'); fetchAllWords(1, 'id_desc'); return false;">Kelimeler</a></li>
+        <li><a href="#" onclick="showSection('definitions'); fetchAllDefinitions(1, 'definition_id_desc'); return false;">Definitions</a></li>
+        <li><a href="#" onclick="showSection('relations'); fetchAllRelations(); return false;">İlişkiler</a></li>
+        <li><a href="#" onclick="showSection('alphabetic'); return false;">Alfabetik</a></li>
+        <li><a href="#" onclick="showSection('help'); return false;">Yardım</a></li>
+      </ul>
+    </div>
+
+    <!-- ANA İÇERİK -->
+    <div class="main-content">
+
+      <!-- === DASHBOARD === -->
+      <div id="dashboardSection" style="display:none;">
+        <h2 class="section-heading">Dashboard</h2>
+        <p>Kısa özetler, istatistikler (ör: toplam kelime, toplam definition...)</p>
+        <div class="list-container">
+          <h3>Son Eklenen Kelimeler</h3>
+          <ul id="lastWordsList"></ul>
+        </div>
+      </div>
+
+      <!-- === WORDS === -->
+      <div id="wordsSection" style="display:none;">
+        <h2 class="section-heading">Kelimeler</h2>
+
+        <div class="admin-form">
+          <h2>Kelime Ekle</h2>
+          <form id="addWordForm" onsubmit="return false;">
+            <div class="form-group">
+              <label>Kelime (Word)</label>
+              <input type="text" id="wordInput" required />
+            </div>
+            <div class="form-group">
+              <label>Köken (Origin)</label>
+              <textarea id="wordOrigin"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Frekans Rozetleri (S1, W1)</label>
+              <div style="display:flex; gap:12px;">
+                <label><input type="checkbox" id="freq_s1" value="S1" /> S1</label>
+                <label><input type="checkbox" id="freq_w1" value="W1" /> W1</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Ses Dosyası (Audio URL)</label>
+              <input type="text" id="audioUrl" placeholder="örn: /audio/ruh.mp3" />
+            </div>
+            <button type="button" class="btn-submit" onclick="submitNewWord()">Kaydet</button>
+          </form>
+        </div>
+
+        <div class="list-container">
+          <h3>Tüm Kelimeler
+            <select id="wordsSortSelect" onchange="onWordsSortChange()">
+              <option value="id_desc">ID Desc</option>
+              <option value="id_asc">ID Asc</option>
+              <option value="word_asc">Word Asc</option>
+              <option value="word_desc">Word Desc</option>
+            </select>
+          </h3>
+          <div class="pager-row">
+            <button id="wordsPrevBtn">◀ Prev</button>
+            <span id="wordsPageInfo" class="pager-info"></span>
+            <button id="wordsNextBtn">Next ▶</button>
+          </div>
+          <ul id="allWordsList"></ul>
+        </div>
+      </div>
+
+      <!-- === DEFINITIONS === -->
+      <div id="definitionsSection" style="display:none;">
+        <h2 class="section-heading">Definitions</h2>
+
+        <div class="admin-form">
+          <h2>Ek Anlam Ekle</h2>
+          <form id="addDefinitionForm" onsubmit="return false;">
+            <div class="form-group">
+              <label>Kelime Adı (ör: ruh)</label>
+              <input type="text" id="defWordName" required />
+            </div>
+            <div class="form-group">
+              <label>Sense Label (örn: 1a)</label>
+              <input type="text" id="defSenseLabel" placeholder="örn: 1a" />
+            </div>
+            <div class="form-group">
+              <label>Definition metni</label>
+              <textarea id="defText" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Örnek Cümle</label>
+              <textarea id="defExample"></textarea>
+            </div>
+            <div class="form-group">
+              <label>part_of_speech</label>
+              <input type="text" id="defPOS" placeholder="örn: noun" />
+            </div>
+            <button type="button" class="btn-submit" onclick="submitNewDefinition()">Ekle</button>
+          </form>
+        </div>
+
+        <div class="list-container">
+          <h3>Tüm Definitions
+            <select id="defsSortSelect" onchange="onDefsSortChange()">
+              <option value="definition_id_desc">DefID Desc</option>
+              <option value="definition_id_asc">DefID Asc</option>
+              <option value="word_asc">Word Asc</option>
+              <option value="word_desc">Word Desc</option>
+            </select>
+          </h3>
+          <div class="pager-row">
+            <button id="defsPrevBtn">◀ Prev</button>
+            <span id="defsPageInfo" class="pager-info"></span>
+            <button id="defsNextBtn">Next ▶</button>
+          </div>
+          <ul id="allDefinitionsList"></ul>
+        </div>
+      </div>
+
+      <!-- === RELATIONS === -->
+      <div id="relationsSection" style="display:none;">
+        <h2 class="section-heading">İlişkiler (Synonym / Antonym / etc.)</h2>
+
+        <div class="admin-form">
+          <h2>Yeni İlişki Ekle</h2>
+          <form id="relationForm" onsubmit="return false;">
+            <div class="form-group">
+              <label>Sol Kelime Adı</label>
+              <input type="text" id="leftWordName" required />
+            </div>
+            <div class="form-group">
+              <label>Sağ Kelime Adı</label>
+              <input type="text" id="rightWordName" required />
+            </div>
+            <div class="form-group">
+              <label>İlişki Türü</label>
+              <select id="relationType" required>
+                <option value="synonym">Synonym</option>
+                <option value="antonym">Antonym</option>
+                <option value="word_family">Word Family</option>
+                <option value="idiom">Idiom</option>
+                <option value="collocation">Collocation</option>
+                <option value="quote">Quote</option>
+              </select>
+            </div>
+            <button type="button" class="btn-submit" onclick="submitRelationByName()">Ekle</button>
+          </form>
+        </div>
+
+        <div class="list-container">
+          <h3>Tüm İlişkiler</h3>
+          <ul id="allRelationsList"></ul>
+        </div>
+      </div>
+
+      <!-- === ALPHABETIC === -->
+      <div id="alphabeticSection" style="display:none;">
+        <h2 class="section-heading">Alfabetik Kelimeler</h2>
+        <p>Harfe göre listeleyebilirsiniz.</p>
+        <div class="admin-form">
+          <h2>Harf Seçin</h2>
+          <form onsubmit="return false;">
+            <div class="form-group">
+              <label>Harf:</label>
+              <input type="text" id="alphaLetter" placeholder="örn: a" maxlength="1" style="width:50px;" />
+            </div>
+            <button type="button" class="btn-submit" onclick="fetchLetterWords()">Listele</button>
+          </form>
+        </div>
+        <div class="list-container">
+          <h3>Sonuçlar</h3>
+          <ul id="alphaListResults"></ul>
+        </div>
+      </div>
+
+      <!-- === HELP === -->
+      <div id="helpSection" style="display:none;">
+        <h2 class="section-heading">Admin Panel Kullanım Rehberi</h2>
+        <div class="admin-help">
+          <h3>Panelin Genel Özellikleri ve İşlevleri</h3>
+          <ul class="help-list">
+            <li>
+              <strong>Dashboard:</strong> Bu ekran, sistemin genel durumunu özetleyen kritik bilgileri sunar. Son eklenen kelimeler, toplam kelime ve definition sayıları, güncel istatistikler gibi veriler burada görüntülenir. Böylece, panelin genel performansını ve aktiflik durumunu hızlıca kontrol edebilirsiniz.
+            </li>
+            <li>
+              <strong>Kelimeler Bölümü:</strong>
+              <ul>
+                <li><em>Ekleme:</em> Yeni kelimeler ekleyerek sözlüğe katkıda bulunabilirsiniz. Eklediğiniz her kelime için köken, frekans rozetleri (örneğin S1, W1) ve ses dosyası (audio URL) gibi detaylı bilgileri girebilirsiniz.</li>
+                <li><em>Listeleme ve Sıralama:</em> Mevcut kelimeler, ID veya alfabetik sıralama gibi çeşitli kriterlere göre listelenir. Sayfalama özelliği sayesinde, geniş veri setlerini bölümlere ayırarak daha düzenli bir görünüm elde edebilirsiniz.</li>
+                <li><em>Silme:</em> İstenmeyen veya hatalı girilmiş kelimeleri güvenli bir şekilde silebilirsiniz. Her silme işleminden sonra sistem, güncel listeyi ve istatistikleri otomatik olarak yeniler.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Definitions Bölümü:</strong>
+              <ul>
+                <li><em>Ek Anlam Ekleme:</em> Her kelimeye ait anlam bilgilerini buradan ekleyebilirsiniz. Tanım metni, sense label (örn: 1a, 1b gibi), örnek cümle ve part_of_speech gibi detaylı açıklamalar girilebilir. Bu bilgiler, kullanıcıların kelimenin anlamını daha iyi kavramasına yardımcı olur.</li>
+                <li><em>Listeleme ve Düzenleme:</em> Tanım kayıtları da sıralama ve sayfalama özellikleriyle sunulur. Gerekirse hatalı tanım girişlerini düzenleyebilir veya silebilirsiniz.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>İlişkiler Bölümü:</strong>
+              <ul>
+                <li>Bu bölüm, kelimeler arasındaki ilişkileri tanımlamanıza olanak tanır. Örneğin: eş anlamlı (synonym), zıt anlamlı (antonym), aynı kelime ailesi (word family), deyim (idiom), eşdizim (collocation) veya alıntı (quote).</li>
+                <li>İlişkileri ekleyip listeleyebilir, yanlış girilmiş ilişkileri silebilirsiniz. Bu sayede, sözlüğünüzün etkileşimli ve kapsamlı bir yapıya sahip olmasını sağlarsınız.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Alfabetik Bölümü:</strong>
+              <ul>
+                <li>Belirli bir harfle başlayan kelimeleri hızlıca bulmanızı sağlar. Bu özellik, geniş veri setleri arasında arama yapmayı kolaylaştırır ve hedef kelimelere daha hızlı erişim sunar.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Genel Bilgilendirme ve Geri Bildirim:</strong>
+              <ul>
+                <li>Yapılan tüm işlemler (ekleme, düzenleme, silme) sonrasında sistem, size başarı veya hata mesajları ile geri bildirimde bulunur. Bu sayede, hangi işlemlerin başarılı olduğunu ve hangi adımlarda sorun yaşandığını anında görebilirsiniz.</li>
+                <li>Eğer herhangi bir işlem sırasında hata alırsanız veya sistemin işleyişi hakkında sorularınız olursa, sistem yöneticinizle iletişime geçebilirsiniz.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- === FOOTER === -->
+  <div class="footer">
+    © 2025 cevrimiciturkcesozluk.com – Admin Panel
+  </div>
+
+  <!-- === JAVASCRIPT === -->
+  <script>
+    /***************************************************************
+     * GÖRÜNÜŞ SEKSİYON DEĞİŞTİRME
+     ***************************************************************/
+
+    /**
+     * Görünür olan admin paneli bölümünü ayarlar.
+     *
+     * @param {string} sec - Gösterilmek istenen bölüm adı (ör: "dashboard", "words", "definitions", "relations", "alphabetic", "help").
+     * @returns {void}
+     */
+    function showSection(sec) {
+      const sections = [
+        'dashboardSection', 'wordsSection', 'definitionsSection',
+        'relationsSection', 'alphabeticSection', 'helpSection'
+      ];
+      sections.forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
+      document.getElementById(sec + 'Section').style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      showSection('dashboard');
+      fetchLastWords();
+
+      // Kelimeler paging
+      document.getElementById('wordsPrevBtn').addEventListener('click', () => {
+        if (wordsCurrentPage > 1) {
+          fetchAllWords(wordsCurrentPage - 1, wordsSort);
+        }
+      });
+      document.getElementById('wordsNextBtn').addEventListener('click', () => {
+        fetchAllWords(wordsCurrentPage + 1, wordsSort);
+      });
+
+      // Definitions paging
+      document.getElementById('defsPrevBtn').addEventListener('click', () => {
+        if (defsCurrentPage > 1) {
+          fetchAllDefinitions(defsCurrentPage - 1, defsSort);
+        }
+      });
+      document.getElementById('defsNextBtn').addEventListener('click', () => {
+        fetchAllDefinitions(defsCurrentPage + 1, defsSort);
+      });
+    });
+
+    /***************************************************************
+     * 1) DASHBOARD -> Son Kelimeler
+     ***************************************************************/
+
+    /**
+     * Son eklenen kelimeleri sunucudan alır ve liste olarak görüntüler.
+     *
+     * @returns {void}
+     */
+    function fetchLastWords() {
+      fetch('/admin/last-words')
+        .then(r => r.json())
+        .then(data => {
+          const ul = document.getElementById('lastWordsList');
+          ul.innerHTML = '';
+          data.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item.word + ' — ' + (item.definition_text || '');
+            ul.appendChild(li);
+          });
+        })
+        .catch(err => console.error(err));
+    }
+
+    /***************************************************************
+     * 2) WORDS -> Kelimelerle ilgili işlemler (Listeleme, Ekleme, Silme)
+     ***************************************************************/
+    let wordsCurrentPage = 1;
+    let wordsSort = 'id_desc';
+
+    /**
+     * Belirtilen sayfa ve sıralama parametreleriyle kelimeleri sunucudan alır.
+     *
+     * @param {number} [page=1] - Sayfa numarası.
+     * @param {string} [sort='id_desc'] - Sıralama kriteri.
+     * @returns {void}
+     */
+    function fetchAllWords(page = 1, sort = 'id_desc') {
+      wordsCurrentPage = page;
+      wordsSort = sort;
+      const url = `/admin/words?page=${page}&sort=${sort}`;
+      fetch(url)
+        .then(r => r.json())
+        .then(resp => {
+          const ul = document.getElementById('allWordsList');
+          ul.innerHTML = '';
+          document.getElementById('wordsPageInfo').textContent =
+            `Page ${resp.currentPage}/${resp.totalPages} (Total: ${resp.totalCount})`;
+
+          resp.data.forEach(item => {
+            // item: {id, word, origin, frequency_tags, audio_url}
+            const li = document.createElement('li');
+            let freqShow = item.frequency_tags ? `[${item.frequency_tags}]` : '';
+            let audioShow = item.audio_url ? ` (Audio: ${item.audio_url})` : '';
+            li.textContent = `#${item.id} - ${item.word} ${freqShow} ${audioShow} (origin: ${item.origin || '---'})`;
+
+            // Sil butonu ekleniyor.
+            const delBtn = document.createElement('button');
+            delBtn.textContent = 'Sil';
+            delBtn.addEventListener('click', () => deleteWord(item.id));
+            li.appendChild(delBtn);
+
+            ul.appendChild(li);
+          });
+
+          document.getElementById('wordsPrevBtn').disabled = (resp.currentPage <= 1);
+          document.getElementById('wordsNextBtn').disabled = (resp.currentPage >= resp.totalPages);
+        })
+        .catch(err => console.error(err));
+    }
+
+    /**
+     * Kelime sıralamasını değiştirdiğinde yeni sıralama kriterine göre listelemeyi tetikler.
+     *
+     * @returns {void}
+     */
+    function onWordsSortChange() {
+      const sel = document.getElementById('wordsSortSelect');
+      const newSort = sel.value;
+      fetchAllWords(1, newSort);
+    }
+
+    /**
+     * Yeni kelime eklemek için form verilerini toplayıp sunucuya gönderir.
+     *
+     * @returns {void}
+     */
+    function submitNewWord() {
+      const wordVal = document.getElementById('wordInput').value.trim();
+      const originVal = document.getElementById('wordOrigin').value.trim();
+
+      let freqArr = [];
+      if (document.getElementById('freq_s1').checked) freqArr.push('S1');
+      if (document.getElementById('freq_w1').checked) freqArr.push('W1');
+      const freqTags = freqArr.join(',');
+
+      const audioVal = document.getElementById('audioUrl').value.trim();
+
+      if (!wordVal) {
+        alert('Kelime (word) zorunlu!');
+        return;
+      }
+
+      const bodyData = {
+        word: wordVal,
+        origin: originVal,
+        frequency_tags: freqTags,
+        audio_url: audioVal
+      };
+
+      fetch('/admin/add-word', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyData)
+      })
+        .then(r => {
+          if (!r.ok) throw new Error('Kelime ekleme hatası');
+          return r.text();
+        })
+        .then(res => {
+          alert('Kelime eklendi.\n' + res);
+          document.getElementById('addWordForm').reset();
+          fetchAllWords(wordsCurrentPage, wordsSort);
+          fetchLastWords();
+        })
+        .catch(err => console.error(err));
+    }
+
+    /**
+     * Belirtilen kelimeyi sunucudan siler.
+     *
+     * @param {number} wordId - Silinecek kelimenin ID'si.
+     * @returns {void}
+     */
+    function deleteWord(wordId) {
+      if (!confirm('Bu kelimeyi silmek istediğinize emin misiniz?')) return;
+      fetch('/admin/words/' + wordId, { method: 'DELETE' })
+        .then(r => r.json())
+        .then(res => {
+          if (res.success) {
+            alert('Kelime silindi.');
+            fetchAllWords(wordsCurrentPage, wordsSort);
+            fetchLastWords();
+          } else {
+            alert('Silme başarısız: ' + (res.error || ''));
+          }
+        })
+        .catch(err => console.error(err));
+    }
+
+    /***************************************************************
+     * 3) DEFINITIONS -> Definitions ile ilgili işlemler (Listeleme, Ekleme, Silme)
+     ***************************************************************/
+    let defsCurrentPage = 1;
+    let defsSort = 'definition_id_desc';
+
+    /**
+     * Belirtilen sayfa ve sıralama parametreleriyle definition kayıtlarını sunucudan alır.
+     *
+     * @param {number} [page=1] - Sayfa numarası.
+     * @param {string} [sort='definition_id_desc'] - Sıralama kriteri.
+     * @returns {void}
+     */
+    function fetchAllDefinitions(page = 1, sort = 'definition_id_desc') {
+      defsCurrentPage = page;
+      defsSort = sort;
+      const url = `/admin/definitions?page=${page}&sort=${sort}`;
+      fetch(url)
+        .then(r => r.json())
+        .then(resp => {
+          document.getElementById('defsPageInfo').textContent =
+            `Page ${resp.currentPage}/${resp.totalPages} (Total: ${resp.totalCount})`;
+          const ul = document.getElementById('allDefinitionsList');
+          ul.innerHTML = '';
+          resp.data.forEach(def => {
+            // def: { definition_id, word_id, word, definition_text, example_sentence, part_of_speech, sense_label }
+            let senseLab = def.sense_label ? `(${def.sense_label})` : '';
+            let txt = `#${def.definition_id} [${def.word}] ${senseLab} => ${def.definition_text}`;
+            if (def.example_sentence) txt += ` (Ex: ${def.example_sentence})`;
+            if (def.part_of_speech) txt += ` [${def.part_of_speech}]`;
+            const li = document.createElement('li');
+            li.textContent = txt;
+
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Düzenle';
+            editBtn.addEventListener('click', () => {
+              window.location.href = '/admin-edit.html?id=' + def.word_id;
+            });
+            li.appendChild(editBtn);
+
+            const delBtn = document.createElement('button');
+            delBtn.textContent = 'Sil';
+            delBtn.addEventListener('click', () => deleteDefinition(def.definition_id));
+            li.appendChild(delBtn);
+
+            ul.appendChild(li);
+          });
+
+          document.getElementById('defsPrevBtn').disabled = (resp.currentPage <= 1);
+          document.getElementById('defsNextBtn').disabled = (resp.currentPage >= resp.totalPages);
+        })
+        .catch(err => console.error(err));
+    }
+
+    /**
+     * Definition sıralaması değiştiğinde yeni kriterle listelemeyi tetikler.
+     *
+     * @returns {void}
+     */
+    function onDefsSortChange() {
+      const sel = document.getElementById('defsSortSelect');
+      const newSort = sel.value;
+      fetchAllDefinitions(1, newSort);
+    }
+
+    /**
+     * Yeni definition eklemek için form verilerini toplayıp sunucuya gönderir.
+     *
+     * @returns {void}
+     */
+    function submitNewDefinition() {
+      const wName = document.getElementById('defWordName').value.trim();
+      const sLabel = document.getElementById('defSenseLabel').value.trim();
+      const defTxt = document.getElementById('defText').value.trim();
+      const exTxt = document.getElementById('defExample').value.trim();
+      const posTxt = document.getElementById('defPOS').value.trim();
+
+      if (!wName || !defTxt) {
+        alert('Kelime Adı ve Definition metni zorunlu!');
+        return;
+      }
+      const bodyData = {
+        word_name: wName,
+        sense_label: sLabel,
+        definition_text: defTxt,
+        example_sentence: exTxt,
+        part_of_speech: posTxt
+      };
+      fetch('/admin/add-definition', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyData)
+      })
+        .then(r => r.json())
+        .then(res => {
+          if (res.success) {
+            alert('Definition eklendi!');
+            document.getElementById('addDefinitionForm').reset();
+            fetchAllDefinitions(defsCurrentPage, defsSort);
+          } else {
+            alert('Definition eklenemedi! ' + (res.error || ''));
+          }
+        })
+        .catch(err => console.error(err));
+    }
+
+    /**
+     * Belirtilen definition kaydını sunucudan siler.
+     *
+     * @param {number} defId - Silinecek definition ID'si.
+     * @returns {void}
+     */
+    function deleteDefinition(defId) {
+      if (!confirm('Bu definition kaydını silmek istediğinize emin misiniz?')) return;
+      fetch('/admin/definitions/' + defId, { method: 'DELETE' })
+        .then(r => r.json())
+        .then(res => {
+          if (res.success) {
+            alert('Definition silindi.');
+            fetchAllDefinitions(defsCurrentPage, defsSort);
+          } else {
+            alert('Silme başarısız: ' + (res.error || ''));
+          }
+        })
+        .catch(err => console.error(err));
+    }
+
+    /***************************************************************
+     * 4) RELATIONS -> İlişkilerle ilgili işlemler (Listeleme, Ekleme, Silme)
+     ***************************************************************/
+
+    /**
+     * Tüm ilişki kayıtlarını sunucudan alır ve liste olarak görüntüler.
+     *
+     * @returns {void}
+     */
+    function fetchAllRelations() {
+      fetch('/admin/relations')
+        .then(r => r.json())
+        .then(data => {
+          const ul = document.getElementById('allRelationsList');
+          ul.innerHTML = '';
+          data.forEach(rel => {
+            // rel: {id, left_word_id, right_word_id, relation_type}
+            const li = document.createElement('li');
+            li.textContent = `#${rel.id} => [${rel.left_word_id}] - [${rel.right_word_id}] (${rel.relation_type})`;
+
+            const delBtn = document.createElement('button');
+            delBtn.textContent = 'Sil';
+            delBtn.addEventListener('click', () => deleteRelation(rel.id));
+            li.appendChild(delBtn);
+            ul.appendChild(li);
+          });
+        })
+        .catch(err => console.error(err));
+    }
+
+    /**
+     * Formdan alınan verilerle yeni ilişki kaydı ekler.
+     *
+     * @returns {void}
+     */
+    function submitRelationByName() {
+      const leftWord = document.getElementById('leftWordName').value.trim();
+      const rightWord = document.getElementById('rightWordName').value.trim();
+      const rType = document.getElementById('relationType').value;
+      if (!leftWord || !rightWord || !rType) {
+        alert('Veriler eksik');
+        return;
+      }
+      const bodyData = {
+        left_word_name: leftWord,
+        right_word_name: rightWord,
+        relation_type: rType
+      };
+      fetch('/admin/relations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyData)
+      })
+        .then(r => r.json())
+        .then(res => {
+          if (res.success) {
+            alert('İlişki eklendi!');
+            document.getElementById('relationForm').reset();
+            fetchAllRelations();
+          } else {
+            alert('İlişki eklenemedi! ' + (res.error || ''));
+          }
+        })
+        .catch(err => console.error(err));
+    }
+
+    /**
+     * Belirtilen ilişki kaydını sunucudan siler.
+     *
+     * @param {number} relId - Silinecek ilişkinin ID'si.
+     * @returns {void}
+     */
+    function deleteRelation(relId) {
+      if (!confirm('Bu ilişkiyi silmek istediğinize emin misiniz?')) return;
+      fetch('/admin/relations/' + relId, { method: 'DELETE' })
+        .then(r => r.json())
+        .then(res => {
+          if (res.success) {
+            alert('İlişki silindi');
+            fetchAllRelations();
+          } else {
+            alert('Silme başarısız: ' + (res.error || ''));
+          }
+        })
+        .catch(err => console.error(err));
+    }
+
+    /***************************************************************
+     * 5) ALPHABETIC -> Alfabetik Kelime Listeleme
+     ***************************************************************/
+
+    /**
+     * Belirtilen harf veya formdan alınan harfe göre kelimeleri listeler.
+     *
+     * @param {string} [letterArg] - Harf parametresi (opsiyonel).
+     * @returns {void}
+     */
+    function fetchLetterWords(letterArg) {
+      let letter = letterArg;
+      if (!letterArg) {
+        letter = document.getElementById('alphaLetter').value.trim();
+      }
+      if (!letter) {
+        alert('Bir harf giriniz!');
+        return;
+      }
+      fetch('/words-by-letter?letter=' + letter)
+        .then(r => r.json())
+        .then(res => {
+          const ul = document.getElementById('alphaListResults');
+          ul.innerHTML = '';
+          if (!res.words || res.words.length === 0) {
+            ul.innerHTML = '<li>Bu harfle başlayan kelime bulunamadı.</li>';
+            return;
+          }
+          res.words.forEach(item => {
+            // item: {id, word, origin, frequency_tags, audio_url}
+            const li = document.createElement('li');
+            let freqShow = item.frequency_tags ? `[${item.frequency_tags}]` : '';
+            let txt = `#${item.id} - ${item.word} ${freqShow} (origin: ${item.origin || '---'})`;
+            li.textContent = txt;
+            ul.appendChild(li);
+          });
+        })
+        .catch(err => {
+          console.error('Letter fetch hata:', err);
+        });
+    }
+  </script>
+</body>
+</html>

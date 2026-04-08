@@ -1,0 +1,763 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Çevrimiçi Türkçe Sözlük | ruh</title>
+
+  <!-- Import: Adobe Typekit üzerinden özel fontlar -->
+  <style>
+    @import url("https://use.typekit.net/jui6adt.css");
+  </style>
+
+  <style>
+    /* ====================================================================
+       Global Reset ve Temel Stil Ayarları
+       ==================================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #fff;
+      color: #323232;
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    /* ====================================================================
+       Üst Bar (Header) Stilleri: Marka ismi ve arama kutusu
+       ==================================================================== */
+    .top-bar {
+      background-color: #171818;
+      color: #fff;
+      padding: 11px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .top-bar .brand {
+      font-family: "playwrite-cc-sk", sans-serif;
+      font-weight: 100;
+      font-style: normal;
+      font-size: 1.72rem;
+      white-space: nowrap;
+    }
+    .top-bar .search-area {
+      flex: 1;
+      display: flex;
+      gap: 4px;
+    }
+    .top-bar .search-area input[type="text"] {
+      width: 100%;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      background-color: #d2d2d2;
+      transition: box-shadow 0.2s;
+    }
+    .top-bar .search-area input[type="text"]::placeholder {
+      color: #555;
+    }
+    .top-bar .search-area input[type="text"]:focus {
+      outline: none;
+      box-shadow: 0 0 4px rgba(0,0,0,0.08);
+    }
+    .top-bar .search-area button {
+      border: none;
+      border-radius: 4px;
+      padding: 8px 12px;
+      background-color: #272828;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .top-bar .search-area button:hover {
+      background-color: #444;
+    }
+
+    /* ====================================================================
+       Ana Navigasyon Menüsü Stilleri
+       ==================================================================== */
+    .nav-bar {
+      background-color: #272828;
+      color: #fff;
+      display: flex;
+      gap: 28px;
+      padding: 9px 20px;
+      font-size: 0.9rem;
+      justify-content: center;
+      letter-spacing: 0.5px;
+    }
+    .nav-bar a {
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.9;
+      transition: opacity 0.2s, text-decoration 0.2s;
+    }
+    .nav-bar a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    /* ====================================================================
+       İçerik ve Kenar Çubuk (Sidebar) Yerleşim Stilleri
+       ==================================================================== */
+    .container {
+      display: flex;
+      width: 90%;
+      margin: 20px auto;
+      gap: 20px;
+    }
+    .content-area {
+      flex: 1;
+    }
+    main {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    aside {
+      width: 270px;
+      background-color: #fff;
+      padding: 20px;
+      line-height: 1.4;
+    }
+
+    /* ====================================================================
+       Sözcük Ailesi ve Sözlük Referans Bilgileri Stilleri
+       ==================================================================== */
+    .word-family-bar {
+      background-color: #001C5A;
+      color: #fff;
+      padding: 9px 12px;
+      font-weight: bold;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .word-family-bar .topics {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    .dictionary-reference {
+      font-size: 0.9rem;
+      color: #545454;
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+
+    /* ====================================================================
+       Kelime Başlığı, Etiketler ve İlgili Bilgi Stilleri
+       ==================================================================== */
+    .word-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .word-title .main-word {
+      color: #C1133D;
+      font-size: 1.98rem;
+      font-weight: bold;
+    }
+    .word-title sup {
+      font-size: 1rem;
+      color: #C1133D;
+    }
+    .labels {
+      display: flex;
+      gap: 5px;
+    }
+    .label-box {
+      background-color: #C1133D;
+      color: #fff;
+      padding: 2px 5px;
+      font-size: 0.75rem;
+      border-radius: 3px;
+    }
+
+    /* ====================================================================
+       Fonetik Bilgi ve Ses İkonu Stilleri
+       ==================================================================== */
+    .phonetic-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 11px;
+    }
+    .phonetic {
+      font-size: 1rem;
+      color: #323232;
+    }
+    .audio-icon {
+      width: 16px;
+      height: 16px;
+      background-color: #ccc;
+      display: inline-block;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+    }
+    .audio-icon::after {
+      content: "";
+      display: block;
+      width: 4px;
+      height: 8px;
+      background-color: #666;
+      position: absolute;
+      left: 6px;
+      top: 4px;
+    }
+
+    /* ====================================================================
+       Anlam Dizini ve Örnekler için Tanım Blokları Stilleri
+       ==================================================================== */
+    .definition-header {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 15px 0 10px;
+      color: #222;
+    }
+    .sense-block {
+      margin-bottom: 15px;
+    }
+    .sense-block p {
+      margin-bottom: 5px;
+      color: #454545;
+      line-height: 1.4;
+    }
+    .example {
+      font-style: italic;
+      margin-left: 24px;
+      color: #464646;
+    }
+    .origin-box {
+      background-color: rgba(255,226,234,0.8);
+      padding: 10px 12px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+
+    /* ====================================================================
+       Kenar Çubuk (Sidebar) Bölüm Stilleri
+       ==================================================================== */
+    .sidebar-section h3 {
+      font-family: 'Roboto Condensed', sans-serif;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      font-size: 1rem;
+      color: #222;
+    }
+    .sidebar-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar-section ul li {
+      margin-bottom: 5px;
+    }
+    .sidebar-section a {
+      font-family: 'Playfair Display', serif;
+      color: #2a789c;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s, text-decoration 0.2s;
+    }
+    .sidebar-section a:hover {
+      text-decoration: underline;
+      color: #00547e;
+    }
+    .sidebar-section p {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    /* ====================================================================
+       Footer (Alt Bilgi) Stilleri
+       ==================================================================== */
+    .footer {
+      background-color: #f2f2f2;
+      border-top: 1px solid #ccc;
+      color: #666;
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 8px;
+      margin-top: 20px;
+    }
+
+    /* ====================================================================
+       Responsive Tasarım: 800px Altında Yapısal Ayarlamalar
+       ==================================================================== */
+    @media screen and (max-width: 800px) {
+      .top-bar,
+      .nav-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .container {
+        flex-direction: column;
+      }
+      aside {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+
+    /* ====================================================================
+       Frekans Rozeti Stili
+       ==================================================================== */
+    .freqBadge {
+      background-color: #C1133D;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Üst kısım: Marka ve arama fonksiyonelliği -->
+  <div class="top-bar">
+    <div class="brand">cevrimiciturtce</div>
+    <div class="search-area">
+      <input type="text" placeholder="ara" id="searchInput" />
+      <button id="searchBtn">Ara</button>
+    </div>
+  </div>
+
+  <!-- Ana navigasyon menüsü -->
+  <div class="nav-bar">
+    <a href="#">Anasayfa</a>
+    <a href="#">Sözcük Listeleri</a>
+    <a href="#">Blog</a>
+    <a href="#">İletişim</a>
+  </div>
+
+  <!-- İçerik ve kenar çubuk yerleşimi -->
+  <div class="container">
+    <div class="content-area">
+      <main>
+        <!-- Sözcük ailesi ve ilgili başlıklar -->
+        <div class="word-family-bar">
+          <div>Sözcük ailesi (isim) ruh ruhsuz ruhsal  (fiil) ruhlaşmak</div>
+          <div class="topics">Ortak başlıklar: <strong>Ruh İkizi</strong>, <strong>Ruhsuz</strong></div>
+        </div>
+
+        <!-- Sözlük tanımının referans bilgileri -->
+        <div class="dictionary-reference">
+          Bu tanım, yazar tarafından hazırlanan korpusun sağladığı verilerin analizine dayalı
+          <strong>kişisel</strong> çalışma esas alınarak düzenlenmiştir
+        </div>
+
+        <!-- Kelime başlığı, alt bilgi ve etiketler -->
+        <div class="word-title">
+          <div class="main-word" id="dynamicWordTitle">ruh</div><sup>1</sup>
+          <div class="labels" id="dynamicLabels">
+            <div class="label-box">S1</div>
+            <div class="label-box">W1</div>
+          </div>
+        </div>
+
+        <!-- Fonetik gösterim ve ses oynatma simgesi -->
+        <div class="phonetic-area">
+          <div class="phonetic" id="dynamicPhonetic">/ɾuh/ (isim)</div>
+          <div class="audio-icon" title="Play pronunciation" id="audioIcon"></div>
+        </div>
+
+        <!-- Tanım bölümü başlığı -->
+        <div class="definition-header">Anlam dizini</div>
+
+        <!-- Dinamik tanım verilerinin yükleneceği alan -->
+        <div id="dynamicDefinitions"></div>
+
+        <!-- Köken bilgisi kutusu -->
+        <div class="origin-box" id="originBox">
+          Orijin <strong>ruh</strong> Arapça <em>rūḥ</em> (روح) "nefes, soluk, rüzgâr, esinti"
+        </div>
+
+        <!-- Dinamik olarak yüklenecek bölümler: Sinonimler, Antonimler, Deyimler, Alıntılar ve Eşdizimler -->
+        <div class="sense-block">
+          <p><strong>Sinonimler:</strong> Lorem ipsum dolor sit amet...</p>
+          <div id="synonymSection"></div>
+        </div>
+        <div class="sense-block">
+          <p><strong>Antonimler:</strong> Lorem ipsum dolor sit amet...</p>
+          <div id="antonymSection"></div>
+        </div>
+        <div class="sense-block">
+          <p><strong>Deyimsel Kalıplar:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+          <div id="idiomsSection"></div>
+        </div>
+        <div class="sense-block">
+          <p><strong>Alıntılar:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+          <div id="quotesSection"></div>
+        </div>
+        <div class="sense-block">
+          <p><strong>Eşdizimler:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+          <div id="collocationsSection"></div>
+        </div>
+
+      </main>
+    </div>
+    <aside>
+      <!-- İlgili başka girdiler bölümü -->
+      <div class="sidebar-section">
+        <h3>ilgili başka girdiler</h3>
+        <ul id="relatedEntriesList">
+          <li><a href="#">madde 1</a></li>
+          <li><a href="#">madde 2</a></li>
+          <li><a href="#">madde 3</a></li>
+        </ul>
+      </div>
+      <!-- İlgili diziler veya konular bölümü -->
+      <div class="sidebar-section">
+        <h3>ilgili diziler</h3>
+        <ul id="relatedTopicsList">
+          <li><a href="#">dizi 1</a></li>
+          <li><a href="#">dizi 2</a></li>
+          <li><a href="#">dizi 3</a></li>
+        </ul>
+      </div>
+      <!-- Kaynak ve künye bilgileri -->
+      <div class="sidebar-section">
+        <h3>künye oluştur</h3>
+        <p>ruh. cevrimiciturkcesozluk.com. Accessed 2025.</p>
+      </div>
+      <!-- Alfabetik dizin bölümü -->
+      <div class="sidebar-section">
+        <h3>alfabetik dizini</h3>
+        <ul id="alphaList">
+          <li><a href="#" onclick="fetchWordsByLetter('a')">a harfi</a></li>
+          <li><a href="#" onclick="fetchWordsByLetter('b')">b harfi</a></li>
+          <li><a href="#" onclick="fetchWordsByLetter('c')">c harfi</a></li>
+          <li><a href="#" onclick="fetchWordsByLetter('d')">d harfi</a></li>
+        </ul>
+      </div>
+      <!-- Viral kelime trendleri bölümü -->
+      <div class="sidebar-section">
+        <h3>ViralKelime</h3>
+        <ul id="viralWordsList">
+          <li><a href="#">blockchain</a></li>
+          <li><a href="#">influencer</a></li>
+          <li><a href="#">metaverse</a></li>
+          <li><a href="#">remote-work</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Alt bilgi (Footer) -->
+  <div class="footer">
+    © 2025 cevrimiciturkcesozluk.com
+  </div>
+
+  <!-- ====================================================================
+       JavaScript: Dinamik İçerik Yükleme, API Çağrıları ve Etkinlik Dinleyicileri
+       ==================================================================== -->
+  <script>
+    /**
+     * DOMContentLoaded event'ı tamamlandığında arama işlevselliğini başlatır.
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('main içeriği:', document.querySelector('main').innerHTML.substring(0, 500));
+      console.log('DOM yüklendi, definition-header:', document.querySelector('.definition-header'), 'dynamicDefs:', document.getElementById('dynamicDefinitions'), 'main:', document.querySelector('main'));
+      // Arama butonuna tıklama olayını dinler ve arama fonksiyonunu tetikler.
+      document.getElementById('searchBtn').addEventListener('click', () => {
+        const keyword = document.getElementById('searchInput').value.trim();
+        if (!keyword) return;
+        searchAll(keyword);
+      });
+
+      // Sayfa yüklendiğinde varsayılan olarak "ruh" kelimesi aranır.
+      searchAll("ruh");
+    });
+
+    /**
+     * searchAll
+     * Belirtilen kelime için; sinonimler, antonimler, deyimler, alıntılar,
+     * eşdizimler ve tanımlar gibi çeşitli verileri çekerek ilgili bölümleri günceller.
+     *
+     * @param {string} word - Aranacak kelime.
+     * @returns {void}
+     */
+    function searchAll(word) {
+      console.log("searchAll -> ", word);
+      fetchSynonyms(word);
+      fetchAntonyms(word);
+      fetchIdioms(word);
+      fetchQuotes(word);
+      fetchCollocations(word);
+      fetchDefinitions(word);
+      // İsteğe bağlı: fetchWordFamily(word);
+    }
+
+    /**
+     * fetchSynonyms
+     * Verilen kelime için sunucudan sinonim verilerini çeker ve ilgili DOM bölümünü günceller.
+     *
+     * @param {string} word - Sinonimlerinin aranacağı kelime.
+     * @returns {void}
+     */
+    function fetchSynonyms(word) {
+      fetch('/api/synonyms?word=' + encodeURIComponent(word))
+        .then(resp => {
+          if (!resp.ok) throw new Error('Sunucu hatası: ' + resp.status);
+          return resp.json();
+        })
+        .then(data => {
+          const synSection = document.getElementById('synonymSection');
+          synSection.innerHTML = '';
+
+          if (!data.synonyms || data.synonyms.length === 0) {
+            synSection.textContent = 'Sinonim bulunamadı.';
+            return;
+          }
+
+          const ul = document.createElement('ul');
+          data.synonyms.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item.word;
+            ul.appendChild(li);
+          });
+          synSection.appendChild(ul);
+        })
+        .catch(err => console.error('Fetch synonyms hata:', err));
+    }
+
+    /**
+     * fetchAntonyms
+     * Verilen kelime için sunucudan antonim verilerini çeker ve ilgili DOM bölümünü günceller.
+     *
+     * @param {string} word - Antonimlerinin aranacağı kelime.
+     * @returns {void}
+     */
+    function fetchAntonyms(word) {
+      fetch('/api/antonyms?word=' + encodeURIComponent(word))
+        .then(resp => {
+          if (!resp.ok) throw new Error('Antonyms route yok veya hata: ' + resp.status);
+          return resp.json();
+        })
+        .then(data => {
+          const antSection = document.getElementById('antonymSection');
+          antSection.innerHTML = '';
+          if (!data.antonyms || data.antonyms.length === 0) {
+            antSection.textContent = 'Antonym bulunamadı.';
+            return;
+          }
+          const ul = document.createElement('ul');
+          data.antonyms.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item.word;
+            ul.appendChild(li);
+          });
+          antSection.appendChild(ul);
+        })
+        .catch(err => {
+          console.warn("Antonyms fetch hatası:", err);
+          document.getElementById('antonymSection').textContent = '(Antonym verisi yok)';
+        });
+    }
+
+    /**
+     * fetchIdioms
+     * Verilen kelime için deyimsel kalıpları sunucudan çeker ve ilgili DOM bölümünü günceller.
+     *
+     * @param {string} word - Deyimlerin aranacağı kelime.
+     * @returns {void}
+     */
+    function fetchIdioms(word) {
+      fetch('/api/idioms?word=' + encodeURIComponent(word))
+        .then(r => {
+          if (!r.ok) throw new Error('Idioms route yok: ' + r.status);
+          return r.json();
+        })
+        .then(data => {
+          const idiomSec = document.getElementById('idiomsSection');
+          idiomSec.innerHTML = '';
+          if (!data.idioms || data.idioms.length === 0) {
+            idiomSec.textContent = 'Deyimsel kalıp bulunamadı.';
+            return;
+          }
+          const ul = document.createElement('ul');
+          data.idioms.forEach(it => {
+            const li = document.createElement('li');
+            li.textContent = it.phrase;
+            ul.appendChild(li);
+          });
+          idiomSec.appendChild(ul);
+        })
+        .catch(err => {
+          console.warn("Idioms fetch hata:", err);
+          document.getElementById('idiomsSection').textContent = '(Deyim verisi yok)';
+        });
+    }
+
+    /**
+     * fetchQuotes
+     * Verilen kelime için sunucudan alıntı verilerini çeker ve ilgili DOM bölümünü günceller.
+     *
+     * @param {string} word - Alıntıların aranacağı kelime.
+     * @returns {void}
+     */
+    function fetchQuotes(word) {
+      fetch('/api/quotes?word=' + encodeURIComponent(word))
+        .then(r => {
+          if (!r.ok) throw new Error('Quotes route yok: ' + r.status);
+          return r.json();
+        })
+        .then(data => {
+          const quoteSec = document.getElementById('quotesSection');
+          quoteSec.innerHTML = '';
+          if (!data.quotes || data.quotes.length === 0) {
+            quoteSec.textContent = 'Alıntı bulunamadı.';
+            return;
+          }
+          const ul = document.createElement('ul');
+          data.quotes.forEach(qt => {
+            const li = document.createElement('li');
+            li.textContent = qt.text;
+            ul.appendChild(li);
+          });
+          quoteSec.appendChild(ul);
+        })
+        .catch(err => {
+          console.warn("Quotes fetch hata:", err);
+          document.getElementById('quotesSection').textContent = '(Alıntı verisi yok)';
+        });
+    }
+
+    /**
+     * fetchCollocations
+     * Verilen kelime için sunucudan eşdizim (collocations) verilerini çeker ve ilgili DOM bölümünü günceller.
+     *
+     * @param {string} word - Eşdizimlerin aranacağı kelime.
+     * @returns {void}
+     */
+    function fetchCollocations(word) {
+      fetch('/api/collocations?word=' + encodeURIComponent(word))
+        .then(r => {
+          if (!r.ok) throw new Error('Collocations route yok: ' + r.status);
+          return r.json();
+        })
+        .then(data => {
+          const colSec = document.getElementById('collocationsSection');
+          colSec.innerHTML = '';
+          if (!data.collocations || data.collocations.length === 0) {
+            colSec.textContent = 'Eşdizim bulunamadı.';
+            return;
+          }
+          const ul = document.createElement('ul');
+          data.collocations.forEach(col => {
+            const li = document.createElement('li');
+            li.textContent = col.phrase;
+            ul.appendChild(li);
+          });
+          colSec.appendChild(ul);
+        })
+        .catch(err => {
+          console.warn("Collocations fetch hata:", err);
+          document.getElementById('collocationsSection').textContent = '(Eşdizim verisi yok)';
+        });
+    }
+
+    /**
+     * fetchDefinitions
+     * Verilen kelime için sunucudan tanım verilerini çeker ve dinamik tanım bölümünü günceller.
+     *
+     * @param {string} word - Tanım verilerinin aranacağı kelime.
+     * @returns {void}
+     */
+    function fetchDefinitions(word) {
+      console.log('header:', document.querySelector('.definition-header'), 'div:', document.getElementById('dynamicDefinitions'));
+      let defDiv = document.getElementById('dynamicDefinitions');
+      if (!defDiv) {
+        defDiv = document.createElement('div');
+        defDiv.id = 'dynamicDefinitions';
+        const header = document.querySelector('.definition-header');
+        if (header) header.insertAdjacentElement('afterend', defDiv);
+      }
+      fetch('/search-like?kelime=' + encodeURIComponent(word))
+        .then(r => r.json())
+        .then(data => {
+          defDiv.innerHTML = '';
+          if (!data.results || data.results.length === 0) {
+            defDiv.innerHTML = '<p>Hiç bir definition bulunamadı.</p>';
+            return;
+          }
+          const sorted = data.results.slice().sort((a, b) => {
+            const la = a.sense_label || '';
+            const lb = b.sense_label || '';
+            return la.localeCompare(lb, 'tr');
+          });
+          sorted.forEach(item => {
+            const block = document.createElement('div');
+            block.className = 'sense-block';
+            block.innerHTML = `
+              <p><strong>${item.sense_label || item.def_id}</strong> ${item.definition_text || ''}</p>
+              ${item.example_sentence ? '<p class="example">' + item.example_sentence + '</p>' : ''}
+            `;
+            defDiv.appendChild(block);
+          });
+        })
+        .catch(err => console.error('Definition fetch hata:', err));
+    }
+
+    /**
+     * fetchWordFamily
+     * (Opsiyonel) Verilen kelime için sunucudan kelime ailesi verilerini çeker.
+     *
+     * @param {string} word - Kelime ailesi verilerinin aranacağı kelime.
+     * @returns {void}
+     */
+    function fetchWordFamily(word) {
+      fetch('/api/word-family?word=' + encodeURIComponent(word))
+        .then(r => {
+          if (!r.ok) throw new Error('WordFamily route yok: ' + r.status);
+          return r.json();
+        })
+        .then(data => {
+          console.log("wordFamily data:", data);
+        })
+        .catch(err => {
+          console.warn("WordFamily fetch hata:", err);
+        });
+    }
+
+    /**
+     * fetchWordsByLetter
+     * Belirtilen harfle başlayan kelimeleri sunucudan çeker ve sonuçları kullanıcıya gösterir.
+     *
+     * @param {string} letter - Kelimenin başlaması gereken harf.
+     * @returns {void}
+     */
+    function fetchWordsByLetter(letter) {
+      fetch('/words-by-letter?letter=' + letter)
+        .then(r => r.json())
+        .then(data => {
+          alert(`"${letter}" harfiyle başlayan kelimeler:\n` + JSON.stringify(data, null, 2));
+        })
+        .catch(err => {
+          console.warn("Letter fetch hata:", err);
+        });
+    }
+
+    /**
+     * Audio oynatma işlevi:
+     * Ses simgesine tıklanıldığında tanımlı ses dosyasını oynatır.
+     *
+     * @event click
+     * @returns {void}
+     */
+    document.addEventListener('click', e => {
+      if (e.target && e.target.id === 'audioIcon') {
+        const dummyAudioURL = '/audio/ruh.mp3';
+        const audio = new Audio(dummyAudioURL);
+        audio.play();
+      }
+    });
+  </script>
+</body>
+</html>

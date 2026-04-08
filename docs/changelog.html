@@ -172,6 +172,13 @@
             <td>(Hata düzeltmesi yok)</td>
             <td>(Kaldırma yok)</td>
         </tr>
+        <tr>
+            <td>[0.7.0] - 2025-04-08 <span class="new">HOT!</span></td>
+            <td>sense_label düzenleme özelliği admin-edit.html'e eklendi (modal içinde yeni input alanı).<br><br>Definitions listesine "Düzenle" butonu eklendi (admin.html), kelime düzenleme sayfasına yönlendiriyor.<br><br>fetchDefinitions: tanımlar sense_label sırasıyla sıralanıp Anlam dizini altında gösterilmeye başladı.<br><br>/admin/words/:id tüm definitions'ı id AS definition_id alias'ıyla array olarak döndürüyor.</td>
+            <td>/search-like SQL sorgusuna d.sense_label eklendi.<br><br>"Dinamik Definition Sonuçları" başlığı kaldırıldı; tanımlar doğrudan Anlam dizini başlığının altında gösteriliyor.<br><br>admin-edit.html fetchWordData: ayrı /admin/definitions fetch kaldırıldı, definitions doğrudan /admin/words/:id response'undan alınıyor.</td>
+            <td>definition-header class'ındaki çift eğri tırnak (Unicode U+201C/U+201D) hatası düzeltildi; querySelector çalışmıyordu.<br><br>admin-edit.html defData.filter hatası düzeltildi: definitions artık array olarak dönüyor, definition_id alias'ı eklendi.</td>
+            <td>(Kaldırma yok)</td>
+        </tr>
     </table>
 
     <div class="ceo">
