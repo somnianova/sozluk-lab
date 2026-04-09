@@ -70,13 +70,13 @@ function rainbowText() {
 <!-- Proje Yapısı -->
 <h2 id="proje-yapisi"><font color="#FF69B4" size="6"><blink>Proje Yapısı</blink></font></h2>
 <p><font size="4" color="#003366">Aşağıda proje içindeki temel dosya ve klasörlerin açıklaması yer alır:</font></p>
-<p><font size="3" color="#40E0D0"><code>proje-adi/<br>├─ node_modules/<br>├─ public/<br>│   ├─ index.html<br>│   ├─ admin.html<br>│   ├─ admin-edit.html<br>│   ├─ (CSS/JS dosyaları)<br>├─ .env<br>├─ index.js<br>├─ package.json<br>├─ package-lock.json<br>└─ (Diğer dokümanlar ve klasörler)</code></font></p>
+<p><font size="3" color="#40E0D0"><code>sozluk-lab/<br>├─ docs/<br>├─ public/<br>│   ├─ index.html<br>│   ├─ admin.html<br>│   └─ admin-edit.html<br>├─ .env<br>├─ .gitignore<br>├─ index.js<br>├─ package.json<br>└─ package-lock.json</code></font></p>
 <table border="3" bgcolor="#40E0D0" cellpadding="8">
 <tr><td><font color="#FF4500">• <b>index.js</b><br>Sunucunun temel giriş noktasıdır. Express yapılandırması, veritabanı bağlantısı ve rota tanımları bu dosyada veya import edilen modüller yoluyla yer alır.</font></td></tr>
 <tr><td><font color="#FF4500">• <b>public/</b><br>Statik dosyaların bulunduğu klasördür. admin.html (admin paneli arayüzü), index.html (kullanıcıya gösterilecek arayüz, örnek), CSS/JS gibi dosyalar burada tutulur.</font></td></tr>
 <tr><td><font color="#FF4500">• <b>.env</b><br>Çevre değişkenlerini (veritabanı bilgileri, admin şifre, session secret vb.) tanımladığınız dosyadır.</font></td></tr>
 <tr><td><font color="#FF4500">• <b>package.json</b><br>Projenin bağımlılıkları, script’leri (örn: start) ve metadatalarını içeren yapılandırma dosyasıdır.</font></td></tr>
-<tr><td><font color="#FF4500">• <b>docs/</b> (opsiyonel)<br>Proje dokümantasyonlarının (örneğin bu user-guide.md) tutulabileceği klasör.<br>(Daha büyük projelerde controllers/, routes/, models/ klasörleri oluşturulabilir ve kodlar modülerleştirilebilir.)</font></td></tr>
+<tr><td><font color="#FF4500">• <b>docs/</b><br>Proje dokümantasyonlarının (changelog, readme, mimari rehber vb.) tutulduğu klasör.</font></td></tr>
 </table>
 
 <!-- Veritabanı & Bağlantılar -->
@@ -84,7 +84,7 @@ function rainbowText() {
 <p><font size="4" color="#FF4500">Bu proje MySQL veritabanı kullanır. İlgili tablolar:</font></p>
 <table border="5" bgcolor="#FFD700" cellpadding="10" cellspacing="10">
 <tr><td><font color="#FF4500">1. <b>words</b><br>- id (INT, AUTO_INCREMENT, PK)<br>- word (VARCHAR) – Kelimenin kendisi<br>- origin (TEXT) – Köken bilgisi<br>- frequency_tags (VARCHAR) – Frekans rozetleri (S1, W1 vb.)<br>- audio_url (VARCHAR) – Ses dosyası bağlantısı</font></td></tr>
-<tr><td><font color="#FF4500">2. <b>definitions</b><br>- id (INT, AUTO_INCREMENT, PK)<br>- word_id (INT, FK -> words.id) – Hangi kelimeye ait<br>- definition_text (TEXT) – Tanım<br>- example_sentence (TEXT) – Örnek cümle<br>- part_of_speech (VARCHAR) – Kelime türü (noun, verb vb.)<br>- sense_label (VARCHAR) – Anlam numaraları (örn: 1a, 2b)</font></td></tr>
+<tr><td><font color="#FF4500">2. <b>definitions</b><br>- id (INT, AUTO_INCREMENT, PK)<br>- word_id (INT, FK -> words.id) – Hangi kelimeye ait<br>- definition_text (TEXT) – Tanım<br>- example_sentence (TEXT) – Örnek cümle<br>- part_of_speech (VARCHAR) – Kelime türü (noun, verb vb.)<br>- sense_number (INT) – Anlam numarası (1, 2, 3...)<br>- sub_letter (VARCHAR) – Alt harf (a, b, c...)<br>- sense_label (VARCHAR) – Birleşik anlam etiketi (örn: 1a, 2b)</font></td></tr>
 <tr><td><font color="#FF4500">3. <b>relations</b><br>- id (INT, AUTO_INCREMENT, PK)<br>- left_word_id (INT, FK -> words.id)<br>- right_word_id (INT, FK -> words.id)<br>- relation_type (VARCHAR) – synonym, antonym, idiom vb.</font></td></tr>
 </table>
 <p><font size="4" color="#40E0D0">Bağlantı kurulumu</font></p>

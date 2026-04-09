@@ -93,8 +93,8 @@
         <p>
             <b>Monolitik RESTful API</b>: Sunucu tarafında Node.js & Express kullanarak tek bir monolitik uygulama yazılmıştır. API, JSON formatında veri döner; ön yüz ise bu API’yi tüketen statik HTML/JS sayfalarından oluşur.<br>
             <b>MySQL Veritabanı</b>: Kelime, tanım ve kelime ilişkileri (ör. eş anlamlı, zıt anlamlı, deyim) ilişkisel bir modelle MySQL üzerinde tutulur.<br>
-            <b>Redis</b>: Oturum yönetimi (session) ve isteğe bağlı olarak önbellekleme (cache) katmanı için yapılandırılır. Böylece uygulama, özellikle yatay ölçeklenmeye geçişte veya sık tekrarlanan sorgularda hızlı veri sunmak için Redis’i kullanabilir.<br>
-            <b>Docker</b>: Geliştirme ve dağıtım ortamlarında tutarlılık sağlamak amacıyla tüm bileşenler (Node.js uygulaması, MySQL, Redis) Docker konteyner’ları olarak paketlenebilir. docker-compose aracılığıyla tek adımda ayağa kaldırılabilir.<br>
+            <b>Redis</b>: Oturum yönetimi (session) ve isteğe bağlı olarak önbellekleme (cache) katmanı için yapılandırılabilir. <i>(ileride planlanmaktadır — şu an kullanılmıyor)</i><br>
+            <b>Docker</b>: Geliştirme ve dağıtım ortamlarında tutarlılık sağlamak amacıyla tüm bileşenler Docker konteyner’ları olarak paketlenebilir. <i>(ileride planlanmaktadır — şu an kullanılmıyor)</i><br>
             <b>Hedef Kullanım</b>: Kişisel ve küçük/orta ölçekli projelerde bir sözlük platformu oluşturmak; kelime arama, ekleme, düzenleme, ilişkiler vb. özelleştirmeler yapmak isteyenlere kolayca özelleştirebilecekleri bir altyapı sağlamak.<br>
         </p>
         <img src="https://media.giphy.com/media/l0HlOBEJj6RITZen6/giphy.gif" class="gif" alt="Uçan Yarasa">
@@ -105,10 +105,10 @@
         <ol>
             <li><b>Node.js & Express</b><br>Tek iş parçacıklı, olay güdümlü yapı sayesinde yüksek eşzamanlı bağlantıları verimli biçimde yönetir.<br>Express çerçevesi ile RESTful endpoint’ler (kelime, tanım ve ilişki CRUD işlemleri) oluşturulur.</li>
             <li><b>MySQL</b><br>İlişkisel veritabanı olarak kullanılır.<br><i>words</i>, <i>definitions</i> ve <i>relations</i> tabloları arasında yabancı anahtar ilişkileri mevcuttur.<br>Full-text arama desteği, kelime aramalarını hızlandırmak için kullanılır.</li>
-            <li><b>Redis</b><br>Oturum bilgisini saklamak ve potansiyel önbellekleme (cache) senaryoları için bellek içi veri deposu görevi görür.<br>Oturumların paylaşımlı bir depoda tutulması, çoklu Node.js örneği (container) ile yatay ölçeklemeye imkân tanır.</li>
+            <li><b>Redis</b><br>Oturum bilgisini saklamak ve potansiyel önbellekleme (cache) senaryoları için bellek içi veri deposu görevi görür.<br>Oturumların paylaşımlı bir depoda tutulması, çoklu Node.js örneği (container) ile yatay ölçeklemeye imkân tanır.<br><i>(ileride planlanmaktadır)</i></li>
             <li><b>REST API</b><br>İstemci (web ön yüzü) ile sunucu (Express uygulaması) arasında JSON formatında veri transferini sağlar.<br>Tüm CRUD işlemleri HTTP yöntemleriyle (GET, POST, PUT, DELETE) temsil edilir. Kaynak odaklı endpoint tanımları (<i>words</i>, <i>definitions</i>, <i>relations</i> vb.) mevcuttur.</li>
             <li><b>Frontend (Statik HTML/JS)</b><br>Uygulamanın görsel arayüzü ve kullanıcı etkileşimini yönetir.<br>Tarayıcıda çalışır; API’ye <code>fetch</code>/AJAX istekleri atarak veri talep eder veya günceller.<br>Ayrık bir origin’den çalışıyorsa CORS ayarları Express tarafında düzenlenir.</li>
-            <li><b>Docker</b><br>Her bileşen (Node.js, MySQL, Redis) için ayrı bir konteyner.<br><i>docker-compose</i> dosyasıyla ortam ve ağ yapılandırmaları tanımlanır.<br>Geliştirme ve canlı ortam dağıtımlarında tutarlılık sağlar.</li>
+            <li><b>Docker</b><br>Her bileşen (Node.js, MySQL, Redis) için ayrı bir konteyner.<br><i>docker-compose</i> dosyasıyla ortam ve ağ yapılandırmaları tanımlanır.<br>Geliştirme ve canlı ortam dağıtımlarında tutarlılık sağlar.<br><i>(ileride planlanmaktadır)</i></li>
         </ol>
     </div>
 

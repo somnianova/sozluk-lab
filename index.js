@@ -279,6 +279,25 @@ app.put('/admin/words/:id', checkAdmin, (req, res) => {
   });
 });
 
+/**
+ * @description /admin/words/:id (DELETE): Kelimeye ait tüm definitions ve relations kayıtlarını
+ * sildikten sonra kelimenin kendisini siler.
+ */
+app.delete('/admin/words/:id', checkAdmin, (req, res) => {
+  const wId = req.params.id;
+  db.query('DELETE FROM definitions WHERE word_id=?', [wId], (err1) => {
+    if (err1) return res.status(500).json({ error: 'definitions silme hata' });
+    db.query('DELETE FROM relations WHERE left_word_id=? OR right_word_id=?', [wId, wId], (err2) => {
+      if (err2) return res.status(500).json({ error: 'relations silme hata' });
+      db.query('DELETE FROM words WHERE id=?', [wId], (err3, result) => {
+        if (err3) return res.status(500).json({ error: 'kelime silme hata' });
+        if (!result.affectedRows) return res.status(404).json({ error: 'Kelime yok' });
+        res.json({ success: true });
+      });
+    });
+  });
+});
+
 /* ===============================
    Definition Yönetimi
 =============================== */

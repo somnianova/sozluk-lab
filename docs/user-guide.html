@@ -66,27 +66,17 @@
     <h3><font color="purple">Klasör Yapısı</font></h3>
     <p><font size="4">Proje, Node.js Express uygulamaları için tipik MVC benzeri bir yapıdadır:</font></p>
     <pre><font size="4">
-project-root/
-├── index.js             # Ana uygulama giriş dosyası
-├── routes/              # Route tanımları
-│   ├── api.js           # Genel API uçları
-│   ├── admin.js         # Yönetici paneli route’ları
-│   └── index.js         # Ön yüz sayfalarının route’ları
-├── controllers/         # İş mantığını içeren handler’lar
-│   ├── wordController.js
-│   ├── definitionController.js
-│   └── relationController.js
-├── models/              # Veritabanı modelleri ve yardımcı modüller
-│   ├── db.js            # MySQL bağlantısı (mysql2)
-│   └── wordModel.js     # Kelime sorgulama fonksiyonları
-├── views/               # Sunucu tarafı render şablonları (şu an boş)
+sozluk-lab/
+├── docs/                # Proje dokümantasyonları
 ├── public/              # Statik dosyalar
-│   ├── index.html
-│   ├── admin.html
-│   ├── css/
-│   ├── js/
-│   └── images/
-└── ...diğer dosyalar
+│   ├── index.html       # Kullanıcı arayüzü (arama sayfası)
+│   ├── admin.html       # Admin paneli
+│   └── admin-edit.html  # Kelime düzenleme sayfası
+├── .env                 # Ortam değişkenleri (DB, şifre, secret)
+├── .gitignore
+├── index.js             # Ana uygulama giriş dosyası (Express + MySQL)
+├── package.json
+└── package-lock.json
     </font></pre>
     <marquee direction="left" bgcolor="red"><font color="yellow">MVC BENZERİ SÜPER YAPI!!</font></marquee>
 
@@ -145,7 +135,7 @@ SESSION_SECRET=oturumAnahtari
       </tr>
       <tr>
         <td>definitions</td>
-        <td>Tanımlar (id, word_id, definition_text, example_sentence)</td>
+        <td>Tanımlar (id, word_id, definition_text, example_sentence, part_of_speech, sense_number, sub_letter, sense_label)</td>
       </tr>
       <tr>
         <td>relations</td>
@@ -174,7 +164,6 @@ Yönetici Girişi: POST /admin/login
 Kelime Ekleme: POST /admin/words
 Tanım Ekleme: POST /admin/definitions
 İlişki Ekleme: POST /admin/relations
-Kelime Silme: DELETE /admin/words/:id
     </font></pre>
 
     <!-- Gelecekteki Geliştirmeler -->
