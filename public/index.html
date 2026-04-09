@@ -330,16 +330,19 @@
 
   <!-- Ana navigasyon menüsü -->
   <div class="nav-bar">
-    <a href="#">Anasayfa</a>
-    <a href="#">Sözcük Listeleri</a>
-    <a href="#">Blog</a>
-    <a href="#">İletişim</a>
+    <a href="/">Anasayfa</a>
+    <a href="/listeler.html">Sözcük Listeleri</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/iletisim.html">İletişim</a>
   </div>
 
   <!-- İçerik ve kenar çubuk yerleşimi -->
   <div class="container">
     <div class="content-area">
       <main>
+        <!-- Harfe göre kelime listesi sonuçları -->
+        <div id="letterResults" style="display:none"></div>
+
         <!-- Sözcük ailesi ve ilgili başlıklar -->
         <div class="word-family-bar">
           <div>Sözcük ailesi (isim) ruh ruhsuz ruhsal  (fiil) ruhlaşmak</div>
@@ -380,23 +383,23 @@
 
         <!-- Dinamik olarak yüklenecek bölümler: Sinonimler, Antonimler, Deyimler, Alıntılar ve Eşdizimler -->
         <div class="sense-block">
-          <p><strong>Sinonimler:</strong> Lorem ipsum dolor sit amet...</p>
+          <p><strong>Sinonimler:</strong></p>
           <div id="synonymSection"></div>
         </div>
         <div class="sense-block">
-          <p><strong>Antonimler:</strong> Lorem ipsum dolor sit amet...</p>
+          <p><strong>Antonimler:</strong></p>
           <div id="antonymSection"></div>
         </div>
         <div class="sense-block">
-          <p><strong>Deyimsel Kalıplar:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+          <p><strong>Deyimsel Kalıplar:</strong></p>
           <div id="idiomsSection"></div>
         </div>
         <div class="sense-block">
-          <p><strong>Alıntılar:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+          <p><strong>Alıntılar:</strong></p>
           <div id="quotesSection"></div>
         </div>
         <div class="sense-block">
-          <p><strong>Eşdizimler:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+          <p><strong>Eşdizimler:</strong></p>
           <div id="collocationsSection"></div>
         </div>
 
@@ -429,12 +432,7 @@
       <!-- Alfabetik dizin bölümü -->
       <div class="sidebar-section">
         <h3>alfabetik dizini</h3>
-        <ul id="alphaList">
-          <li><a href="#" onclick="fetchWordsByLetter('a')">a harfi</a></li>
-          <li><a href="#" onclick="fetchWordsByLetter('b')">b harfi</a></li>
-          <li><a href="#" onclick="fetchWordsByLetter('c')">c harfi</a></li>
-          <li><a href="#" onclick="fetchWordsByLetter('d')">d harfi</a></li>
-        </ul>
+        <ul id="alphaList"></ul>
       </div>
       <!-- Viral kelime trendleri bölümü -->
       <div class="sidebar-section">
@@ -462,13 +460,27 @@
      * DOMContentLoaded event'ı tamamlandığında arama işlevselliğini başlatır.
      */
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('main içeriği:', document.querySelector('main').innerHTML.substring(0, 500));
-      console.log('DOM yüklendi, definition-header:', document.querySelector('.definition-header'), 'dynamicDefs:', document.getElementById('dynamicDefinitions'), 'main:', document.querySelector('main'));
       // Arama butonuna tıklama olayını dinler ve arama fonksiyonunu tetikler.
       document.getElementById('searchBtn').addEventListener('click', () => {
         const keyword = document.getElementById('searchInput').value.trim();
         if (!keyword) return;
         searchAll(keyword);
+      });
+
+      // Türkçe alfabeyi dinamik olarak oluşturur.
+      const trAlphabet = ['a','b','c','ç','d','e','f','g','ğ','h','ı','i','j','k','l','m','n','o','ö','p','r','s','ş','t','u','ü','v','y','z'];
+      const alphaList = document.getElementById('alphaList');
+      trAlphabet.forEach(letter => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = letter + ' harfi';
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          fetchWordsByLetter(letter);
+        });
+        li.appendChild(a);
+        alphaList.appendChild(li);
       });
 
       // Sayfa yüklendiğinde varsayılan olarak "ruh" kelimesi aranır.
@@ -484,14 +496,18 @@
      * @returns {void}
      */
     function searchAll(word) {
-      console.log("searchAll -> ", word);
+      // Harf listesi görünüyorsa gizle, kelime içeriğini göster.
+      const letterResults = document.getElementById('letterResults');
+      letterResults.style.display = 'none';
+      letterResults.innerHTML = '';
+      document.querySelectorAll('main > *:not(#letterResults)').forEach(el => el.style.display = '');
+
       fetchSynonyms(word);
       fetchAntonyms(word);
       fetchIdioms(word);
       fetchQuotes(word);
       fetchCollocations(word);
       fetchDefinitions(word);
-      // İsteğe bağlı: fetchWordFamily(word);
     }
 
     /**
@@ -510,21 +526,31 @@
         .then(data => {
           const synSection = document.getElementById('synonymSection');
           synSection.innerHTML = '';
-
           if (!data.synonyms || data.synonyms.length === 0) {
-            synSection.textContent = 'Sinonim bulunamadı.';
+            synSection.textContent = 'Veri bulunamadı.';
             return;
           }
-
           const ul = document.createElement('ul');
           data.synonyms.forEach(item => {
             const li = document.createElement('li');
-            li.textContent = item.word;
+            const a = document.createElement('a');
+            a.href = '#';
+            a.className = 'sidebar-section a';
+            a.textContent = item.word;
+            a.addEventListener('click', e => {
+              e.preventDefault();
+              document.getElementById('searchInput').value = item.word;
+              searchAll(item.word);
+            });
+            li.appendChild(a);
             ul.appendChild(li);
           });
           synSection.appendChild(ul);
         })
-        .catch(err => console.error('Fetch synonyms hata:', err));
+        .catch(err => {
+          console.error('Fetch synonyms hata:', err);
+          document.getElementById('synonymSection').textContent = 'Veri bulunamadı.';
+        });
     }
 
     /**
@@ -544,20 +570,28 @@
           const antSection = document.getElementById('antonymSection');
           antSection.innerHTML = '';
           if (!data.antonyms || data.antonyms.length === 0) {
-            antSection.textContent = 'Antonym bulunamadı.';
+            antSection.textContent = 'Veri bulunamadı.';
             return;
           }
           const ul = document.createElement('ul');
           data.antonyms.forEach(item => {
             const li = document.createElement('li');
-            li.textContent = item.word;
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = item.word;
+            a.addEventListener('click', e => {
+              e.preventDefault();
+              document.getElementById('searchInput').value = item.word;
+              searchAll(item.word);
+            });
+            li.appendChild(a);
             ul.appendChild(li);
           });
           antSection.appendChild(ul);
         })
         .catch(err => {
           console.warn("Antonyms fetch hatası:", err);
-          document.getElementById('antonymSection').textContent = '(Antonym verisi yok)';
+          document.getElementById('antonymSection').textContent = 'Veri bulunamadı.';
         });
     }
 
@@ -578,7 +612,7 @@
           const idiomSec = document.getElementById('idiomsSection');
           idiomSec.innerHTML = '';
           if (!data.idioms || data.idioms.length === 0) {
-            idiomSec.textContent = 'Deyimsel kalıp bulunamadı.';
+            idiomSec.textContent = 'Veri bulunamadı.';
             return;
           }
           const ul = document.createElement('ul');
@@ -591,7 +625,7 @@
         })
         .catch(err => {
           console.warn("Idioms fetch hata:", err);
-          document.getElementById('idiomsSection').textContent = '(Deyim verisi yok)';
+          document.getElementById('idiomsSection').textContent = 'Veri bulunamadı.';
         });
     }
 
@@ -612,7 +646,7 @@
           const quoteSec = document.getElementById('quotesSection');
           quoteSec.innerHTML = '';
           if (!data.quotes || data.quotes.length === 0) {
-            quoteSec.textContent = 'Alıntı bulunamadı.';
+            quoteSec.textContent = 'Veri bulunamadı.';
             return;
           }
           const ul = document.createElement('ul');
@@ -625,7 +659,7 @@
         })
         .catch(err => {
           console.warn("Quotes fetch hata:", err);
-          document.getElementById('quotesSection').textContent = '(Alıntı verisi yok)';
+          document.getElementById('quotesSection').textContent = 'Veri bulunamadı.';
         });
     }
 
@@ -646,7 +680,7 @@
           const colSec = document.getElementById('collocationsSection');
           colSec.innerHTML = '';
           if (!data.collocations || data.collocations.length === 0) {
-            colSec.textContent = 'Eşdizim bulunamadı.';
+            colSec.textContent = 'Veri bulunamadı.';
             return;
           }
           const ul = document.createElement('ul');
@@ -659,7 +693,7 @@
         })
         .catch(err => {
           console.warn("Collocations fetch hata:", err);
-          document.getElementById('collocationsSection').textContent = '(Eşdizim verisi yok)';
+          document.getElementById('collocationsSection').textContent = 'Veri bulunamadı.';
         });
     }
 
@@ -734,13 +768,58 @@
      * @returns {void}
      */
     function fetchWordsByLetter(letter) {
-      fetch('/words-by-letter?letter=' + letter)
+      fetch('/words-by-letter?letter=' + encodeURIComponent(letter))
         .then(r => r.json())
         .then(data => {
-          alert(`"${letter}" harfiyle başlayan kelimeler:\n` + JSON.stringify(data, null, 2));
+          const letterResults = document.getElementById('letterResults');
+
+          // Kelime içeriğini gizle, harf listesini göster.
+          document.querySelectorAll('main > *:not(#letterResults)').forEach(el => el.style.display = 'none');
+          letterResults.style.display = '';
+          letterResults.innerHTML = '';
+
+          const header = document.createElement('div');
+          header.className = 'definition-header';
+          header.textContent = '"' + letter.toUpperCase() + '" harfiyle başlayan kelimeler';
+          letterResults.appendChild(header);
+
+          if (!data.words || data.words.length === 0) {
+            const p = document.createElement('p');
+            p.textContent = 'Veri bulunamadı.';
+            p.style.padding = '10px 0';
+            letterResults.appendChild(p);
+            return;
+          }
+
+          const ul = document.createElement('ul');
+          ul.style.listStyle = 'none';
+          ul.style.padding = '10px 0';
+          data.words.forEach(w => {
+            const li = document.createElement('li');
+            li.style.marginBottom = '6px';
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = w.word;
+            a.style.color = '#2a789c';
+            a.style.textDecoration = 'none';
+            a.style.fontSize = '0.95rem';
+            a.addEventListener('click', e => {
+              e.preventDefault();
+              document.getElementById('searchInput').value = w.word;
+              searchAll(w.word);
+            });
+            a.addEventListener('mouseenter', () => a.style.textDecoration = 'underline');
+            a.addEventListener('mouseleave', () => a.style.textDecoration = 'none');
+            li.appendChild(a);
+            ul.appendChild(li);
+          });
+          letterResults.appendChild(ul);
         })
         .catch(err => {
           console.warn("Letter fetch hata:", err);
+          const letterResults = document.getElementById('letterResults');
+          letterResults.style.display = '';
+          letterResults.innerHTML = '<p style="padding:10px 0">Veri bulunamadı.</p>';
         });
     }
 
