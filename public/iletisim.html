@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Çevrimiçi Türkçe Sözlük | İletişim</title>
+
+  <style>
+    @import url("https://use.typekit.net/jui6adt.css");
+  </style>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-color: #fff; color: #323232; font-family: Arial, sans-serif; line-height: 1.5; }
+
+    .top-bar {
+      background-color: #171818; color: #fff;
+      padding: 11px 20px; display: flex; align-items: center; gap: 20px;
+    }
+    .top-bar .brand {
+      font-family: "playwrite-cc-sk", sans-serif; font-weight: 100;
+      font-style: normal; font-size: 1.72rem; white-space: nowrap;
+    }
+    .top-bar .search-area { flex: 1; display: flex; gap: 4px; }
+    .top-bar .search-area input[type="text"] {
+      width: 100%; padding: 8px 12px; border: none; border-radius: 4px;
+      background-color: #d2d2d2; transition: box-shadow 0.2s;
+    }
+    .top-bar .search-area input[type="text"]::placeholder { color: #555; }
+    .top-bar .search-area input[type="text"]:focus { outline: none; box-shadow: 0 0 4px rgba(0,0,0,0.08); }
+    .top-bar .search-area button {
+      border: none; border-radius: 4px; padding: 8px 12px;
+      background-color: #272828; color: #fff; cursor: pointer; transition: background-color 0.2s;
+    }
+    .top-bar .search-area button:hover { background-color: #444; }
+
+    .nav-bar {
+      background-color: #272828; color: #fff;
+      display: flex; gap: 28px; padding: 9px 20px;
+      font-size: 0.9rem; justify-content: center; letter-spacing: 0.5px;
+    }
+    .nav-bar a { color: #fff; text-decoration: none; opacity: 0.9; transition: opacity 0.2s, text-decoration 0.2s; }
+    .nav-bar a:hover { opacity: 1; text-decoration: underline; }
+
+    .page-content {
+      width: 90%; margin: 40px auto; padding: 20px;
+    }
+    .page-content h1 {
+      font-size: 1.8rem; color: #171818; margin-bottom: 20px;
+      padding-bottom: 10px; border-bottom: 2px solid #e0e0e0;
+    }
+    .contact-list { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .contact-list li { font-size: 1rem; color: #323232; }
+    .contact-list li span { color: #545454; margin-right: 8px; }
+    .contact-list a { color: #2a789c; text-decoration: none; }
+    .contact-list a:hover { text-decoration: underline; color: #00547e; }
+
+    .footer {
+      background-color: #f2f2f2; border-top: 1px solid #ccc;
+      color: #666; font-size: 0.85rem; text-align: center;
+      padding: 8px; margin-top: 40px;
+    }
+
+    @media screen and (max-width: 800px) {
+      .top-bar, .nav-bar { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="brand">cevrimiciturtce</div>
+    <div class="search-area">
+      <input type="text" placeholder="ara" id="searchInput" />
+      <button id="searchBtn">Ara</button>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <a href="/">Anasayfa</a>
+    <a href="/listeler.html">Sözcük Listeleri</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/iletisim.html">İletişim</a>
+  </div>
+
+  <div class="page-content">
+    <h1>İletişim</h1>
+    <ul class="contact-list">
+      <li>
+        <span>E-posta:</span>
+        <a href="mailto:cevrimiciturkcesozluk@gmail.com">cevrimiciturkcesozluk@gmail.com</a>
+      </li>
+      <li>
+        <span>GitHub:</span>
+        <a href="https://github.com/somnianova/sozluk-lab" target="_blank" rel="noopener">github.com/somnianova/sozluk-lab</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    © 2025 cevrimiciturkcesozluk.com
+  </div>
+
+  <script>
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      const keyword = document.getElementById('searchInput').value.trim();
+      if (keyword) window.location.href = '/?kelime=' + encodeURIComponent(keyword);
+    });
+    document.getElementById('searchInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('searchBtn').click();
+    });
+  </script>
+</body>
+</html>
