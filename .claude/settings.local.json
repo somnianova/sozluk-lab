@@ -6,7 +6,13 @@
       "Bash(git push:*)",
       "Bash(git pull:*)",
       "Bash(git stash:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(pkill -f \"node index.js\")",
+      "Bash(netstat -ano)",
+      "Bash(xargs -r taskkill //PID //F)",
+      "Bash(cmd //c \"for /f \\\\\"tokens=5\\\\\" %a in \\('netstat -aon ^| findstr :3000'\\) do taskkill /PID %a /F\")",
+      "Bash(curl:*)",
+      "Bash(cmd:*)"
     ]
   }
 }

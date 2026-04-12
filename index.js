@@ -654,6 +654,54 @@ app.get('/api/word-family', (req, res) => {
 });
 
 /* ===============================
+   Herkese Açık Kelime Detay
+=============================== */
+
+/**
+ * @description /api/word/:word: Kelimeyi ismiyle arayıp words bilgilerini ve tüm definitions'ı döner. Admin gerektirmez.
+ */
+app.get('/api/word/:word', (req, res) => {
+  const wordParam = req.params.word;
+
+  function fetchAndRespond(wordRow) {
+    const defQ = `
+      SELECT id, definition_text, example_sentence, part_of_speech,
+             sense_number, sub_letter, sense_label
+      FROM definitions
+      WHERE word_id=?
+      ORDER BY sense_number, sense_label
+    `;
+    db.query(defQ, [wordRow.id], (err, dRows) => {
+      if (err) return res.status(500).json({ error: 'DB hata (definitions)' });
+      res.json({
+        id: wordRow.id,
+        word: wordRow.word,
+        origin: wordRow.origin || null,
+        frequency_tags: wordRow.frequency_tags || null,
+        audio_url: wordRow.audio_url || null,
+        definitions: dRows
+      });
+    });
+  }
+
+  db.query('SELECT * FROM words WHERE word=?', [wordParam], (err, wRows) => {
+    if (err) return res.status(500).json({ error: 'DB hata (word)' });
+    if (wRows.length) return fetchAndRespond(wRows[0]);
+
+    // Kelime yoksa otomatik ekle, ardından boş bir definition oluştur.
+    db.query('INSERT INTO words (word) VALUES (?)', [wordParam], (err2, result) => {
+      if (err2) return res.status(500).json({ error: 'DB hata (insert word)' });
+      const newId = result.insertId;
+      const defQ = 'INSERT INTO definitions (word_id, sense_label, definition_text, example_sentence) VALUES (?, ?, ?, ?)';
+      db.query(defQ, [newId, '1a', '', ''], (err3) => {
+        if (err3) console.error('Boş definition eklenemedi:', err3);
+        fetchAndRespond({ id: newId, word: wordParam, origin: null, frequency_tags: null, audio_url: null });
+      });
+    });
+  });
+});
+
+/* ===============================
    Harfe Göre Kelime Listesi
 =============================== */
 

@@ -344,9 +344,9 @@
         <div id="letterResults" style="display:none"></div>
 
         <!-- Sözcük ailesi ve ilgili başlıklar -->
-        <div class="word-family-bar">
-          <div>Sözcük ailesi (isim) ruh ruhsuz ruhsal  (fiil) ruhlaşmak</div>
-          <div class="topics">Ortak başlıklar: <strong>Ruh İkizi</strong>, <strong>Ruhsuz</strong></div>
+        <div class="word-family-bar" id="wordFamilyBar">
+          <div id="wordFamilyLeft"></div>
+          <div class="topics" id="wordFamilyTopics"></div>
         </div>
 
         <!-- Sözlük tanımının referans bilgileri -->
@@ -407,7 +407,7 @@
     </div>
     <aside>
       <!-- İlgili başka girdiler bölümü -->
-      <div class="sidebar-section">
+      <div class="sidebar-section" id="sectionRelatedEntries">
         <h3>ilgili başka girdiler</h3>
         <ul id="relatedEntriesList">
           <li><a href="#">madde 1</a></li>
@@ -416,7 +416,7 @@
         </ul>
       </div>
       <!-- İlgili diziler veya konular bölümü -->
-      <div class="sidebar-section">
+      <div class="sidebar-section" id="sectionRelatedTopics">
         <h3>ilgili diziler</h3>
         <ul id="relatedTopicsList">
           <li><a href="#">dizi 1</a></li>
@@ -427,7 +427,7 @@
       <!-- Kaynak ve künye bilgileri -->
       <div class="sidebar-section">
         <h3>künye oluştur</h3>
-        <p>ruh. cevrimiciturkcesozluk.com. Accessed 2025.</p>
+        <p id="kunyeText">ruh. cevrimiciturkcesozluk.com. Accessed 2025.</p>
       </div>
       <!-- Alfabetik dizin bölümü -->
       <div class="sidebar-section">
@@ -435,7 +435,7 @@
         <ul id="alphaList"></ul>
       </div>
       <!-- Viral kelime trendleri bölümü -->
-      <div class="sidebar-section">
+      <div class="sidebar-section" id="sectionViral">
         <h3>ViralKelime</h3>
         <ul id="viralWordsList">
           <li><a href="#">blockchain</a></li>
@@ -483,6 +483,21 @@
         alphaList.appendChild(li);
       });
 
+      // Veri gelene kadar placeholder metinleri yerleştir.
+      document.getElementById('relatedEntriesList').innerHTML = '<li><em>Yakında burada olacak...</em></li>';
+      document.getElementById('relatedTopicsList').innerHTML = '<li><em>Yakında burada olacak...</em></li>';
+
+      // Tanım metni içindeki :KELIME linklerine tıklanınca o kelimeyi ara.
+      document.addEventListener('click', e => {
+        const link = e.target.closest('.def-ref-link');
+        if (!link) return;
+        e.preventDefault();
+        const w = link.dataset.word;
+        if (!w) return;
+        document.getElementById('searchInput').value = w;
+        searchAll(w);
+      });
+
       // Sayfa yüklendiğinde varsayılan olarak "ruh" kelimesi aranır.
       searchAll("ruh");
     });
@@ -502,12 +517,79 @@
       letterResults.innerHTML = '';
       document.querySelectorAll('main > *:not(#letterResults)').forEach(el => el.style.display = '');
 
+      fetchWordData(word);
       fetchSynonyms(word);
       fetchAntonyms(word);
       fetchIdioms(word);
       fetchQuotes(word);
       fetchCollocations(word);
       fetchDefinitions(word);
+    }
+
+    /**
+     * fetchWordData
+     * Kelime adını alıp /api/word/:word endpoint'inden metadata çeker:
+     * kelime başlığı, rozetler, fonetik (part_of_speech), orijin, künye.
+     * Ayrıca /api/word-family'den sözcük ailesi verisini çekip mavi barı günceller.
+     */
+    function fetchWordData(word) {
+      // Kelime metadata
+      fetch('/api/word/' + encodeURIComponent(word))
+        .then(r => {
+          if (!r.ok) throw new Error('Kelime bulunamadı: ' + r.status);
+          return r.json();
+        })
+        .then(data => {
+          // Kelime başlığı
+          document.getElementById('dynamicWordTitle').textContent = data.word;
+
+          // Frequency rozet etiketleri (boşsa rozet alanı görünür kalır)
+          const labelsDiv = document.getElementById('dynamicLabels');
+          labelsDiv.innerHTML = '';
+          if (data.frequency_tags) {
+            data.frequency_tags.split(/[\s,]+/).filter(Boolean).forEach(tag => {
+              const div = document.createElement('div');
+              div.className = 'label-box';
+              div.textContent = tag;
+              labelsDiv.appendChild(div);
+            });
+          }
+
+          // Fonetik satırı: part_of_speech ilk tanımdan alınır, boşsa satır yine görünür
+          const pos = data.definitions && data.definitions.length > 0
+            ? (data.definitions[0].part_of_speech || '')
+            : '';
+          document.getElementById('dynamicPhonetic').textContent = pos;
+
+          // Orijin kutusu: veri yoksa placeholder göster
+          const originBox = document.getElementById('originBox');
+          originBox.style.display = '';
+          originBox.textContent = data.origin || 'Bu kelimenin kökeni araştırılıyor...';
+
+          // Künye
+          const year = new Date().getFullYear();
+          document.getElementById('kunyeText').textContent =
+            data.word + '. cevrimiciturkcesozluk.com. Accessed ' + year + '.';
+        })
+        .catch(err => console.error('fetchWordData hata:', err));
+
+      // Sözcük ailesi barı: veri yoksa sadece kelime adını göster
+      fetch('/api/word-family?word=' + encodeURIComponent(word))
+        .then(r => r.json())
+        .then(data => {
+          const bar = document.getElementById('wordFamilyBar');
+          bar.style.display = '';
+          if (!data.family || data.family.length === 0) {
+            document.getElementById('wordFamilyLeft').textContent = word;
+            return;
+          }
+          document.getElementById('wordFamilyLeft').textContent =
+            'Sözcük ailesi: ' + data.family.map(f => f.word).join(', ');
+        })
+        .catch(() => {
+          document.getElementById('wordFamilyBar').style.display = '';
+          document.getElementById('wordFamilyLeft').textContent = word;
+        });
     }
 
     /**
@@ -704,8 +786,19 @@
      * @param {string} word - Tanım verilerinin aranacağı kelime.
      * @returns {void}
      */
+    /**
+     * linkifyDefinitionText
+     * Tanım metninde geçen :BÜYÜKHARF kalıplarını tıklanabilir linklere dönüştürür.
+     * Örn: ":İLKE" → <a class="def-ref-link" data-word="İLKE">:İLKE</a>
+     */
+    function linkifyDefinitionText(text) {
+      if (!text) return '';
+      return text.replace(/:([A-ZÇĞIİÖŞÜ]{2,})/g, (match, label) =>
+        `<a href="#" class="def-ref-link" data-word="${label}">${match}</a>`
+      );
+    }
+
     function fetchDefinitions(word) {
-      console.log('header:', document.querySelector('.definition-header'), 'div:', document.getElementById('dynamicDefinitions'));
       let defDiv = document.getElementById('dynamicDefinitions');
       if (!defDiv) {
         defDiv = document.createElement('div');
@@ -713,15 +806,15 @@
         const header = document.querySelector('.definition-header');
         if (header) header.insertAdjacentElement('afterend', defDiv);
       }
-      fetch('/search-like?kelime=' + encodeURIComponent(word))
+      fetch('/api/word/' + encodeURIComponent(word))
         .then(r => r.json())
         .then(data => {
           defDiv.innerHTML = '';
-          if (!data.results || data.results.length === 0) {
+          if (!data.definitions || data.definitions.length === 0) {
             defDiv.innerHTML = '<p>Hiç bir definition bulunamadı.</p>';
             return;
           }
-          const sorted = data.results.slice().sort((a, b) => {
+          const sorted = data.definitions.slice().sort((a, b) => {
             const la = a.sense_label || '';
             const lb = b.sense_label || '';
             return la.localeCompare(lb, 'tr');
@@ -729,8 +822,11 @@
           sorted.forEach(item => {
             const block = document.createElement('div');
             block.className = 'sense-block';
+            const defText = item.definition_text
+              ? linkifyDefinitionText(item.definition_text)
+              : '<em>Tanım henüz eklenmedi.</em>';
             block.innerHTML = `
-              <p><strong>${item.sense_label || item.def_id}</strong> ${item.definition_text || ''}</p>
+              <p><strong>${item.sense_label || item.id}</strong> ${defText}</p>
               ${item.example_sentence ? '<p class="example">' + item.example_sentence + '</p>' : ''}
             `;
             defDiv.appendChild(block);
